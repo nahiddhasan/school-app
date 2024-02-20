@@ -2,32 +2,99 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  height: 100%;
+  /* background-image: url("/img/leaves.png"); */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.gradient {
+  @apply bg-gradient-to-r from-primary-500 to-primary-900;
+}
+
+/* animate marquee */
+@keyframes marquee {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+  animation-play-state: running; /* Set the initial state to running */
+}
+
+.animate-marquee.paused {
+  animation-play-state: paused; /* Set the state to paused */
+}
+
+/* animate up */
+@keyframes up {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-200%);
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.animate-up {
+  animation: up 5s linear infinite;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* animation for navbar  */
+.animate_navbar {
+  -webkit-animation: slide-uptobottom 0.5s linear (0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-uptobottom 0.5s linear (0.25, 0.46, 0.45, 0.94) both;
+}
+@-webkit-keyframes slide-uptobottom {
+  0% {
+    -webkit-transform: translateY(-100px);
+    transform: translateY(-100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-uptobottom {
+  0% {
+    -webkit-transform: translateY(-100px);
+    transform: translateY(-100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+/* animation for mobile navbar */
+.sidebar_left {
+  -webkit-animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+@-webkit-keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
   }
 }
