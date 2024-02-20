@@ -51,10 +51,12 @@ const MobileNav = () => {
             </svg>
           </div>
           <div className="flex flex-col items-center text-white w-full mt-4">
-            <h1 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold mb-2">
+            <h1 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold mb-2 text-center">
               XYZ High School,Dhaka,Bangladesh
             </h1>
-            <h2 className={` text-xl sm:text-2xl lg:text-4xl xl:text-5xl`}>
+            <h2
+              className={` text-xl sm:text-2xl lg:text-4xl xl:text-5xl text-center`}
+            >
               কখগ উচ্চ বিদ্যালয়,ঢাকা,বাংলাদেশ
             </h2>
           </div>

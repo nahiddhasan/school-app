@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="gradient mt-14">
       <Container className="flex flex-wrap justify-between p-4 gap-4">
-        <div className="flex-1">
+        <div className="w-full sm:flex-1">
           <h1 className="text-2xl mb-2 text-white font-bold">About Us</h1>
           <span className="text-sm text-slate-200">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore quo
@@ -14,7 +14,7 @@ const Footer = () => {
             blanditiis nesciunt?
           </span>
         </div>
-        <div className="flex-1">
+        <div className="w-full sm:flex-1">
           <h1 className="text-2xl mb-2 text-white font-bold">
             Important links
           </h1>
@@ -33,7 +33,7 @@ const Footer = () => {
             </Link>
           </div>
         </div>
-        <div className="flex-1">
+        <div className="w-full sm:flex-1">
           <h1 className="text-2xl mb-2 text-white font-bold">Contact Info</h1>
           <div className="text-zinc-200">
             <h2 className="text-lg">Address</h2>
@@ -51,8 +51,8 @@ const Footer = () => {
         </div>
       </Container>
       <div className="w-full bg-primary-950 py-1">
-        <Container>
-          <span className="text-white text-sm">
+        <Container className="flex items-center justify-center w-full h-full">
+          <span className="text-white text-sm ">
             © Copyright 2024 , All Rights Reserved
           </span>
         </Container>
