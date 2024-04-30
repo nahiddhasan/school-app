@@ -5,7 +5,7 @@ import Container from "./Container";
 const WhyBest = () => {
   return (
     <Container className="flex flex-col gap-8 my-20">
-      <h1 className="text-4xl text-center font-bold bg-primary-500 text-white px-4 py-2 rounded-ss-xl rounded-ee-xl">
+      <h1 className="text-4xl text-center font-bold bg-primary-base-500 text-white px-4 py-2 rounded-ss-xl rounded-ee-xl">
         Why We Best
       </h1>
       <div className="grid grid-cols-5 gap-4 place-items-center">

@@ -4,13 +4,13 @@ import Container from "./Container";
 
 const MainGov = () => {
   return (
-    <Container className="flex flex-wrap my-20">
+    <Container className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-20">
       {mainGov.map((gov, index) => (
         <div
           key={index}
-          className="w-full md:w-1/2 lg:w-1/3 mb-8 shadow-[0px_20px_20px_10px_#00000024] rounded-md p-4"
+          className="mb-8 shadow-[0px_20px_20px_10px_#00000024] rounded-md p-4 group"
         >
-          <h1 className="text-xl text-center font-bold mb-6 bg-primary-500 text-white px-4 py-2 rounded-ss-xl rounded-ee-xl">
+          <h1 className="text-xl text-center font-bold mb-6 bg-primary-base-500 text-white px-4 py-2 rounded-ss-xl rounded-ee-xl">
             {gov.title}
           </h1>
           <div className="flex flex-col items-center justify-center mb-6">
@@ -19,11 +19,12 @@ const MainGov = () => {
                 src={gov.image}
                 fill
                 alt="head-teacher"
-                className="object-cover"
+                className="object-cover group-hover:scale-110 transition duration-300"
               />
+              <div className="bg-black h-full w-full absolute top-0 left-0 opacity-20 scale-0 group-hover:scale-100 rounded-full transition duration-300" />
             </div>
             <div className="flex flex-col mt-6">
-              <span className="text-primary-900 text-2xl">{gov.name}</span>
+              <span className="text-primary-base-900 text-2xl">{gov.name}</span>
               <span className="">{gov.des}</span>
             </div>
           </div>

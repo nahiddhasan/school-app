@@ -1,19 +1,19 @@
 import AboutSchool from "@/components/AboutSchool";
 import MainGov from "@/components/MainGov";
-import NoticeScroll from "@/components/NoticeScroll";
+import NoticeCarousel from "@/components/NoticeCarousel";
 import Teachers from "@/components/Teachers";
 import MarqueeContainer from "@/components/marquee/MarqueeContainer";
-import Slider from "@/components/slider/Slider";
+import EmblaCarousel from "@/components/slider/EmblaSlider";
 
 const HomePage = () => {
   return (
     <main>
       <MarqueeContainer />
-      <Slider />
+      <EmblaCarousel />
       <AboutSchool />
       <MainGov />
       <Teachers />
-      <NoticeScroll />
+      <NoticeCarousel />
     </main>
   );
 };

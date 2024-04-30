@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { MdKeyboardArrowRight } from "react-icons/md";
 
-import { cn } from "@/utills/cn";
-import { MenuItem } from "@/utills/types";
+import { cn } from "@/lib/cn";
+import { MenuItem } from "@/lib/types";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import MobileDropdown from "./MobileDropdown";
 
@@ -65,7 +65,7 @@ const MobileMenuItems = ({ items, depthLevel }: props) => {
             className={cn(
               "flex items-center gap-1 whitespace-nowrap w-max text-2xl",
               {
-                "hover:bg-primary-600 px-3 py-1 rounded-sm w-max transition-all":
+                "hover:bg-primary-base-600 px-3 py-1 rounded-sm w-max transition-all":
                   depthLevel > 0,
               }
             )}
@@ -77,7 +77,7 @@ const MobileMenuItems = ({ items, depthLevel }: props) => {
               <span
                 className={`${dropdown && "rotate-90"} transition duration-300`}
               >
-                <MdKeyboardArrowRight />
+                <ChevronRight size={16} />
               </span>
             )}
           </button>
@@ -93,7 +93,7 @@ const MobileMenuItems = ({ items, depthLevel }: props) => {
           className={cn(
             "flex items-center gap-1 whitespace-nowrap w-max text-2xl",
             {
-              "hover:bg-primary-600 px-3 py-1 rounded-sm transition-all duration-300":
+              "hover:bg-primary-base-600 px-3 py-1 rounded-sm transition-all duration-300":
                 depthLevel > 0,
             }
           )}

@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/utills/cn";
+import { cn } from "@/lib/cn";
 import Link from "next/link";
 import React, { useState } from "react";
 

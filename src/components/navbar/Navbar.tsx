@@ -7,11 +7,11 @@ const trio = Tiro_Bangla({ subsets: ["bengali"], weight: "400" });
 
 const Navbar = () => {
   return (
-    <header className="h-[250px] gradient relative">
+    <header className="p-4 lg:p-0 lg:pt-6 gradient relative">
       <Container className="flex h-full items-center flex-col">
         <div className="flex flex-col sm:flex-row items-center h-full w-full">
           {/* logo */}
-          <div className="w-[100px] sm:w-[200px] h-full flex items-center justify-center">
+          <div className="w-[100px] sm:w-[200px] aspect-square flex items-center justify-center mb-2 lg:mb-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="100"
@@ -30,12 +30,12 @@ const Navbar = () => {
             </svg>
           </div>
           {/* name  of school*/}
-          <div className="flex flex-col items-center text-white w-full">
-            <h1 className="text-lg xs:text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold mb-2 text-center">
+          <div className="flex flex-col text-white w-full">
+            <h1 className="text-lg text-center xs:text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold mb-2 ">
               XYZ High School,Dhaka,Bangladesh
             </h1>
             <h2
-              className={`${trio.className} text-xl sm:text-2xl lg:text-4xl xl:text-5xl text-center mb-4 lg:mb-0`}
+              className={`${trio.className} text-xl text-center sm:text-2xl lg:text-4xl xl:text-5xl mb-4 lg:mb-0`}
             >
               কখগ উচ্চ বিদ্যালয়,ঢাকা,বাংলাদেশ
             </h2>

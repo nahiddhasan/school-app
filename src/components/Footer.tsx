@@ -1,5 +1,5 @@
+import { Mail, Phone } from "lucide-react";
 import Link from "next/link";
-import { MdEmail, MdLocalPhone } from "react-icons/md";
 import Container from "./Container";
 
 const Footer = () => {
@@ -18,7 +18,7 @@ const Footer = () => {
           <h1 className="text-2xl mb-2 text-white font-bold">
             Important links
           </h1>
-          <div className="flex gap-1 flex-col text-slate-200">
+          <div className="flex gap-1 flex-col text-slate-200 w-max">
             <Link href={"#"} className="text-sm hover:underline">
               Website 1
             </Link>
@@ -41,16 +41,15 @@ const Footer = () => {
           </div>
           <div className="flex gap-1 flex-col text-slate-200">
             <span className="flex gap-2 items-center">
-              <MdEmail />
-              example@email.com
+              <Mail /> example@email.com
             </span>
             <span className="flex gap-2 items-center">
-              <MdLocalPhone /> +880170000000
+              <Phone /> +880170000000
             </span>
           </div>
         </div>
       </Container>
-      <div className="w-full bg-primary-950 py-1">
+      <div className="w-full bg-primary-base-950 py-1">
         <Container>
           <span className="text-white text-sm">
             © Copyright 2024 , All Rights Reserved

@@ -1,3 +1,6 @@
+import { BarChartHorizontalBig, BookOpenText, PanelsTopLeft, Settings, UserPlus, UserRound } from 'lucide-react';
+export const PAGE_SIZE =7;
+
 export const menuItems = [
     {
         title: "Home",
@@ -296,3 +299,102 @@ export const notices = [
         createdAt:"12 Jan"
     },
 ]
+
+// Dashboard
+export const sidebarItems = [
+    {
+        title: "Overview",
+        path:"/dashboard",
+        icon:PanelsTopLeft,
+    },
+    {
+        title: "Student Information",
+        icon:UserPlus,
+       
+        submenu:[
+            {
+                title:"Student Details",
+                path:"/dashboard/students",
+                icon:UserRound,
+                
+            },
+            {
+                title:"Student Admission",
+                path:"/dashboard/students/admission",
+                icon:UserPlus,
+                role:"ADMIN"
+            },
+            
+        ]
+    },
+    {
+        title: "Examinations",
+        icon:BookOpenText,
+        submenu:[
+            {
+                title:"Exam Schedule",
+                path:"/dashboard/schedule"
+            },
+            {
+                title:"Exam Result",
+                path:"/dashboard/result"
+            },
+           
+        ]
+    },
+    {
+        title: "Reports",
+        icon:BarChartHorizontalBig,
+        role:"ADMIN",
+        submenu:[
+            {
+                title:"Students",
+                path:"/dashboard/schedule"
+            },
+            {
+                title:"Exams",
+                path:"/dashboard/result"
+            },
+           
+        ]
+    },
+  
+    {
+        title: "Services",
+        path:"/dashboard/services",
+        submenu: [{
+                title: "web design",
+                path:"/web",
+            },
+            {
+                title: "web development",
+                submenu: [{
+                        title: "Frontend",
+                        path:"/front-end",
+                    },
+                    {
+                        title: "Backend",
+                        submenu: [{
+                                title: "NodeJS",
+                                path:"/node",
+                            },
+                            {
+                                title: "PHP",
+                                path:"/php",
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                title: "SEO",
+                path:"/seo",
+            },
+        ],
+    },
+    {
+        title: "Settings",
+       path:"/dashboard/settings",
+       icon:Settings
+    },
+];

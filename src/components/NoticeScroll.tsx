@@ -23,12 +23,12 @@ const NoticeScroll = () => {
                 key={notice.title}
                 className="flex items-center gap-3 text-white mb-2 cursor-pointer"
               >
-                <span className="font-bold text-primary-950 whitespace-nowrap">
+                <span className="font-bold text-primary-base-950 whitespace-nowrap">
                   10 Dec:
                 </span>
                 <Link
                   href={notice.path}
-                  className="text-primary-700 hover:underline truncate"
+                  className="text-primary-base-700 hover:underline truncate"
                 >
                   {notice.title}
                 </Link>

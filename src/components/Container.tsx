@@ -1,4 +1,4 @@
-import { cn } from "@/utills/cn";
+import { cn } from "@/lib/cn";
 type props = {
   children: React.ReactNode;
   className?: string;

@@ -1,5 +1,5 @@
-import { cn } from "@/utills/cn";
-import { MenuItem } from "@/utills/types";
+import { cn } from "@/lib/cn";
+import { MenuItem } from "@/lib/types";
 import MobileMenuItems from "./MobileMenuItems";
 
 type props = {

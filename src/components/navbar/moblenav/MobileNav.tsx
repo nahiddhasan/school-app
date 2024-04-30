@@ -1,8 +1,8 @@
 "use client";
 import { menuItems } from "@/const/data";
-import { cn } from "@/utills/cn";
+import { cn } from "@/lib/cn";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { HiMenu, HiOutlineX } from "react-icons/hi";
 import MobileMenuItems from "./MobileMenuItems";
 
 const MobileNav = () => {
@@ -14,7 +14,7 @@ const MobileNav = () => {
         onClick={() => setMenuOpen(!menuOpen)}
         className="absolute top-6 right-6 text-white lg:hidden"
       >
-        <HiMenu size={30} />
+        <Menu />
       </button>
       <div
         className={cn(
@@ -29,10 +29,12 @@ const MobileNav = () => {
           onClick={() => setMenuOpen(false)}
           className="absolute top-6 right-6 text-white z-[999999]"
         >
-          <HiOutlineX size={30} />
+          <X />
         </button>
-        <div className="w-full flex flex-col items-center justify-center my-12">
-          <div className="w-[100px] sm:w-[200px] h-full flex items-center justify-center">
+
+        <div className="flex flex-col sm:flex-row items-center w-full">
+          {/* logo */}
+          <div className="w-[100px] sm:w-[200px] aspect-square flex items-center justify-center mb-2 lg:mb-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="100"
@@ -50,11 +52,14 @@ const MobileNav = () => {
               ></path>
             </svg>
           </div>
-          <div className="flex flex-col items-center text-white w-full mt-4">
-            <h1 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-bold mb-2">
+          {/* name  of school*/}
+          <div className="flex flex-col text-white w-full">
+            <h1 className="text-lg text-center sm:text-left xs:text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold mb-2 ">
               XYZ High School,Dhaka,Bangladesh
             </h1>
-            <h2 className={` text-xl sm:text-2xl lg:text-4xl xl:text-5xl`}>
+            <h2
+              className={` text-xl text-center sm:text-left sm:text-2xl lg:text-4xl xl:text-5xl mb-4 lg:mb-0`}
+            >
               কখগ উচ্চ বিদ্যালয়,ঢাকা,বাংলাদেশ
             </h2>
           </div>

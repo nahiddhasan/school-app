@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  password  String
+  name      String
+  image     String?
+  role      Role     @default(USER)
+}
+
+enum Role {
+  USER
+  ADMIN
+  TEACHER
+}
+
+model Student {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  studentId    Int      @unique @default(autoincrement())
+  classRoll    String
+  section      String
+  fullName     String
+  gender       String
+  dob          String
+  doa          String
+  mobile       String
+  bloodGroup   String?
+  studentImg   String?
+  address      String?
+  others       String?
+  fatherName   String
+  motherName   String
+  fatherPhone  String
+  gurdianName  String
+  relation     String
+  gurdianPhone String
+  class        Class    @relation(fields: [className], references: [className])
+  className    String
+  session      Session  @relation(fields: [sessionName], references: [year])
+  sessionName  Int
+
+  result Result[]
+}
+
+model Class {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  className   String    @unique
+  sectionName String[]
+  student     Student[]
+  result      Result[]
+}
+
+model Session {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  year      Int       @unique @default(0)
+  current   Boolean   @default(true)
+  student   Student[]
+  result    Result[]
+}
+
+model Result {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  gpa        Float
+  status     String
+  type       String
+  totalMarks Int
+  position   Int?
+
+  session Session @relation(fields: [year], references: [year])
+  year    Int
+
+  class     Class   @relation(fields: [className], references: [className])
+  className String
+  section   String
+  student   Student @relation(fields: [studentId], references: [studentId])
+  studentId Int     @unique
+
+  subjects Json[]
+}
