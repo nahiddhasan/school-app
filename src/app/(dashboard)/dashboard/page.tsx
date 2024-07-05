@@ -2,7 +2,12 @@ import {
   createNewSessionAndSetCurrent,
   totalStudentCount,
 } from "@/lib/actions";
-
+import DashBoardCard from "./_components/DashBoardCard";
+import PieChartComp from "./_components/PieChartComp";
+const data = [
+  { name: "Group A", value: 15 },
+  { name: "Group B", value: 15 },
+];
 const Dashboard = async () => {
   await createNewSessionAndSetCurrent();
   const student = await totalStudentCount();
@@ -31,6 +36,7 @@ const Dashboard = async () => {
             </span>
           </div>
         </div>
+        <DashBoardCard student={student} />
         <div className="w-full h-[120px] flex flex-col items-center justify-center bg-lime-600">
           <h1 className="text-2xl font-semibold">Class Seven</h1>
           <h2 className="font-semibold text-2xl">{student?.seven}</h2>
@@ -80,7 +86,8 @@ const Dashboard = async () => {
           </div>
         </div>
       </div>
-      <div>some</div>
+
+      <PieChartComp data={data} />
     </div>
   );
 };

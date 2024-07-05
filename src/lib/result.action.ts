@@ -5,7 +5,7 @@ import { prisma } from "./connect";
 type StudentResultType = {
   studentId: number;
   year: number;
-  gpa: number;
+  gpa: number | null;
   type: string;
   className: string;
   section: string;
@@ -143,7 +143,8 @@ export const importResults = async (data: dataType[], others: othersType) => {
       const totalSubjects = student.subjects.length; // need to add total subjects number
 
       const gpa = totalGradePoints / totalSubjects;
-      student.gpa = parseFloat(gpa.toFixed(2)); // Round GPA to 2 decimal places
+
+      student.gpa = parseFloat(gpa.toFixed(2));
 
       student.status = calculateStatus(student); // Calculate status based on GPA
     }

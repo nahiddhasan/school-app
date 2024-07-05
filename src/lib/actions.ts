@@ -9,10 +9,12 @@ import { z } from "zod";
 import { auth, signIn, signOut } from "../auth";
 import { prisma } from "./connect";
 import { DEFAULT_LOGIN_REDIRECT } from "./routes";
-import { ImportStudent } from "./types";
+import { AddClassTypes, ImportStudent, UpdateClassType } from "./types";
 import {
   LoginSchema,
+  addNoticeSchema,
   admissionSchema,
+  updateProfileSchema,
   updateUserSchema,
   userSchema,
 } from "./zodSchema";
@@ -362,6 +364,14 @@ export const totalStudentCount = async () => {
 // add user
 export const addUser = async (values: z.infer<typeof userSchema>) => {
   const session = await auth();
+  if (!session) {
+    throw new Error("You are not authenticated");
+  }
+
+  if (session.user.role !== "ADMIN") {
+    throw new Error("You are not authorized");
+  }
+
   const validatedUserData = userSchema.safeParse(values);
 
   if (!validatedUserData.success) {
@@ -372,6 +382,9 @@ export const addUser = async (values: z.infer<typeof userSchema>) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
+    if (!session) {
+      return { error: "You are not authenticated!" };
+    }
     if (session?.user.role !== "ADMIN") {
       return { error: "Only admin can add a user!" };
     }
@@ -397,9 +410,11 @@ export const addUser = async (values: z.infer<typeof userSchema>) => {
 };
 
 //update user profile
-export const updateUser = async (values: z.infer<typeof updateUserSchema>) => {
+export const updateProfile = async (
+  values: z.infer<typeof updateProfileSchema>
+) => {
   const session = await auth();
-  const validatedUpdatedUserData = updateUserSchema.safeParse(values);
+  const validatedUpdatedUserData = updateProfileSchema.safeParse(values);
 
   if (!validatedUpdatedUserData.success) {
     return { error: "Invalid fields error!" };
@@ -431,5 +446,161 @@ export const updateUser = async (values: z.infer<typeof updateUserSchema>) => {
   } catch (error) {
     console.log(error);
     return { error: "Update Failed!" };
+  }
+};
+
+//bulkDelete
+export const bulkDelete = async (values: string[]) => {
+  const session = await auth();
+  try {
+    if (!session) {
+      return { error: "You are not authenticated" };
+    }
+    if (session?.user.role !== "ADMIN") {
+      return { error: "You are not allowed to bulk delete" };
+    }
+    await prisma.student.deleteMany({
+      where: {
+        id: {
+          in: values,
+        },
+      },
+    });
+    revalidatePath("dashboard/students/bulk-delete");
+    return { messege: "Delete Successfull" };
+  } catch (error) {
+    console.log(error);
+    return { error: "Delete Failed!" };
+  }
+};
+
+//delete user
+export const deleteUser = async (userId: string) => {
+  const session = await auth();
+
+  try {
+    if (!session) {
+      return { error: "You are not authenticated" };
+    }
+    if (session?.user.role !== "ADMIN") {
+      return { error: "You are not allowed to bulk delete" };
+    }
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+    revalidatePath("dashboard/settings/current-users");
+    return { messege: "User has been deleted" };
+  } catch (error) {
+    console.log(error);
+    return { error: "Delete Failed!" };
+  }
+};
+
+//update user
+export const updateUser = async (values: z.infer<typeof updateUserSchema>) => {
+  const session = await auth();
+
+  try {
+    if (!session) {
+      return { error: "You are not authenticated" };
+    }
+    if (session?.user.role !== "ADMIN") {
+      return { error: "You are not allowed to update user!" };
+    }
+    if (values.password) {
+      const hashedPassword = await bcrypt.hash(values.password, 10);
+      values.password = hashedPassword;
+    }
+
+    await prisma.user.update({
+      where: {
+        id: values.id,
+      },
+      data: {
+        ...values,
+      },
+    });
+    revalidatePath("dashboard/settings/current-users");
+    return { messege: "User has been updated" };
+  } catch (error) {
+    console.log(error);
+    return { error: "Update Failed!" };
+  }
+};
+
+//add classes
+export const addClass = async (values: AddClassTypes) => {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error("You are not authenticated");
+  }
+  if (session.user.role !== "ADMIN") {
+    throw new Error("You are not authorized");
+  }
+  try {
+    const existingClass = await prisma.class.findFirst({
+      where: {
+        className: values.className,
+      },
+    });
+
+    if (existingClass) {
+      return { error: "Class already exists!" };
+    }
+
+    await prisma.class.create({
+      data: values,
+    });
+    return { messege: "Class Added..." };
+  } catch (error) {
+    console.log(error);
+    return { error: "Failed to Add Class" };
+  }
+};
+
+//add classes
+export const updateClass = async (values: UpdateClassType) => {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error("You are not authenticated");
+  }
+  if (session.user.role !== "ADMIN") {
+    throw new Error("You are not authorized");
+  }
+  try {
+    await prisma.class.update({
+      where: {
+        id: values.id,
+      },
+      data: values,
+    });
+    revalidatePath("/dashboard/settings/all-classes");
+    return { messege: "Class Updated..." };
+  } catch (error) {
+    console.log(error);
+    return { error: "Failed to Update Class" };
+  }
+};
+
+//add notice
+export const addNotice = async (values: z.infer<typeof addNoticeSchema>) => {
+  const validatedValues = addNoticeSchema.safeParse(values);
+
+  if (!validatedValues.success) {
+    return { error: "Invalid fields error!" };
+  }
+
+  try {
+    const newNotice = await prisma.notice.create({
+      data: values,
+    });
+    return { messege: "Notice Added..." };
+  } catch (error) {
+    console.log(error);
+    return { error: "Failed to add notice!" };
   }
 };

@@ -1,4 +1,3 @@
-import TooltipComp from "@/components/ui/TooltipComp";
 import {
   Table,
   TableBody,
@@ -10,9 +9,9 @@ import {
 } from "@/components/ui/table";
 import { Role } from "@prisma/client";
 
-import { SquarePen, Trash } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import DeleteAlert from "./DeleteAlert";
+import UpdateUserModal from "./UpdateUserModal";
 type props = {
   users: {
     id: string;
@@ -24,7 +23,7 @@ type props = {
 };
 const UserDataTable = ({ users }: props) => {
   return (
-    <Table>
+    <Table className="flex-1">
       <TableCaption>
         {users.length > 0 ? " List of Users" : "Nothing Found!"}
       </TableCaption>
@@ -44,8 +43,8 @@ const UserDataTable = ({ users }: props) => {
             <TableCell>
               <Image
                 src={user.image || "/img/avatar.png"}
-                height={30}
-                width={30}
+                height={28}
+                width={28}
                 alt={user.name}
                 className="rounded-full aspect-square object-cover"
               />
@@ -53,15 +52,12 @@ const UserDataTable = ({ users }: props) => {
             <TableCell>{user.name}</TableCell>
             <TableCell>{user.email}</TableCell>
             <TableCell>{user.role}</TableCell>
-            <TableCell className="flex items-center gap-2">
-              <TooltipComp text="Update">
-                <Link href={`/`}>
-                  <SquarePen size={16} className="cursor-pointer" />
-                </Link>
-              </TooltipComp>
-              <TooltipComp text="Disable">
-                <Trash size={16} className="cursor-pointer" />
-              </TooltipComp>
+            <TableCell className=" space-x-2 ">
+              <div className="flex items-center gap-2">
+                <UpdateUserModal user={user} />
+
+                <DeleteAlert userId={user.id} />
+              </div>
             </TableCell>
           </TableRow>
         ))}

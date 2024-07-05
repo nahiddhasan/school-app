@@ -1,19 +1,22 @@
 import AboutSchool from "@/components/AboutSchool";
 import MainGov from "@/components/MainGov";
-import NoticeCarousel from "@/components/NoticeCarousel";
 import Teachers from "@/components/Teachers";
-import MarqueeContainer from "@/components/marquee/MarqueeContainer";
+import MarqueeContainer from "@/components/notices/marquee/MarqueeContainer";
+import NoticeBoard from "@/components/notices/noticeBoard/NoticeBoard";
 import EmblaCarousel from "@/components/slider/EmblaSlider";
+import { getNotices } from "@/lib/data";
 
-const HomePage = () => {
+const HomePage = async () => {
+  const notices = await getNotices();
+
   return (
     <main>
-      <MarqueeContainer />
+      <MarqueeContainer notices={notices} />
       <EmblaCarousel />
       <AboutSchool />
       <MainGov />
       <Teachers />
-      <NoticeCarousel />
+      <NoticeBoard notices={notices} />
     </main>
   );
 };

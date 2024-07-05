@@ -10,9 +10,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { updateUser, uploadImage } from "@/lib/actions";
+import { updateProfile, uploadImage } from "@/lib/actions";
 
-import { updateUserSchema } from "@/lib/zodSchema";
+import { updateProfileSchema } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -34,15 +34,15 @@ type props = {
 const UpdateProfileForm = ({ user }: props) => {
   const [isPending, startTransition] = useTransition();
   const { update } = useSession();
-  const form = useForm<z.infer<typeof updateUserSchema>>({
-    resolver: zodResolver(updateUserSchema),
+  const form = useForm<z.infer<typeof updateProfileSchema>>({
+    resolver: zodResolver(updateProfileSchema),
     defaultValues: {
       id: user.id,
       name: user.name,
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof updateUserSchema>) => {
+  const onSubmit = async (data: z.infer<typeof updateProfileSchema>) => {
     let url;
     const file = data.file[0];
     url = user.image;
@@ -55,7 +55,7 @@ const UpdateProfileForm = ({ user }: props) => {
     }
 
     startTransition(() => {
-      updateUser({ ...data, file: url }).then((res) => {
+      updateProfile({ ...data, file: url }).then((res) => {
         if (res.messege) {
           update();
           toast.success(res.messege);

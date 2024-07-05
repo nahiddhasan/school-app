@@ -1,5 +1,7 @@
-import { PAGE_SIZE } from "@/const/data";
-import { getClasses, getStudents } from "@/lib/data";
+import { getClasses } from "@/lib/data";
+import { getStudents } from "@/lib/protectedDataFetch/getAllStudents.data";
+import { Suspense } from "react";
+import SearchFilter from "../_components/SearchFilter";
 import DataTable from "../_components/dataTable/DataTable";
 import PaginationCom from "../_components/pagination/Pagination";
 import SearchForm from "../_components/searchFrom/SearchForm";
@@ -8,6 +10,7 @@ type props = {
     className?: string;
     section?: string;
     search?: string;
+    pageSize?: string;
   };
 };
 const StudentPage = async ({ searchParams }: props) => {
@@ -15,12 +18,17 @@ const StudentPage = async ({ searchParams }: props) => {
   const { students, totalCount } = await getStudents(searchParams);
 
   return (
-    <div className="p-4 h-full">
+    <div className="p-4 h-full overflow-y-scroll pb-14">
       <SearchForm classes={classes} />
-      <div className="">
+      <SearchFilter inputLabel="Search By Name Roll or StudentId..." />
+      <hr />
+
+      <Suspense fallback={<span>Loading...</span>}>
         <DataTable data={students} />
-        {totalCount > PAGE_SIZE && <PaginationCom totalCount={totalCount} />}
-      </div>
+        {totalCount > Number(searchParams.pageSize || "10") && (
+          <PaginationCom totalCount={totalCount} />
+        )}
+      </Suspense>
     </div>
   );
 };

@@ -9,6 +9,7 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/png",
   "image/webp",
 ];
+const ACCEPTED_FILE_TYPES = ["application/pdf"];
 
 const imageSchema = z.any();
 // To not allow empty files
@@ -56,6 +57,12 @@ export const admissionSchema = z.object({
 export const searchStudent = z.object({
   className: z.string().min(1, { message: "Class is required!" }),
   section: z.string().optional(),
+  search: z.string().optional(),
+});
+
+export const searchFilter = z.object({
+  pageSize: z.number().optional(),
+  page: z.number().optional(),
   search: z.string().optional(),
 });
 
@@ -120,7 +127,7 @@ export const uploadResultSchema = z.object({
     .refine((files) => files?.length >= 1, { message: "File is required." }),
 });
 
-export const updateUserSchema = z.object({
+export const updateProfileSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1, { message: "Full Name is required!" }),
   file: z.any().optional(),
@@ -137,4 +144,26 @@ export const importStudentSchema = z.object({
   file: z
     .any()
     .refine((files) => files?.length >= 1, { message: "File is required." }),
+});
+
+export const updateUserSchema = z.object({
+  id: z.string().min(1, { message: "Id is required!" }),
+  name: z.string().min(1, { message: "Full Name is required!" }),
+  email: z.string().min(1, { message: "Email is required!" }).email(),
+  password: z.string().optional(),
+  role: z.enum(["ADMIN", "TEACHER", "USER"]),
+});
+
+export const addClassSchema = z.object({
+  className: z.string().min(1, { message: "ClassName is required!" }),
+});
+
+export const searchStudentReport = z.object({
+  className: z.string().optional(),
+  section: z.string().optional(),
+});
+
+export const addNoticeSchema = z.object({
+  title: z.string().min(1, { message: "Notice Title is required!" }),
+  file: z.string().min(1, { message: "File is required!" }),
 });

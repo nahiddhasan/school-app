@@ -78,7 +78,7 @@ model Result {
   id         String   @id @default(cuid())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  gpa        Float
+  gpa        Float?
   status     String
   type       String
   totalMarks Int
@@ -87,11 +87,19 @@ model Result {
   session Session @relation(fields: [year], references: [year])
   year    Int
 
-  class     Class   @relation(fields: [className], references: [className])
+  class     Class   @relation(fields: [className], references: [className], onDelete: Cascade)
   className String
   section   String
-  student   Student @relation(fields: [studentId], references: [studentId])
+  student   Student @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
   studentId Int     @unique
 
   subjects Json[]
+}
+
+model Notice {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  file      String
 }

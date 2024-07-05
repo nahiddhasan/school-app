@@ -40,13 +40,13 @@ const SidebarItems = ({
   const Icon = items.icon;
   const { data: session } = useSession();
 
-  const shouldRenderItem = (itemRole: string | undefined) => {
+  const checkRole = (itemRole: string | undefined) => {
     if (!itemRole) return true;
     return session?.user.role === itemRole;
   };
 
   if (items.submenu) {
-    if (!shouldRenderItem(items.role)) {
+    if (!checkRole(items.role)) {
       return null;
     }
     return (
@@ -54,10 +54,9 @@ const SidebarItems = ({
         <div
           onClick={() => setSubitem(!subItem)}
           className={cn(
-            "flex items-center justify-between px-2 py-2 border-l-2 border-transparent hover:bg-zinc-300 dark:hover:bg-zinc-950 transition-all duration-300 cursor-pointer",
+            "flex items-center justify-between px-4 py-2 border-l-2 border-transparent hover:bg-zinc-300 dark:hover:bg-zinc-950 transition-all duration-300 cursor-pointer",
             {
-              "border-l-2 border-red-500 dark:bg-zinc-950 bg-zinc-300  ":
-                subItem,
+              "navgradient dark:bg-zinc-950 bg-zinc-300  ": subItem,
             }
           )}
         >
@@ -83,16 +82,16 @@ const SidebarItems = ({
       </div>
     );
   } else {
-    if (!shouldRenderItem(items.role)) {
+    if (!checkRole(items.role)) {
       return null;
     }
     return (
       <Link
         href={items.path!}
         className={cn(
-          "flex items-center gap-2 px-2 py-2 border-l-2 border-transparent hover:bg-zinc-300 dark:hover:bg-zinc-950 transition-all duration-300",
+          "flex items-center gap-2 px-4 py-2 border-l-2 border-transparent hover:bg-zinc-300 dark:hover:bg-zinc-950 transition-all duration-300",
           {
-            "bg-zinc-300 dark:bg-zinc-950  border-l-2 border-red-500":
+            "bg-zinc-300 dark:bg-zinc-950  navgradient":
               pathname === items.path,
           }
         )}
@@ -123,9 +122,12 @@ const SidebarItem = ({
 
   return (
     <div
-      className={cn("bg-zinc-200 dark:bg-zinc-800 ml-4 text-sm my-1 hidden", {
-        block: subItem,
-      })}
+      className={cn(
+        "bg-zinc-200 dark:bg-zinc-800 ml-4 text-sm my-1 hidden invisible transition-all duration-300 ease-out",
+        {
+          "block visible transition-all duration-300 ease-out": subItem,
+        }
+      )}
     >
       {subItems.map((item) => (
         <SidebarItems key={item.title} items={item} />

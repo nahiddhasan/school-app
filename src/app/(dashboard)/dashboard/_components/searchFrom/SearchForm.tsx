@@ -2,60 +2,39 @@
 import { Button } from "@/components/ui/button";
 
 import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { Class } from "@/lib/types";
 import { searchStudent } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SelectGroup, SelectLabel } from "@radix-ui/react-select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 type props = {
   classes: Class[];
+  type?: string;
 };
-const SearchForm = ({ classes }: props) => {
+const SearchForm = ({ classes, type = "select" }: props) => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
 
   const params = new URLSearchParams(searchParams);
   const [searchData, setSearchData] = useState<string | number>();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors, isLoading },
-  } = useForm<z.infer<typeof searchStudent>>({
-    resolver: zodResolver(searchStudent),
-    defaultValues: {
-      className: params.get("className") || "",
-      section: params.get("section") || "",
-    },
-  });
-
-  const selectedClass = watch("className");
-
-  //  handle Class and section
-  const onSubmit = async (values: z.infer<typeof searchStudent>) => {
-    console.log(values);
-    params.set("page", "1");
-    params.set("className", values.className);
-
-    if (values.section) {
-      params.set("section", values.section);
-    } else {
-      params.delete("section");
-    }
-
-    replace(`${pathname}?${params}`);
-  };
 
   // handle Search Query
   const handleSearch = (e: any) => {
@@ -68,89 +47,116 @@ const SearchForm = ({ classes }: props) => {
     }
     replace(`${pathname}?${params}`);
   };
-  const classRef = register("className");
-  const sectionRef = register("section");
-  return (
-    <div className="">
-      <div className="mb-4">
-        <h1 className="text-3xl mb-2">Select Criteria</h1>
-        <div className="flex items-center gap-4">
-          <form onSubmit={handleSubmit(onSubmit)} className="flex gap-4 w-1/2">
-            <div className="w-full flex gap-4">
-              {/* Class  */}
-              <div className="flex flex-col gap-2 w-full">
-                <label htmlFor="">
-                  Class <span className="text-red-600">*</span>
-                </label>
-                <Select
-                  {...classRef}
-                  onValueChange={(value) => setValue("className", value)}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a Class" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select a Class</SelectLabel>
-                      {classes &&
-                        classes.map((cls) => (
-                          <SelectItem key={cls.id} value={cls.className}>
-                            {cls.className}
-                          </SelectItem>
-                        ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
 
-                {errors.className && (
-                  <span className="text-red-600 text-sm">
-                    {errors.className.message}
-                  </span>
-                )}
+  const form = useForm<z.infer<typeof searchStudent>>({
+    resolver: zodResolver(searchStudent),
+    defaultValues: {
+      className: params.get("className") || "",
+      section: params.get("section") || "",
+    },
+  });
+
+  // onsubmit function
+  const onSubmit = async (values: z.infer<typeof searchStudent>) => {
+    if (type === "search") {
+      params.set("page", "1");
+    }
+    params.set("className", values.className);
+
+    if (values.section) {
+      params.set("section", values.section);
+    } else {
+      params.delete("section");
+    }
+
+    replace(`${pathname}?${params}`);
+  };
+  const selectedClass = form.watch("className");
+  return (
+    <div className="mb-4">
+      <h1 className="text-3xl mb-2">Select Criteria</h1>
+      <div className="flex items-center gap-4">
+        {/* select search  */}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-2 w-1/2 "
+          >
+            <div className="flex gap-4 items-end w-full">
+              <div className="flex flex-col gap-2 w-full h-16">
+                <FormField
+                  control={form.control}
+                  name="className"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Class <span className="text-red-600">*</span>
+                      </FormLabel>
+                      <Select onValueChange={field.onChange}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Class" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {classes.map((cls) => (
+                            <SelectItem key={cls.id} value={cls.className}>
+                              {cls.className}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
-              {/* Sections */}
-              <div className="flex flex-col gap-2 w-full">
-                <label htmlFor="">Section</label>
-                <Select
-                  {...sectionRef}
-                  onValueChange={(value) => setValue("section", value)}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a Section" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select a Section</SelectLabel>
-                      {classes
-                        .find((item) => item.className === selectedClass)
-                        ?.sectionName.map((section) => (
-                          <SelectItem key={section} value={section}>
-                            {section}
-                          </SelectItem>
-                        ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                {errors.section && (
-                  <span className="text-red-600 text-sm">
-                    {errors.section.message}
-                  </span>
-                )}
+              <div className="flex flex-col gap-2 w-full h-16">
+                <FormField
+                  control={form.control}
+                  name="section"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Section</FormLabel>
+                      <Select onValueChange={field.onChange}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Section" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {classes
+                            .find((item) => item.className === selectedClass)
+                            ?.sectionName.map((section) => (
+                              <SelectItem key={section} value={section}>
+                                {section}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
+
               <Button
-                disabled={isLoading}
+                type="submit"
                 variant={"outline"}
                 size={"sm"}
-                className="self-end"
+                className="rounded-sm"
               >
-                Search
+                Submit
               </Button>
             </div>
           </form>
+        </Form>
 
+        {/* search by name or roll  */}
+        {type === "search" && (
           <form onSubmit={handleSearch} className="w-1/2 flex gap-4">
             {/* search   */}
-            <div className="flex flex-col gap-2 w-full">
+            <div className="flex flex-col gap-1 w-full h-16">
               <label htmlFor="">Search By</label>
               <input
                 autoComplete="off"
@@ -169,12 +175,11 @@ const SearchForm = ({ classes }: props) => {
               variant={"outline"}
               size={"sm"}
               className="self-end"
-              disabled={isLoading}
             >
               Search
             </Button>
           </form>
-        </div>
+        )}
       </div>
     </div>
   );

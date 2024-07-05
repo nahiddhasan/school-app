@@ -10,14 +10,14 @@ import {
 } from "@/components/ui/table";
 
 import { StudentType } from "@/lib/types";
-import { Eye, SquarePen, Trash } from "lucide-react";
+import { Eye, SquarePen } from "lucide-react";
 import Link from "next/link";
 type props = {
   data: StudentType[];
 };
 const DataTable = ({ data }: props) => {
   return (
-    <div className="">
+    <div>
       <Table>
         <TableCaption>
           {data.length > 0 ? " List of Students" : "Nothing Found!"}
@@ -27,8 +27,8 @@ const DataTable = ({ data }: props) => {
             <TableHead>StudentId</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Class</TableHead>
-            <TableHead className="">Class Roll</TableHead>
-            <TableHead className="">Gender</TableHead>
+            <TableHead>Class Roll</TableHead>
+            <TableHead>Gender</TableHead>
             <TableHead>Blood Group</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -42,9 +42,9 @@ const DataTable = ({ data }: props) => {
               <TableCell>
                 {item.className} ({item.section})
               </TableCell>
-              <TableCell className="">{item.classRoll}</TableCell>
-              <TableCell className="">{item.gender}</TableCell>
-              <TableCell className="">{item.bloodGroup}</TableCell>
+              <TableCell>{item.classRoll}</TableCell>
+              <TableCell>{item.gender}</TableCell>
+              <TableCell>{item.bloodGroup}</TableCell>
               <TableCell className="flex gap-2">
                 <TooltipComp text="View">
                   <Link href={`/dashboard/students/view/${item.studentId}`}>
@@ -56,9 +56,9 @@ const DataTable = ({ data }: props) => {
                     <SquarePen size={16} className="cursor-pointer" />
                   </Link>
                 </TooltipComp>
-                <TooltipComp text="Disable">
+                {/* <TooltipComp text="Disable">
                   <Trash size={16} className="cursor-pointer" />
-                </TooltipComp>
+                </TooltipComp> */}
               </TableCell>
             </TableRow>
           ))}

@@ -10,7 +10,7 @@ body,
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 95%;
     --foreground: 240 10% 3.9%;
 
     --card: 0 0% 100%;
@@ -265,4 +265,8 @@ body,
 }
 .embla__dot--selected:after {
   box-shadow: inset 0 0 0 0.2rem red;
+}
+
+.navgradient {
+  @apply bg-gradient-to-r from-rose-500/20 via-transparent to-transparent border-l-2 border-rose-500;
 }

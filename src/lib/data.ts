@@ -1,4 +1,3 @@
-import { PAGE_SIZE } from "@/const/data";
 import { prisma } from "./connect";
 
 // get user by email
@@ -35,70 +34,14 @@ export const getClasses = async () => {
         className: true,
         sectionName: true,
       },
+      // orderBy: {
+      //   className: "desc",
+      // },
     });
     return classes;
   } catch (error) {
     console.log(error);
     throw new Error("Getting Classes failed!!");
-  }
-};
-
-// get current users
-export const getCurrentUsers = async () => {
-  try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
-        role: true,
-      },
-    });
-    return users;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Getting Users failed!!");
-  }
-};
-
-// get student
-export const getStudents = async (values: {
-  className?: string;
-  section?: string;
-  search?: string;
-  page?: number;
-}) => {
-  const pageNum = values.page || 1;
-  const skip = (pageNum - 1) * PAGE_SIZE;
-
-  try {
-    const filters: any = {
-      className: values.className || "",
-      ...(values.section && { section: values.section }),
-      ...(values.search && {
-        OR: [
-          { fullName: { contains: values.search, mode: "insensitive" } },
-          { studentId: parseInt(values.search) || 0 },
-          { classRoll: { contains: values.search, mode: "insensitive" } },
-        ],
-      }),
-    };
-
-    const totalCount = await prisma.student.count({
-      where: filters,
-    });
-
-    const students = await prisma.student.findMany({
-      where: filters,
-      take: PAGE_SIZE,
-      skip: skip,
-    });
-
-    return { students, totalCount };
-  } catch (error) {
-    console.log(error);
-    throw new Error("Getting Students failed!!");
   }
 };
 
@@ -108,6 +51,7 @@ export const getStudent = async (studentId: number) => {
   try {
     const student = await prisma.student.findUnique({
       where: { studentId },
+      include: { result: true },
     });
 
     if (!student) {
@@ -169,5 +113,79 @@ export const getSession = async () => {
   } catch (error) {
     console.log(error);
     throw new Error("Fetching session failed!");
+  }
+};
+
+// get student
+export const getBulkStudents = async (values: {
+  className?: string;
+  section?: string;
+}) => {
+  try {
+    const filters: any = {
+      className: values.className || "",
+      ...(values.section && { section: values.section }),
+    };
+
+    const bulkSutdents = await prisma.student.findMany({
+      where: filters,
+    });
+
+    return bulkSutdents;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Getting BulkStudents failed!!");
+  }
+};
+
+// result report
+export const resultReport = async () => {
+  try {
+    const resultByClass = await prisma.class.findFirst({
+      where: { className: "Six" },
+      select: {
+        result: {
+          select: {
+            studentId: true,
+            gpa: true,
+            status: true,
+          },
+        },
+      },
+    });
+    return resultByClass;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//get notices
+export const getNotices = async () => {
+  try {
+    const notices = await prisma.notice.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return notices;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Fetching notices failed!");
+  }
+};
+
+//get single notive
+export const getSingleNotice = async (id: string) => {
+  try {
+    const notice = await prisma.notice.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    return notice;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Fetching notice failed!");
   }
 };

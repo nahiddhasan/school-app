@@ -59,7 +59,7 @@ export type getResultType = {
 //   subjects: Subjects[];
 // };
 
-type Student = {
+export type Student = {
   fullName: string;
   fatherName: string;
   classRoll: string;
@@ -67,13 +67,13 @@ type Student = {
   gender: string;
 };
 
-type Subject = {
+export type Subject = {
   grade: string;
   marks: string;
   subjectName: string;
 };
 
-type Result = {
+export type Result = {
   id: string;
   gpa: number;
   position: number | null;
@@ -87,7 +87,7 @@ type Result = {
   subjects: Subject[];
 };
 
-type ImportStudent = {
+export type ImportStudent = {
   fullName: string;
   classRoll: number;
   gender: string;
@@ -103,4 +103,26 @@ type ImportStudent = {
   gurdianName: string;
   relation: string;
   gurdianPhone: number;
+};
+
+// add classvalus type
+export type AddClassTypes = {
+  className: string;
+  sectionName: string[];
+};
+// add classvalus type
+export type UpdateClassType = {
+  id: string;
+  className: string;
+  sectionName: string[];
+};
+
+export type NoticesType = {
+  notices: {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    title: string;
+    file: string;
+  }[];
 };

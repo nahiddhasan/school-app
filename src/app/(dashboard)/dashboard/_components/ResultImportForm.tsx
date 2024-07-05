@@ -184,7 +184,8 @@ const ResultImportForm = ({ classes, sessions }: props) => {
             );
           }}
         />
-        <div className="space-x-2 flex items-end  h-full">
+
+        <div className="space-x-2 flex items-end h-full">
           <Button
             type="submit"
             variant={"outline"}

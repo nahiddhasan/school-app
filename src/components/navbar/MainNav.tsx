@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import MenuItems from "./MenuItems";
 
-import { menuItems } from "@/const/data.js";
+import { menuItems } from "@/const/data";
 import { cn } from "@/lib/cn";
 import { useSession } from "next-auth/react";
 import Link from "next/link";

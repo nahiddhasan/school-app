@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { PAGE_SIZE } from "@/const/data";
+import { Input } from "@/components/ui/input";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -12,28 +12,30 @@ const PaginationCom = ({ totalCount }: props) => {
   const { replace } = useRouter();
   const pathname = usePathname();
 
-  const page = searchParams.get("page") || "1";
+  const page = Number(searchParams.get("page") || "1");
 
   const params = new URLSearchParams(searchParams);
+  const pageSize = Number(searchParams.get("pageSize") || 10);
 
-  const hasPrev = PAGE_SIZE * (parseInt(page) - 1) > 0;
-  const hasNext = PAGE_SIZE * (parseInt(page) - 1) + PAGE_SIZE < totalCount;
-  const noOfPages = Math.ceil(totalCount / PAGE_SIZE);
+  const hasPrev = pageSize * (page - 1) > 0;
+  const hasNext = pageSize * (page - 1) + pageSize < totalCount;
+  const noOfPages = Math.ceil(totalCount / pageSize);
 
   const pageChange = (type: "next" | "prev") => {
     type === "prev"
-      ? params.set("page", String(parseInt(page) - 1))
-      : params.set("page", String(parseInt(page) + 1));
+      ? params.set("page", String(page - 1))
+      : params.set("page", String(page + 1));
 
     replace(`${pathname}?${params}`);
   };
   const handlePage = (pageNo: number) => {
-    params.set("page", String(pageNo + 1));
+    const validPageNo = pageNo > 0 ? pageNo : pageNo + 1;
+    params.set("page", String(validPageNo));
     replace(`${pathname}?${params}`);
   };
   return (
-    <div className="">
-      <div className="flex items-center gap-2">
+    <div className="flex items-center">
+      <div className="flex items-center gap-2 flex-1">
         <Button
           variant={"ghost"}
           size={"sm"}
@@ -44,16 +46,28 @@ const PaginationCom = ({ totalCount }: props) => {
           <ChevronLeft size={17} /> <span>Previous</span>
         </Button>
 
-        {Array.from({ length: noOfPages }, (_, i) => i + 1).map((item, i) => (
-          <Button
-            key={i}
-            variant={parseInt(page) === i + 1 ? "secondary" : "ghost"}
-            size={"sm"}
-            onClick={() => handlePage(i)}
-          >
-            {item}
-          </Button>
-        ))}
+        {/* {Array.from({ length: noOfPages }, (_, i) => i + 1).map((item, i) => (
+        <Button
+          key={i}
+          variant={page === i + 1 ? "secondary" : "ghost"}
+          size={"sm"}
+          onClick={() => handlePage(i)}
+        >
+          {item}
+        </Button>
+      ))} */}
+        <span className="flex items-center gap-1">
+          | Go to page:
+          <Input
+            type="number"
+            className="border p-1 rounded w-14"
+            min={1}
+            max={noOfPages}
+            placeholder={String(page)}
+            value={Number(page)}
+            onChange={(e) => handlePage(Number(e.target.value))}
+          />
+        </span>
 
         <Button
           variant={"ghost"}
@@ -64,6 +78,13 @@ const PaginationCom = ({ totalCount }: props) => {
         >
           <span>Next</span> <ChevronRight size={17} />
         </Button>
+      </div>
+
+      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+        <span>Page</span>
+        <strong>
+          {page} of {noOfPages.toLocaleString()}
+        </strong>
       </div>
     </div>
   );

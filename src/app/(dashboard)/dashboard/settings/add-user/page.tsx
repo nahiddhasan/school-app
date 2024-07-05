@@ -55,7 +55,7 @@ const AddUser = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-1/2 space-y-2"
+          className="w-full space-y-2"
         >
           <FormField
             control={form.control}
