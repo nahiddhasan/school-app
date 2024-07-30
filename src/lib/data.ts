@@ -174,7 +174,7 @@ export const getNotices = async () => {
   }
 };
 
-//get single notive
+//get single notice
 export const getSingleNotice = async (id: string) => {
   try {
     const notice = await prisma.notice.findUnique({

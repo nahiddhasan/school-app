@@ -64,7 +64,7 @@ const SidebarItems = ({
             <span>
               {items.icon ? <Icon size={18} /> : <CircleDashed size={18} />}
             </span>
-            <span>{items.title}</span>
+            <span className="truncate">{items.title}</span>
           </div>
           <span
             className={cn("", {
@@ -103,7 +103,7 @@ const SidebarItems = ({
             <CircleDashed size={depthLevel && depthLevel > 0 ? 12 : 18} />
           )}
         </span>
-        <span>{items.title}</span>
+        <span className="truncate">{items.title}</span>
       </Link>
     );
   }

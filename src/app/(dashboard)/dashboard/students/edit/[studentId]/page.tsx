@@ -1,5 +1,5 @@
 import { getClasses, getStudent } from "@/lib/data";
-import UpdateForm from "../../../_components/updateStudentForm/UpdateForm";
+import UpdateForm from "../../../_components/UpdateForm";
 
 type props = {
   params: {

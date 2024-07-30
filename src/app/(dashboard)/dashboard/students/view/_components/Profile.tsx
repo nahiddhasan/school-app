@@ -12,11 +12,15 @@ const Profile = ({ student }: props) => {
           <TableBody>
             <TableRow className="">
               <TableCell>Admition Date:</TableCell>
-              <TableCell className="w-2/3">{student.doa}</TableCell>
+              <TableCell className="w-2/3">
+                {student.doa.toLocaleDateString("en-US")}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Date of Birth: </TableCell>
-              <TableCell className="w-2/3">{student.dob}</TableCell>
+              <TableCell className="w-2/3">
+                {student.dob.toLocaleDateString("en-US")}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Mobile: </TableCell>

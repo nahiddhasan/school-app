@@ -9,20 +9,86 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/png",
   "image/webp",
 ];
-const ACCEPTED_FILE_TYPES = ["application/pdf"];
+const ACCEPTED_PDF_FILE_TYPES = ["application/pdf"];
+const ACCEPTED_CSV_FILE_TYPES = ["text/csv"];
 
-const imageSchema = z.any();
-// To not allow empty files
-//   .refine((files) => files?.length >= 1, { message: "Photo is required." })
-// To not allow files other than images
-//   .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type), {
-//     message: ".jpg, .jpeg, .png and .webp files are accepted.",
-//   })
-//   // To not allow files larger than 2MB
-//   .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, {
-//     message: `Max file size is 2MB.`,
-//   })
-//   .optional();
+const imageValidateOptional =
+  typeof window === "undefined"
+    ? z.any()
+    : z
+        .instanceof(FileList)
+        .optional()
+
+        .refine(
+          (file) =>
+            file?.length == 1
+              ? ACCEPTED_IMAGE_TYPES.includes(file?.[0]?.type)
+                ? true
+                : false
+              : true,
+          "jpg, .jpeg, .png and .webp files are accepted."
+        )
+        .refine(
+          (file) =>
+            file?.length == 1
+              ? file[0]?.size <= MAX_FILE_SIZE
+                ? true
+                : false
+              : true,
+          "Max file size is 2MB"
+        );
+
+const imageValidate =
+  typeof window === "undefined"
+    ? z.any()
+    : z
+        .instanceof(FileList)
+        // To not allow empty files
+        .refine((files) => files?.length == 1, {
+          message: "File is required",
+        })
+        //To not allow files other than images
+        .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type), {
+          message: ".jpg, .jpeg, .png and .webp files are accepted.",
+        })
+        //To not allow files larger than 2MB
+        .refine((files) => files[0]?.size <= MAX_FILE_SIZE, {
+          message: `Max file size is 2MB.`,
+        });
+
+const pdfValidate =
+  typeof window === "undefined"
+    ? z.any()
+    : z
+        .instanceof(FileList)
+        // To not allow empty files
+        .refine((files) => files?.length == 1, {
+          message: "File is required",
+        })
+        //To not allow files other than images
+        .refine((files) => ACCEPTED_PDF_FILE_TYPES.includes(files[0]?.type), {
+          message: "Only PDF files are accepted.",
+        });
+
+const csvValidate =
+  typeof window === "undefined"
+    ? z.any()
+    : z
+        .instanceof(FileList)
+        // To not allow empty files
+        .refine((files) => files?.length == 1, {
+          message: "File is required",
+        })
+        //To not allow files other than images
+        .refine((files) => ACCEPTED_CSV_FILE_TYPES.includes(files[0]?.type), {
+          message: "Only CSV files are accepted.",
+        });
+
+const phoneValidate = z
+  .string({
+    required_error: "Mobile number is required",
+  })
+  .refine((phone) => phoneRegex.test(phone), "Invalid phone number");
 
 export const admissionSchema = z.object({
   classRoll: z.string().min(1, { message: "Class Roll is required!" }),
@@ -37,7 +103,7 @@ export const admissionSchema = z.object({
     .min(1, { message: "Phone Number is required!" })
     .regex(phoneRegex, "Invalid Number!"),
   bloodGroup: z.string().optional(),
-  studentImg: imageSchema,
+  studentImg: imageValidate,
   address: z.string().optional(),
   others: z.string().optional(),
   fatherName: z.string().min(1, { message: "Father Name is required!" }),
@@ -52,6 +118,69 @@ export const admissionSchema = z.object({
     .string()
     .min(1, { message: "Phone Number is required!" })
     .regex(phoneRegex, "Invalid Number!"),
+});
+
+export const newAdmissionSchema = z.object({
+  fullName: z
+    .string({
+      required_error: "Name is required",
+    })
+    .trim()
+    .min(1, { message: "Name is required!" }),
+  classRoll: z
+    .number({
+      invalid_type_error: "Class Roll must be a number",
+      required_error: "Class Roll is required!",
+    })
+    .min(1, { message: "Class Roll is required!" }),
+  className: z
+    .string({
+      required_error: "Class is required!",
+    })
+    .min(1, { message: "Class is required!" }),
+  section: z
+    .string({
+      required_error: "Class Section is required!",
+    })
+    .min(1, { message: "Class Section is required!" }),
+  gender: z
+    .string({
+      required_error: "Gender is required!",
+    })
+    .min(1, { message: "Gender is required!" }),
+  dob: z.date({
+    required_error: "Date of Birth is required!",
+  }),
+  doa: z.date({
+    required_error: "Admission date is required!",
+  }),
+  mobile: phoneValidate,
+  bloodGroup: z.string().optional(),
+  studentImg: imageValidateOptional,
+  address: z.string().optional(),
+  others: z.string().optional(),
+  fatherName: z
+    .string({
+      required_error: "Father's Name is required!",
+    })
+    .min(1, { message: "Father's Name is required!" }),
+  motherName: z
+    .string({
+      required_error: "Mother's Name is required!",
+    })
+    .min(1, { message: "Mother's Name is required!" }),
+  fatherPhone: phoneValidate,
+  gurdianName: z
+    .string({
+      required_error: "Gurdian Name is required!",
+    })
+    .min(1, { message: "Gurdian Name is required!" }),
+  relation: z
+    .string({
+      required_error: "Student relation is required!",
+    })
+    .min(1, { message: "Student relation is required!" }),
+  gurdianPhone: phoneValidate,
 });
 
 export const searchStudent = z.object({
@@ -130,7 +259,7 @@ export const uploadResultSchema = z.object({
 export const updateProfileSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1, { message: "Full Name is required!" }),
-  file: z.any().optional(),
+  file: imageValidateOptional,
 });
 
 export const importStudentSchema = z.object({
@@ -140,10 +269,7 @@ export const importStudentSchema = z.object({
   section: z
     .string({ required_error: "Select Section! " })
     .min(1, { message: "Select Class!" }),
-
-  file: z
-    .any()
-    .refine((files) => files?.length >= 1, { message: "File is required." }),
+  file: csvValidate,
 });
 
 export const updateUserSchema = z.object({

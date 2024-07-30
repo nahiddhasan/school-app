@@ -33,26 +33,24 @@ export default function RootLayout({
       enableSystem
       disableTransitionOnChange
     >
-      <div className={`${monts.className} h-full w-full`}>
+      <div className={`${monts.className} h-full overflow-y-hidden`}>
         <Toaster />
 
-        <div className="h-full">
-          <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel
-              defaultSize={20}
-              maxSize={30}
-              order={1}
-              className=" dark:bg-zinc-900"
-            >
-              <Sidebar />
-            </ResizablePanel>
-            <ResizableHandle />
-            <ResizablePanel order={2} defaultSize={80} className="h-full">
-              <Navbar />
-              {children}
-            </ResizablePanel>
-          </ResizablePanelGroup>
-        </div>
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel
+            defaultSize={20}
+            maxSize={30}
+            order={1}
+            className=" dark:bg-zinc-900"
+          >
+            <Sidebar />
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel order={2} defaultSize={80} className="h-full">
+            <Navbar />
+            {children}
+          </ResizablePanel>
+        </ResizablePanelGroup>
       </div>
     </ThemeProvider>
   );

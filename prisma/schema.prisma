@@ -29,12 +29,12 @@ model Student {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   studentId    Int      @unique @default(autoincrement())
-  classRoll    String
+  classRoll    Int
   section      String
   fullName     String
   gender       String
-  dob          String
-  doa          String
+  dob          DateTime
+  doa          DateTime
   mobile       String
   bloodGroup   String?
   studentImg   String?

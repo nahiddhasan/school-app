@@ -1,21 +1,8 @@
 "use client";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Form } from "@/components/ui/form";
+import { SelectItem } from "@/components/ui/select";
 import { importStudent } from "@/lib/actions";
 import { parseCSV } from "@/lib/handlerFn";
 import { Class } from "@/lib/types";
@@ -47,11 +34,12 @@ const StudentImportForm = ({ classes }: props) => {
         });
       })
       .catch((errors) => {
+        console.log(errors);
         toast.error("Invalid CSV data");
       });
   };
-  const fileRef = form.register("file");
   const selectedClass = form.watch("className");
+  const fileRef = form.register("file");
 
   return (
     <Form {...form}>
@@ -59,78 +47,45 @@ const StudentImportForm = ({ classes }: props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-2 grid grid-cols-4 gap-4 items-center my-4"
       >
-        <FormField
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
           control={form.control}
           name="className"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Class</FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Class" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {classes.map((cls) => (
-                    <SelectItem key={cls.id} value={cls.className}>
-                      {cls.className}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          label="Select Class"
+          placeholder="Select Class"
+        >
+          {classes.map((cls) => (
+            <SelectItem key={cls.id} value={cls.className}>
+              {cls.className}
+            </SelectItem>
+          ))}
+        </CustomFormField>
 
-        <FormField
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
           control={form.control}
           name="section"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Section</FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Section" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {classes
-                    .find((item) => item.className === selectedClass)
-                    ?.sectionName.map((section) => (
-                      <SelectItem key={section} value={section}>
-                        {section}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          label="Select Section"
+          placeholder="Select Section"
+        >
+          {classes
+            .find((item) => item.className === selectedClass)
+            ?.sectionName.map((section) => (
+              <SelectItem key={section} value={section}>
+                {section}
+              </SelectItem>
+            ))}
+        </CustomFormField>
 
-        <FormField
+        <CustomFormField
+          fieldType={FormFieldType.FILE}
           control={form.control}
           name="file"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel>Select CSV</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    placeholder="Select CSV"
-                    {...fileRef}
-                    className="text-sm"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
+          label="Select csv file"
+          placeholder="Select csv file"
+          fileRef={fileRef}
         />
+
         <div className="space-x-2 flex items-end  h-full">
           <Button
             type="submit"

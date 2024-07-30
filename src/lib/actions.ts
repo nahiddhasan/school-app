@@ -13,7 +13,7 @@ import { AddClassTypes, ImportStudent, UpdateClassType } from "./types";
 import {
   LoginSchema,
   addNoticeSchema,
-  admissionSchema,
+  newAdmissionSchema,
   updateProfileSchema,
   updateUserSchema,
   userSchema,
@@ -68,10 +68,11 @@ export const logout = async () => {
 
 // Add Student
 export const studentAdmission = async (
-  values: z.infer<typeof admissionSchema>
+  values: z.infer<typeof newAdmissionSchema>
 ) => {
+  console.log(values);
   const session = await auth();
-  const validatedData = admissionSchema.safeParse(values);
+  const validatedData = newAdmissionSchema.safeParse(values);
   if (!validatedData.success) {
     return { error: "Invalid fields!" };
   }
@@ -79,7 +80,10 @@ export const studentAdmission = async (
   const validatedValues = validatedData.data;
 
   try {
-    if (session?.user.role !== "ADMIN") {
+    if (!session) {
+      return { error: "You are not authinticated!" };
+    }
+    if (session.user.role !== "ADMIN") {
       return { error: "Only admin can admit a sutdent!" };
     }
 
@@ -93,7 +97,7 @@ export const studentAdmission = async (
       return { messege: "Please add current session first" };
     }
 
-    await prisma?.student.create({
+    await prisma.student.create({
       data: { ...validatedValues, sessionName: currentSession.year },
     });
     return { success: "Addmission Successfull" };
@@ -129,10 +133,12 @@ export const importStudent = async (
       mobile: String(item.mobile),
       fatherPhone: String(item.fatherPhone),
       gurdianPhone: String(item.gurdianPhone),
-      classRoll: String(item.classRoll),
+      classRoll: item.classRoll,
       sessionName: currentSession.year,
       className: others.className,
       section: others.section,
+      dob: new Date(item.dob),
+      doa: new Date(item.doa),
     }));
 
     await prisma.student.createMany({
@@ -173,10 +179,10 @@ export const uploadImage = async (formData: any) => {
 // update student
 export const updateStudent = async (
   studentId: number,
-  values: z.infer<typeof admissionSchema>
+  values: z.infer<typeof newAdmissionSchema>
 ) => {
   const session = await auth();
-  const validatedData = admissionSchema.safeParse(values);
+  const validatedData = newAdmissionSchema.safeParse(values);
   if (!validatedData.success) {
     return { error: "Invalid fields!" };
   }
