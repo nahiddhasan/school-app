@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { MdKeyboardArrowRight } from "react-icons/md";
 
-import { cn } from "@/utills/cn";
-import { MenuItem } from "@/utills/types";
+import { cn } from "@/lib/cn";
+import { MenuItem } from "@/lib/types";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Dropdown from "./Dropdown";
 
@@ -63,7 +63,7 @@ const MenuItems = ({ items, depthLevel }: props) => {
             aria-expanded={dropdown ? "true" : "false"}
             onClick={() => setDropdown((prev) => !prev)}
             className={cn("flex items-center gap-1 whitespace-nowrap", {
-              "hover:bg-primary-600 px-3 py-1 rounded-sm w-full transition-all":
+              "hover:bg-primary-base-600 px-3 py-1 rounded-sm w-full transition-all":
                 depthLevel > 0,
             })}
           >
@@ -74,7 +74,7 @@ const MenuItems = ({ items, depthLevel }: props) => {
               <span
                 className={`${dropdown && "rotate-90"} transition duration-300`}
               >
-                <MdKeyboardArrowRight />
+                <ChevronRight size={14} />
               </span>
             )}
           </button>
@@ -88,7 +88,7 @@ const MenuItems = ({ items, depthLevel }: props) => {
         <Link
           href={items.path!}
           className={cn("flex items-center gap-1 whitespace-nowrap w-full", {
-            "hover:bg-primary-600 px-3 py-1 rounded-sm transition-all duration-300":
+            "hover:bg-primary-base-600 px-3 py-1 rounded-sm transition-all duration-300":
               depthLevel > 0,
           })}
         >

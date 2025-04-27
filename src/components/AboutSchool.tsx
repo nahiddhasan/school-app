@@ -5,7 +5,7 @@ const AboutSchool = () => {
   return (
     <Container className="flex flex-col lg:flex-row gap-8 my-20">
       <div className="w-full lg:w-2/3 shadow-[0px_20px_20px_10px_#00000024] rounded-md p-4">
-        <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-6 bg-primary-500 text-white px-4 py-2 rounded-ss-xl rounded-ee-xl">
+        <h1 className="text-xl md:text-2xl lg:text-4xl font-bold mb-6 bg-primary-base-500 text-white px-4 py-2 rounded-ss-xl rounded-ee-xl">
           About this School
         </h1>
         <p className="font-trio">
@@ -31,23 +31,24 @@ const AboutSchool = () => {
           জন্তু ছিল প্রকাণ্ড একলা, মানুষ হল দূরপ্রসারিত অনেক।
         </p>
         <div className="flex flex-col mt-6">
-          <span className="text-primary-900 text-2xl">
+          <span className="text-primary-base-900 text-2xl">
             মোঃ কখগ উদ্দিন ভুঁইয়া
           </span>
           <span className="text-lg">প্রধান শিক্ষক, কখগ উচ্চ বিদ্যালয়</span>
         </div>
       </div>
-      <div className="w-full py-8 lg:w-2/6 flex flex-col items-center justify-center h-auto shadow-[0px_20px_20px_10px_#00000024] rounded-md">
+      <div className="w-full py-8 lg:w-2/6 flex flex-col items-center justify-center h-auto shadow-[0px_20px_20px_10px_#00000024] rounded-md group">
         <div className="relative w-1/2 aspect-square rounded-full overflow-hidden shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
           <Image
             src={"/img/head-t.jpg"}
             fill
             alt="head-teacher"
-            className="object-cover"
+            className="object-cover group-hover:scale-110 transition duration-300"
           />
+          <div className="bg-black h-full w-full absolute top-0 left-0 opacity-20 scale-0 group-hover:scale-100 rounded-full transition duration-300" />
         </div>
         <div className="flex flex-col mt-6">
-          <span className="text-primary-900 text-2xl">
+          <span className="text-primary-base-900 text-2xl">
             মোঃ কখগ উদ্দিন ভুঁইয়া
           </span>
           <span className="">প্রধান শিক্ষক, কখগ উচ্চ বিদ্যালয়</span>

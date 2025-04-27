@@ -10,7 +10,7 @@ const Teachers = () => {
         {teachers.map((gov, index) => (
           <div
             key={index}
-            className="shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] rounded-md p-4 w-full"
+            className="shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)] rounded-md p-4 w-full group"
           >
             <div className="flex flex-col items-center justify-center mb-6">
               <div className="relative w-[70%] aspect-square rounded-full overflow-hidden shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
@@ -18,11 +18,12 @@ const Teachers = () => {
                   src={gov.image}
                   fill
                   alt="head-teacher"
-                  className="object-cover"
+                  className="object-cover group-hover:scale-110 transition duration-300"
                 />
+                <div className="bg-black h-full w-full absolute top-0 left-0 opacity-20 scale-0 group-hover:scale-100 rounded-full transition duration-300" />
               </div>
               <div className="flex flex-col mt-6">
-                <span className="text-primary-900">{gov.name}</span>
+                <span className="text-primary-base-900">{gov.name}</span>
                 <span className="text-xs">{gov.des}</span>
               </div>
             </div>
