@@ -237,7 +237,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://storeUser:storePassword@localhost:5434/schoolDB?schema=public"
+        "value": "postgres://neondb_owner:npg_qk5UKvYJj3hS@ep-hidden-smoke-a1pww37x-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
       }
     }
   },
