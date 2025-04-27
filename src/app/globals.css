@@ -180,7 +180,7 @@ body,
   }
 }
 .shad-input {
-  @apply focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+  @apply h-10 rounded-md focus-visible:ring-0 focus-visible:ring-offset-0 !important;
 }
 
 /* embla css  */
@@ -304,7 +304,7 @@ body,
 }
 
 .react-datepicker__input-container input {
-  @apply !outline-none !h-8 !w-full !bg-transparent !border !border-border;
+  @apply !outline-none px-3 !h-10 rounded-md !w-full !bg-transparent !border !border-border;
 }
 
 .react-datepicker__day--selected {

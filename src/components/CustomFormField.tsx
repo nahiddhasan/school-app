@@ -150,7 +150,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             defaultValue={field.value}
           >
             <FormControl>
-              <SelectTrigger className="shad-select-trigger h-8">
+              <SelectTrigger className="shad-select-trigger h-10 rounded-md">
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>

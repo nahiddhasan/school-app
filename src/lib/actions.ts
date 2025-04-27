@@ -594,8 +594,9 @@ export const updateClass = async (values: UpdateClassType) => {
 
 //add notice
 export const addNotice = async (values: z.infer<typeof addNoticeSchema>) => {
+  console.log(values);
   const validatedValues = addNoticeSchema.safeParse(values);
-
+  console.log(validatedValues);
   if (!validatedValues.success) {
     return { error: "Invalid fields error!" };
   }
