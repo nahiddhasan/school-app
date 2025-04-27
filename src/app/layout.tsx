@@ -12,11 +12,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "School name",
-<<<<<<< HEAD
-  description: "This a demo School front Webpage",
-=======
   description: "School Front Webpage",
->>>>>>> development
 };
 
 export default async function RootLayout({
