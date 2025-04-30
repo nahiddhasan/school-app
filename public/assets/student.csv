@@ -1,0 +1,10 @@
+fullName,classRoll,gender,dob,doa,mobile,bloodGroup,address,others,fatherName,motherName,fatherPhone,gurdianName,gurdianPhone,relation
+John Doe,30,male,2010-06-15,2024-01-10,1700111222,A+,123 Street,N/A,Mr. Doe,Jane Doe,1700999888,Mr. Doe,1700999888,father
+Jane Smith,31,female,2011-03-20,2024-01-10,1700333444,O-,456 Avenue,None,Mr. Smith,Mrs. Smith,1700777888,Mrs. Smith,1700777888,mother
+John Doe,32,male,2011-12-23,2024-01-10,1700555666,A+,124 Street,N/A,Mr. Doe,Jane Doe,1700555888,Mr. Doe,1700555888,father
+Jane Smith,33,female,2012-09-26,2024-01-10,1700777888,O-,457 Avenue,None,Mr. Smith,Mrs. Smith,1700333888,Mrs. Smith,1700333888,mother
+John Doe,34,male,2013-07-01,2024-01-10,1701000110,A+,125 Street,N/A,Mr. Doe,Jane Doe,1700111888,Mr. Doe,1700111888,father
+Jane Smith,35,female,2014-04-05,2024-01-10,1701222332,O-,458 Avenue,None,Mr. Smith,Mrs. Smith,1699889888,Mrs. Smith,1699889888,mother
+John Doe,36,male,2015-01-08,2024-01-10,1701444554,A+,126 Street,N/A,Mr. Doe,Jane Doe,1699667888,Mr. Doe,1699667888,father
+Jane Smith,37,female,2015-10-13,2024-01-10,1701666776,O-,459 Avenue,None,Mr. Smith,Mrs. Smith,1699445888,Mrs. Smith,1699445888,mother
+John Doe,38,male,2016-07-17,2024-01-10,1701888998,A+,127 Street,N/A,Mr. Doe,Jane Doe,1699223888,Mr. Doe,1699223888,father

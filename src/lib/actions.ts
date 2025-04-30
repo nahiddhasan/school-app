@@ -567,7 +567,7 @@ export const addClass = async (values: AddClassTypes) => {
   }
 };
 
-//add classes
+//update classes
 export const updateClass = async (values: UpdateClassType) => {
   const session = await auth();
 

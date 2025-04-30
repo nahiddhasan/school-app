@@ -65,9 +65,10 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
         <div className="rounded-md">
           <FormControl>
             <Input
-              type={props.fieldType}
+              type="number"
               disabled={props.disabled}
               placeholder={props.placeholder}
+              value={field.value || ""}
               onChange={(e) => field.onChange(Number(e.target.value))}
               className="shad-input "
             />

@@ -20,44 +20,78 @@ export type Class = {
   sectionName: string[];
 };
 
-export type Session = {
+export type StudentType = {
   id: string;
-  year: number;
+  createdAt: string;
+  updatedAt: string;
+  studentId: number;
+  fullName: string;
+  gender: string;
+  dob: string;
+  doa: string;
+  mobile: string;
+  bloodGroup: string | null;
+  studentImg: string | null;
+  address: string | null;
+  others: string | null;
+  fatherName: string;
+  motherName: string;
+  fatherPhone: string;
+  gurdianName: string;
+  relation: string;
+  gurdianPhone: string;
+  enrollments: {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    studentId: string;
+    academicYearId: string;
+    classId: string;
+    section: string;
+    status: string;
+    classRoll: number;
+    class?: {
+      id: string;
+      createdAt: string;
+      updatedAt: string;
+      className: string;
+      sectionName: string[];
+    };
+    academicYear?: {
+      id: string;
+      createdAt: string;
+      updatedAt: string;
+      year: number;
+      current: boolean;
+    };
+  }[];
+  results?: {
+    id: string;
+    gpa: number;
+    position: number | null;
+    status: string;
+    className: string;
+    year: number;
+    type: string;
+    totalMarks: number;
+    section: string;
+    studentId: number;
+    academicYear: {
+      id: string;
+      year: number;
+    };
+    subjects: {
+      name: string;
+      marks: string;
+    }[];
+  }[];
 };
-export type StudentType = Student;
 
 export type getResultType = {
   studentId: number;
   className: string;
   session: string;
 };
-
-// type Subjects = {
-//   subjectName: string;
-//   marks: number;
-//   grade: String;
-// };
-
-// export type ResultWithStudentInfo = {
-//   id: string;
-//   gpa: number;
-//   position: number | null;
-//   status: string;
-//   className: string;
-//   studentId: number;
-//   year: number;
-//   type: string;
-//   totalMarks: number;
-//   student: {
-//     fullName: string;
-//     fatherName: string;
-//     classRoll: string;
-//     section: string;
-//     dob: string;
-//     gender: string;
-//   };
-//   subjects: Subjects[];
-// };
 
 export type Student = {
   fullName: string;

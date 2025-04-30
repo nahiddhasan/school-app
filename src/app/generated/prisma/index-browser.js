@@ -133,8 +133,6 @@ exports.Prisma.StudentScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   studentId: 'studentId',
-  classRoll: 'classRoll',
-  section: 'section',
   fullName: 'fullName',
   gender: 'gender',
   dob: 'dob',
@@ -149,9 +147,15 @@ exports.Prisma.StudentScalarFieldEnum = {
   fatherPhone: 'fatherPhone',
   gurdianName: 'gurdianName',
   relation: 'relation',
-  gurdianPhone: 'gurdianPhone',
-  className: 'className',
-  sessionName: 'sessionName'
+  gurdianPhone: 'gurdianPhone'
+};
+
+exports.Prisma.AcademicYearScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  year: 'year',
+  current: 'current'
 };
 
 exports.Prisma.ClassScalarFieldEnum = {
@@ -162,12 +166,16 @@ exports.Prisma.ClassScalarFieldEnum = {
   sectionName: 'sectionName'
 };
 
-exports.Prisma.SessionScalarFieldEnum = {
+exports.Prisma.EnrollmentScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  year: 'year',
-  current: 'current'
+  studentId: 'studentId',
+  academicYearId: 'academicYearId',
+  classId: 'classId',
+  section: 'section',
+  status: 'status',
+  classRoll: 'classRoll'
 };
 
 exports.Prisma.ResultScalarFieldEnum = {
@@ -179,8 +187,8 @@ exports.Prisma.ResultScalarFieldEnum = {
   type: 'type',
   totalMarks: 'totalMarks',
   position: 'position',
-  year: 'year',
-  className: 'className',
+  academicYearId: 'academicYearId',
+  classId: 'classId',
   section: 'section',
   studentId: 'studentId',
   subjects: 'subjects'
@@ -214,11 +222,29 @@ exports.Role = exports.$Enums.Role = {
   TEACHER: 'TEACHER'
 };
 
+exports.EnrollmentStatus = exports.$Enums.EnrollmentStatus = {
+  ADMITTED: 'ADMITTED',
+  PROMOTED: 'PROMOTED',
+  REPEATED: 'REPEATED',
+  LEFT: 'LEFT'
+};
+
+exports.ReusltStatus = exports.$Enums.ReusltStatus = {
+  PASSED: 'PASSED',
+  FAILED: 'FAILED'
+};
+
+exports.ExamType = exports.$Enums.ExamType = {
+  MIDTERM: 'MIDTERM',
+  FINAL: 'FINAL'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Student: 'Student',
+  AcademicYear: 'AcademicYear',
   Class: 'Class',
-  Session: 'Session',
+  Enrollment: 'Enrollment',
   Result: 'Result',
   Notice: 'Notice'
 };

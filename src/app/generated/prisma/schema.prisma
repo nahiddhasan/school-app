@@ -19,19 +19,11 @@ model User {
   role      Role     @default(USER)
 }
 
-enum Role {
-  USER
-  ADMIN
-  TEACHER
-}
-
 model Student {
   id           String   @id @default(cuid())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   studentId    Int      @unique @default(autoincrement())
-  classRoll    Int
-  section      String
   fullName     String
   gender       String
   dob          DateTime
@@ -47,54 +39,73 @@ model Student {
   gurdianName  String
   relation     String
   gurdianPhone String
-  class        Class    @relation(fields: [className], references: [className])
-  className    String
-  session      Session  @relation(fields: [sessionName], references: [year])
-  sessionName  Int
 
-  result Result[]
+  enrollments Enrollment[] // 👈 Related to Enrollment
+  results     Result[] // 👈 Related to Result
+}
+
+model AcademicYear {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  year      Int      @unique
+  current   Boolean  @default(false) // 👈 Only one current at a time!
+
+  enrollments Enrollment[]
+  results     Result[]
 }
 
 model Class {
-  id          String    @id @default(cuid())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  className   String    @unique
-  sectionName String[]
-  student     Student[]
-  result      Result[]
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  className   String   @unique
+  sectionName String[] // ["A", "B", "C", etc.]
+
+  enrollments Enrollment[]
+  results     Result[]
 }
 
-model Session {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  year      Int       @unique @default(0)
-  current   Boolean   @default(true)
-  student   Student[]
-  result    Result[]
+model Enrollment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId String
+
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+  academicYearId String
+
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+
+  section   String
+  status    EnrollmentStatus // "Promoted", "Repeated", "Left", etc.
+  classRoll Int // 👈 Roll number based on marks
 }
 
 model Result {
-  id         String   @id @default(cuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id         String       @id @default(cuid())
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
   gpa        Float?
-  status     String
-  type       String
+  status     ReusltStatus // "Pass", "Fail"
+  type       ExamType // "Midterm", "Final", etc.
   totalMarks Int
   position   Int?
 
-  session Session @relation(fields: [year], references: [year])
-  year    Int
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+  academicYearId String
 
-  class     Class   @relation(fields: [className], references: [className], onDelete: Cascade)
-  className String
-  section   String
-  student   Student @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
-  studentId Int     @unique
+  class   Class  @relation(fields: [classId], references: [id], onDelete: Cascade)
+  classId String
 
-  subjects Json[]
+  section String
+
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId String
+
+  subjects Json[] // Subjects and marks, flexible
 }
 
 model Notice {
@@ -103,4 +114,27 @@ model Notice {
   updatedAt DateTime @updatedAt
   title     String
   file      String
+}
+
+enum Role {
+  USER
+  ADMIN
+  TEACHER
+}
+
+enum ReusltStatus {
+  PASSED
+  FAILED
+}
+
+enum ExamType {
+  MIDTERM
+  FINAL
+}
+
+enum EnrollmentStatus {
+  ADMITTED
+  PROMOTED
+  REPEATED
+  LEFT
 }

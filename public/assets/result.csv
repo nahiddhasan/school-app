@@ -1,0 +1,19 @@
+student_name,studentId,subject1,marks1,subject2,marks2,subject3,marks3,subject4,marks4
+Jane Smith,39,Math,85,Science,90,English,88,History,88
+Jane Smith,35,Math,75,Science,80,English,78,History,78
+John Doe updated,23,Math,65,Science,70,English,68,History,68
+Jane Smith,28,Math,55,Science,60,English,58,History,58
+John Doe,27,Math,45,Science,50,English,48,History,48
+Jane Smith,24,Math,35,Science,40,English,38,History,38
+John Doe,34,Math,25,Science,30,English,28,History,28
+John Doe,29,Math,15,Science,20,English,18,History,18
+John Doe,31,Math,33,Science,10,English,58,History,58
+John Doe,25,Math,75,Science,50,English,65,History,65
+Jane Smith,33,Math,90,Science,90,English,68,History,68
+John Doe,32,Math,80,Science,80,English,58,History,58
+Jane Smith,26,Math,70,Science,70,English,48,History,48
+Jane Smith,37,Math,60,Science,60,English,38,History,38
+John Doe,40,Math,50,Science,50,English,28,History,28
+Jane Smith,30,Math,40,Science,40,English,18,History,18
+John Doe,38,Math,30,Science,30,English,58,History,58
+John Doe,360,Math,20,Science,20,English,55,History,55

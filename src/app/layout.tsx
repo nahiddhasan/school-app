@@ -1,3 +1,4 @@
+import { QueryProvider } from "@/providers/QureyProvider";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Poppins } from "next/font/google";
@@ -22,10 +23,12 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <SessionProvider session={session}>
-      <html lang="en" suppressHydrationWarning>
-        <body className={poppins.className}>{children}</body>
-      </html>
-    </SessionProvider>
+    <QueryProvider>
+      <SessionProvider session={session}>
+        <html lang="en" suppressHydrationWarning>
+          <body className={poppins.className}>{children}</body>
+        </html>
+      </SessionProvider>
+    </QueryProvider>
   );
 }

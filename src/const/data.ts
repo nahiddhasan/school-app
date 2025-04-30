@@ -1,5 +1,6 @@
 import {
   BarChartHorizontalBig,
+  BookOpenCheck,
   BookOpenText,
   BookX,
   PanelsTopLeft,
@@ -7,6 +8,7 @@ import {
   Settings,
   SquareDot,
   SquareEqual,
+  StepForward,
   UserPlus,
   UserRound,
   UserRoundCog,
@@ -349,6 +351,18 @@ export const sidebarItems = [
         path: "/dashboard/students/bulk-delete",
         icon: BookX,
         role: "ADMIN",
+      },
+    ],
+  },
+  {
+    title: "Enrollment",
+    icon: StepForward,
+
+    submenu: [
+      {
+        title: "Promote Students",
+        path: "/dashboard/enrollment/promote",
+        icon: BookOpenCheck,
       },
     ],
   },

@@ -1,3 +1,4 @@
+import { ExamType } from "@/app/generated/prisma";
 import { z } from "zod";
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -79,7 +80,7 @@ const csvValidate =
         .refine((files) => files?.length == 1, {
           message: "File is required",
         })
-        //To not allow files other than images
+        //To not allow files other than csv
         .refine((files) => ACCEPTED_CSV_FILE_TYPES.includes(files[0]?.type), {
           message: "Only CSV files are accepted.",
         });
@@ -239,21 +240,25 @@ export const userSchema = z.object({
 });
 
 export const uploadResultSchema = z.object({
-  session: z
-    .string({ required_error: "Select Session! " })
-    .min(1, { message: "Select Session!" }),
   className: z
     .string({ required_error: "Select Class! " })
     .min(1, { message: "Select Class!" }),
   section: z
     .string({ required_error: "Select Section! " })
     .min(1, { message: "Select Class!" }),
-  exam: z.enum(["Annual", "Half-Yearly"], {
+  examType: z.enum([ExamType.MIDTERM, ExamType.FINAL], {
     required_error: "Select Exam Type",
   }),
-  file: z
-    .any()
-    .refine((files) => files?.length >= 1, { message: "File is required." }),
+  file: csvValidate,
+});
+
+export const SampleResultSchema = z.object({
+  className: z
+    .string({ required_error: "Select Class! " })
+    .min(1, { message: "Select Class!" }),
+  section: z
+    .string({ required_error: "Select Section! " })
+    .min(1, { message: "Select Class!" }),
 });
 
 export const updateProfileSchema = z.object({
