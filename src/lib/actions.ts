@@ -9,11 +9,13 @@ import { z } from "zod";
 import { auth, signIn, signOut } from "../auth";
 import { prisma } from "./connect";
 import { DEFAULT_LOGIN_REDIRECT } from "./routes";
-import { AddClassTypes, ImportStudent, UpdateClassType } from "./types";
+import { AddClassTypes, UpdateClassType } from "./types";
 import {
   LoginSchema,
+  addAcademicYearSchema,
   addNoticeSchema,
   newAdmissionSchema,
+  updateAcademicYearSchema,
   updateProfileSchema,
   updateUserSchema,
   userSchema,
@@ -66,93 +68,6 @@ export const logout = async () => {
   await signOut({ redirectTo: "/login" });
 };
 
-// Add Student
-export const studentAdmission = async (
-  values: z.infer<typeof newAdmissionSchema>
-) => {
-  console.log(values);
-  const session = await auth();
-  const validatedData = newAdmissionSchema.safeParse(values);
-  if (!validatedData.success) {
-    return { error: "Invalid fields!" };
-  }
-  //   TODO: need to check session
-  const validatedValues = validatedData.data;
-
-  try {
-    if (!session) {
-      return { error: "You are not authinticated!" };
-    }
-    if (session.user.role !== "ADMIN") {
-      return { error: "Only admin can admit a sutdent!" };
-    }
-
-    const currentSession = await prisma.session.findFirst({
-      where: {
-        current: true,
-      },
-    });
-
-    if (!currentSession) {
-      return { messege: "Please add current session first" };
-    }
-
-    await prisma.student.create({
-      data: { ...validatedValues, sessionName: currentSession.year },
-    });
-    return { success: "Addmission Successfull" };
-  } catch (error) {
-    console.log(error);
-    return { error: "Student Admission failed!" };
-  }
-};
-
-// Add multiple student
-export const importStudent = async (
-  data: ImportStudent[],
-  others: { className: string; section: string }
-) => {
-  const session = await auth();
-  try {
-    if (session?.user.role !== "ADMIN") {
-      return { error: "Only admin can admit insert student data!" };
-    }
-
-    const currentSession = await prisma.session.findFirst({
-      where: {
-        current: true,
-      },
-    });
-
-    if (!currentSession) {
-      return { messege: "Please Add Current Session" };
-    }
-
-    const newData = data.map((item) => ({
-      ...item,
-      mobile: String(item.mobile),
-      fatherPhone: String(item.fatherPhone),
-      gurdianPhone: String(item.gurdianPhone),
-      classRoll: item.classRoll,
-      sessionName: currentSession.year,
-      className: others.className,
-      section: others.section,
-      dob: new Date(item.dob),
-      doa: new Date(item.doa),
-    }));
-
-    await prisma.student.createMany({
-      data: newData,
-      skipDuplicates: true,
-    });
-
-    return { success: "Import successfull" };
-  } catch (error) {
-    console.log(error);
-    return { error: "import failed!" };
-  }
-};
-
 export const uploadImage = async (formData: any) => {
   const file = formData.get("file");
   if (!file) {
@@ -202,168 +117,6 @@ export const updateStudent = async (
   } catch (error) {
     console.log(error);
     return { error: "Student Update failed!" };
-  }
-};
-
-// update current session
-export const createNewSessionAndSetCurrent = async () => {
-  const session = await auth();
-  try {
-    if (session?.user.role !== "ADMIN") {
-      return { error: "Only admin can update current session!" };
-    }
-    const currentYear = new Date().getFullYear();
-    const currentSession = await prisma.session.findFirst({
-      where: {
-        year: currentYear,
-        current: true,
-      },
-    });
-
-    if (currentYear === currentSession?.year) {
-      return;
-    }
-    // Create a new session for the current year and mark it as current
-    const newSession = await prisma.session.create({
-      data: {
-        year: currentYear,
-        current: true,
-      },
-    });
-
-    // Set other sessions to not current
-    await prisma.session.updateMany({
-      where: {
-        NOT: {
-          year: currentYear,
-        },
-      },
-      data: {
-        current: false,
-      },
-    });
-
-    console.log("Session management complete");
-  } catch (error) {
-    console.log("Error during session management");
-  }
-};
-
-// get result
-export const getResult = async (
-  studentId: number,
-  session: number,
-  className: string,
-  exam: "Annual" | "Half-Yearly"
-) => {
-  try {
-    if (studentId && session && className && exam) {
-      const result = await prisma.result.findFirst({
-        where: {
-          studentId: studentId,
-          className,
-          year: session,
-          type: exam,
-        },
-        select: {
-          id: true,
-          gpa: true,
-          position: true,
-          status: true,
-          className: true,
-          subjects: true,
-          year: true,
-          type: true,
-          totalMarks: true,
-          studentId: true,
-          student: {
-            select: {
-              fullName: true,
-              fatherName: true,
-              classRoll: true,
-              section: true,
-              dob: true,
-              gender: true,
-            },
-          },
-        },
-      });
-
-      if (!result) {
-        return { messege: "Result Not Found!" };
-      }
-      return { messege: "success", result };
-    }
-  } catch (error) {
-    console.log(error);
-    return { error: "Result error!" };
-  }
-};
-
-//total student count
-export const totalStudentCount = async () => {
-  const session = await auth();
-  try {
-    if (session?.user.role !== "ADMIN" && session?.user.role !== "TEACHER") {
-      return { error: "Only admin and Teachers can see student info!" };
-    }
-    const totalStudent = await prisma.student.count();
-    const six = await prisma.student.count({ where: { className: "Six" } });
-    const sixBoy = await prisma.student.count({
-      where: { className: "Six", gender: "Male" },
-    });
-    const sixGirl = await prisma.student.count({
-      where: { className: "Six", gender: "Female" },
-    });
-    const seven = await prisma.student.count({ where: { className: "Seven" } });
-    const sevenBoy = await prisma.student.count({
-      where: { className: "Seven", gender: "Male" },
-    });
-    const sevenGirl = await prisma.student.count({
-      where: { className: "Seven", gender: "Female" },
-    });
-    const eight = await prisma.student.count({ where: { className: "Eight" } });
-    const eightBoy = await prisma.student.count({
-      where: { className: "Eight", gender: "Male" },
-    });
-    const eightGirl = await prisma.student.count({
-      where: { className: "Eight", gender: "Female" },
-    });
-    const nine = await prisma.student.count({ where: { className: "Nine" } });
-    const nineBoy = await prisma.student.count({
-      where: { className: "Nine", gender: "Male" },
-    });
-    const nineGirl = await prisma.student.count({
-      where: { className: "Nine", gender: "Female" },
-    });
-    const ten = await prisma.student.count({ where: { className: "Ten" } });
-    const tenBoy = await prisma.student.count({
-      where: { className: "Ten", gender: "Male" },
-    });
-    const tenGirl = await prisma.student.count({
-      where: { className: "Ten", gender: "Female" },
-    });
-    return {
-      totalStudent,
-      six,
-      sixBoy,
-      sixGirl,
-      seven,
-      sevenBoy,
-      sevenGirl,
-      eight,
-      eightBoy,
-      eightGirl,
-      nine,
-      nineBoy,
-      nineGirl,
-      ten,
-      tenBoy,
-      tenGirl,
-    };
-  } catch (error) {
-    console.log(error);
-    return;
   }
 };
 
@@ -426,7 +179,8 @@ export const updateProfile = async (
     return { error: "Invalid fields error!" };
   }
 
-  const { name, file, id } = validatedUpdatedUserData.data;
+  const { name, currentPassword, confirmPassword, file, id } =
+    validatedUpdatedUserData.data;
 
   try {
     if (!session) {
@@ -436,16 +190,42 @@ export const updateProfile = async (
     if (session.user.id !== id) {
       return { error: "You are not Authorozied!" };
     }
-
-    await prisma.user.update({
-      where: {
-        id: session.user.id,
-      },
-      data: {
-        name,
-        image: file,
-      },
-    });
+    if (currentPassword && confirmPassword) {
+      const user = await prisma.user.findUnique({
+        where: { id },
+      });
+      if (!user) {
+        return { error: "User not found!" };
+      }
+      const passwordsMatch = await bcrypt.compare(
+        currentPassword,
+        user.password
+      );
+      if (!passwordsMatch) {
+        return { error: "Current password is incorrect!" };
+      }
+      const hashedPassword = await bcrypt.hash(confirmPassword, 10);
+      await prisma.user.update({
+        where: {
+          id: session.user.id,
+        },
+        data: {
+          name,
+          image: file,
+          password: hashedPassword,
+        },
+      });
+    } else {
+      await prisma.user.update({
+        where: {
+          id: session.user.id,
+        },
+        data: {
+          name,
+          image: file,
+        },
+      });
+    }
 
     revalidatePath("/dashboard");
     return { messege: "Update Successfull!" };
@@ -609,5 +389,101 @@ export const addNotice = async (values: z.infer<typeof addNoticeSchema>) => {
   } catch (error) {
     console.log(error);
     return { error: "Failed to add notice!" };
+  }
+};
+
+// add academicyear
+export const addAcademicYear = async (
+  values: z.infer<typeof addAcademicYearSchema>
+) => {
+  const session = await auth();
+  if (!session) {
+    throw new Error("You are not authenticated");
+  }
+
+  if (!session || session.user.role !== "ADMIN") {
+    return { error: "Only admin can create academic years!" };
+  }
+
+  const validatedUserData = addAcademicYearSchema.safeParse(values);
+
+  if (!validatedUserData.success) {
+    return { error: "Invalid fields error!" };
+  }
+
+  const { year, isCurrent } = validatedUserData.data;
+
+  const current = isCurrent === "true";
+
+  if (year < new Date().getFullYear()) {
+    return { error: "Cannot create academic year for past years!" };
+  }
+  try {
+    if (current) {
+      await prisma.academicYear.updateMany({
+        where: { current: true },
+        data: { current: false },
+      });
+    }
+
+    await prisma.academicYear.create({
+      data: { year, current },
+    });
+
+    revalidatePath("/dashboard/settings/academic-year");
+    return { success: "Academic year created successfully!" };
+  } catch (error) {
+    console.log(error);
+    return { error: "Failed to create academic year!" };
+  }
+};
+
+// update academicyear
+export const updateAcademicYear = async (
+  values: z.infer<typeof updateAcademicYearSchema>
+) => {
+  const session = await auth();
+
+  if (!session || session.user.role !== "ADMIN") {
+    return { error: "Only admin can update academic years!" };
+  }
+
+  const validatedUserData = updateAcademicYearSchema.safeParse(values);
+
+  if (!validatedUserData.success) {
+    return { error: "Invalid fields error!" };
+  }
+
+  const { id, year, isCurrent } = validatedUserData.data;
+
+  const current = isCurrent === "true";
+
+  if (year < new Date().getFullYear()) {
+    return { error: "Cannot update to a past academic year!" };
+  }
+
+  try {
+    const existing = await prisma.academicYear.findUnique({ where: { id } });
+    if (!existing) {
+      return { error: "Academic year not found!" };
+    }
+
+    if (current) {
+      await prisma.academicYear.updateMany({
+        where: { current: true },
+        data: { current: false },
+      });
+    }
+
+    await prisma.academicYear.update({
+      where: { id },
+      data: { year, current },
+    });
+
+    revalidatePath("/dashboard/settings/academic-year");
+    return { success: "Academic year updated successfully!" };
+  } catch (error) {
+    console.log(error);
+    return { error: "Failed to update academic year!" };
   }
 };

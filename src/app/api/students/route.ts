@@ -16,7 +16,7 @@ export const GET = async (req: NextRequest) => {
   try {
     const session = await auth();
     if (!session) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ message: "Unauthenticated" }, { status: 401 });
     }
 
     if (!selectedYearId) {
@@ -26,18 +26,18 @@ export const GET = async (req: NextRequest) => {
       );
     }
 
-    // 👉 Check if both className and section are provided
+    // 👉 Check if both className
     if (!className) {
       return NextResponse.json({ students: [], totalStudents: 0 });
     }
 
-    // Filters only apply when className and section are available
+    // Filters only apply when className available
     const filters: Prisma.StudentWhereInput = {
       enrollments: {
         some: {
           academicYearId: selectedYearId,
           class: { className: className },
-          section: section,
+          ...(section && { section }),
           ...(search && {
             classRoll: !isNaN(parseInt(search)) ? parseInt(search) : undefined,
           }),

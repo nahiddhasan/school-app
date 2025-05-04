@@ -1,6 +1,7 @@
 import { fetcher } from "@/lib/fetcher";
 import { StudentType } from "@/lib/types";
 import Image from "next/image";
+import QrCode from "../_components/QrCode";
 import RightView from "../_components/RightView";
 
 type searchParams = { [key: string]: string | string[] | undefined };
@@ -26,7 +27,7 @@ const SingleStudentPage = async ({
 
   return (
     <div className=" flex h-full overflow-y-auto">
-      <div className="flex-1  border-r dark:border-r-zinc-900 border-zinc-300 p-3">
+      <div className="flex-1  border-r border-border p-3">
         <div className="relative w-1/2 aspect-square flex items-center justify-center mx-auto my-4">
           <Image
             src={student.studentImg || "/img/avatar.png"}
@@ -76,6 +77,9 @@ const SingleStudentPage = async ({
               </h2>
             )}
           </div>
+        </div>
+        <div className="flex items-center justify-center">
+          <QrCode student={student} />
         </div>
       </div>
       <div className="flex-[2] p-2 overflow-y-auto">

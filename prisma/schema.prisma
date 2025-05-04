@@ -16,7 +16,7 @@ model User {
   password  String
   name      String
   image     String?
-  role      Role     @default(USER)
+  role      Role     @default(STUDENT)
 }
 
 model Student {
@@ -119,7 +119,7 @@ model Notice {
 }
 
 enum Role {
-  USER
+  STUDENT
   ADMIN
   TEACHER
 }

@@ -1,3 +1,4 @@
+import { Bell, MessageCircleIcon } from "lucide-react";
 import { Profile } from "./Profile";
 
 const Navbar = async () => {
@@ -6,7 +7,9 @@ const Navbar = async () => {
       <div className="flex items-center justify-between flex-1">
         <h1>School Management System</h1>
       </div>
-      <div className="flex-1 flex items-center justify-end">
+      <div className="flex-1 flex gap-2 items-center justify-end">
+        <Bell size={24} />
+        <MessageCircleIcon size={24} />
         <Profile />
       </div>
     </div>

@@ -1,6 +1,8 @@
 "use client";
 import { settingsSidebarItems } from "@/const/data";
+import { hasAccess } from "@/lib/handlerFn";
 import { cn } from "@/lib/utils";
+import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,10 +10,11 @@ import { usePathname } from "next/navigation";
 const SettingsSidebar = () => {
   const { data: session } = useSession();
   const pathname = usePathname();
+  const { selectedYearId } = useAcademicYearStore();
 
-  const checkRole = (itemRole: string | undefined) => {
-    if (!itemRole) return true;
-    return session?.user.role === itemRole;
+  const checkRole = (path?: string) => {
+    if (!path || !session?.user?.role) return true;
+    return hasAccess(path, session.user.role);
   };
 
   return (
@@ -20,7 +23,7 @@ const SettingsSidebar = () => {
         <div key={i} className="space-y-2 ">
           <h1 className="text-sm">{section.title}</h1>
           {section.content.map((item) => {
-            if (checkRole(item.role)) {
+            if (checkRole(item.path)) {
               return (
                 <div
                   key={item.path}
@@ -32,7 +35,15 @@ const SettingsSidebar = () => {
                     }
                   )}
                 >
-                  <Link href={item.path} className="flex items-center gap-4">
+                  <Link
+                    href={{
+                      pathname: item.path,
+                      query: {
+                        selectedYearId,
+                      },
+                    }}
+                    className="flex items-center gap-4"
+                  >
                     {<item.icon size={20} />}
                     {item.title}
                   </Link>

@@ -16,92 +16,62 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { studentReport } from "@/lib/protectedDataFetch/studentReport.data";
+import { studentPdfReport } from "@/lib/handlerFn";
 
 import { Class } from "@/lib/types";
 import { searchStudentReport } from "@/lib/zodSchema";
+import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
-type props = {
-  classes: Class[];
-  type?: string;
+
+export const fetchPdfData = async (values: {
+  className: string;
+  section?: string;
+  selectedYearId: string | null;
+}) => {
+  const queryParams = new URLSearchParams({
+    ...(values.selectedYearId && { selectedYearId: values.selectedYearId }),
+    className: values.className,
+    ...(values.section && { section: values.section }),
+  });
+
+  const res = await fetch(`/api/reports/students?${queryParams.toString()}`);
+  if (!res.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  return res.json();
 };
-const SearchStudentReport = ({ classes, data }: props) => {
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
-  const pathname = usePathname();
 
-  const params = new URLSearchParams(searchParams);
-
+const SearchStudentReport = ({ classes }: { classes: Class[] }) => {
+  const { selectedYearId } = useAcademicYearStore();
   const form = useForm<z.infer<typeof searchStudentReport>>({
     resolver: zodResolver(searchStudentReport),
-    defaultValues: {
-      className: params.get("className") || "",
-      section: params.get("section") || "",
+  });
+
+  const mutation = useMutation({
+    mutationFn: async (values: z.infer<typeof searchStudentReport>) =>
+      fetchPdfData({ ...values, selectedYearId }),
+    onSuccess: (res) => {
+      if (res.success) {
+        studentPdfReport(res.students);
+      } else {
+        toast.error(res.error);
+      }
+    },
+    onError: (error) => {
+      toast.error("Something went wrong!");
+      console.error(error);
     },
   });
 
-  // onsubmit function
-  const onSubmit = async (values: z.infer<typeof searchStudentReport>) => {
-    // if (values.className) {
-    //   params.set("className", values.className);
-    // }
-
-    // if (values.section) {
-    //   params.set("section", values.section);
-    // } else {
-    //   params.delete("section");
-    // }
-
-    // replace(`${pathname}?${params}`);
-
-    // generate report onsubmit
-    studentReport(values).then((data) => {
-      if (data) {
-        const doc = new jsPDF({ orientation: "landscape" });
-        var before = "Student's Report";
-        doc.text(before, 10, 10);
-        let newArr: any = [];
-        data.forEach((el) => {
-          newArr.push([
-            el.fullName,
-            el.className,
-            el.classRoll,
-            el.section,
-            el.fatherName,
-            el.motherName,
-            el.mobile,
-          ]);
-        });
-
-        autoTable(doc, {
-          showHead: "everyPage",
-          startY: 15,
-          head: [
-            [
-              "Name",
-              "Class",
-              "Roll",
-              "Section",
-              "Father Name",
-              "Mother Name",
-              "Mobile",
-            ],
-          ],
-          body: newArr,
-        });
-        // doc.save("Report.pdf");
-        doc.setProperties({
-          title: "Report",
-        });
-        doc.output("dataurlnewwindow");
-      }
-    });
+  const onSubmit = (values: z.infer<typeof searchStudentReport>) => {
+    mutation.mutate(values);
   };
+
   const selectedClass = form.watch("className");
 
   return (
@@ -110,21 +80,20 @@ const SearchStudentReport = ({ classes, data }: props) => {
       <div className="flex items-center gap-4">
         {/* select search  */}
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-2 w-2/3 "
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 ">
             <div className="flex gap-4 items-end w-full">
-              <div className="flex flex-col gap-2 w-full h-16">
+              <div className="flex flex-col gap-2 w-full">
                 <FormField
                   control={form.control}
                   name="className"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Class</FormLabel>
+                      <FormLabel>
+                        Class <span className="text-red-500">*</span>
+                      </FormLabel>
                       <Select onValueChange={field.onChange}>
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="h-10 rounded-md">
                             <SelectValue placeholder="Select Class" />
                           </SelectTrigger>
                         </FormControl>
@@ -141,7 +110,7 @@ const SearchStudentReport = ({ classes, data }: props) => {
                   )}
                 />
               </div>
-              <div className="flex flex-col gap-2 w-full h-16">
+              <div className="flex flex-col gap-2 w-full">
                 <FormField
                   control={form.control}
                   name="section"
@@ -150,7 +119,7 @@ const SearchStudentReport = ({ classes, data }: props) => {
                       <FormLabel>Section</FormLabel>
                       <Select onValueChange={field.onChange}>
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="h-10 rounded-md">
                             <SelectValue placeholder="Select Section" />
                           </SelectTrigger>
                         </FormControl>
@@ -172,9 +141,8 @@ const SearchStudentReport = ({ classes, data }: props) => {
 
               <Button
                 type="submit"
-                variant={"outline"}
-                size={"sm"}
-                className="rounded-sm"
+                variant={"secondary"}
+                className="rounded-md"
               >
                 Download Reoprt
               </Button>

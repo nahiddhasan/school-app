@@ -10,7 +10,11 @@ export const GET = async () => {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const years = await prisma.academicYear.findMany();
+    const years = await prisma.academicYear.findMany({
+      orderBy: {
+        year: "desc",
+      },
+    });
 
     return NextResponse.json(years);
   } catch (error) {

@@ -32,7 +32,6 @@ const SampleResultData = ({ classes }: { classes: Class[] }) => {
     mutationFn: async (values: z.infer<typeof SampleResultSchema>) =>
       fetchSampleData(values),
     onSuccess: (res) => {
-      console.log(res);
       if (res.success) {
         toast.success(res.success);
       } else {
@@ -62,7 +61,9 @@ const SampleResultData = ({ classes }: { classes: Class[] }) => {
           name="className"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Class</FormLabel>
+              <FormLabel>
+                Class <span className="text-red-500">*</span>
+              </FormLabel>
               <Select onValueChange={field.onChange}>
                 <FormControl>
                   <SelectTrigger className="h-10 rounded-md">
@@ -87,7 +88,9 @@ const SampleResultData = ({ classes }: { classes: Class[] }) => {
           name="section"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Section</FormLabel>
+              <FormLabel>
+                Section <span className="text-red-500">*</span>
+              </FormLabel>
               <Select onValueChange={field.onChange}>
                 <FormControl>
                   <SelectTrigger className="h-10 rounded-md">

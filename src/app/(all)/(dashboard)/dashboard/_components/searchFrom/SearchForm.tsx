@@ -24,11 +24,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-type props = {
-  classes: Class[];
-  type?: string;
-};
-const SearchForm = ({ classes, type = "select" }: props) => {
+
+const SearchForm = ({ classes }: { classes: Class[] }) => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -57,12 +54,9 @@ const SearchForm = ({ classes, type = "select" }: props) => {
       section: selectedSectionParam || "",
     },
   });
-
+  console.log(selectedClassParam);
   // onsubmit function
   const onSubmit = async (values: z.infer<typeof searchStudent>) => {
-    if (type === "search") {
-      params.set("page", "1");
-    }
     params.set("className", values.className);
 
     if (values.section) {
@@ -79,7 +73,6 @@ const SearchForm = ({ classes, type = "select" }: props) => {
     <div className="mb-4">
       <h1 className="text-3xl mb-2">Select Criteria</h1>
       <div className="flex items-center gap-4">
-        {/* select search  */}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -95,7 +88,10 @@ const SearchForm = ({ classes, type = "select" }: props) => {
                       <FormLabel>
                         Class <span className="text-red-600">*</span>
                       </FormLabel>
-                      <Select onValueChange={field.onChange}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger className="h-10 rounded-md">
                             <SelectValue placeholder="Select Class" />
@@ -121,7 +117,10 @@ const SearchForm = ({ classes, type = "select" }: props) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Section</FormLabel>
-                      <Select onValueChange={field.onChange}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger className="h-10 rounded-md">
                             <SelectValue placeholder="Select Section" />

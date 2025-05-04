@@ -54,7 +54,7 @@ export type Notice = $Result.DefaultSelection<Prisma.$NoticePayload>
  */
 export namespace $Enums {
   export const Role: {
-  USER: 'USER',
+  STUDENT: 'STUDENT',
   ADMIN: 'ADMIN',
   TEACHER: 'TEACHER'
 };

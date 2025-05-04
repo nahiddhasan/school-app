@@ -16,7 +16,7 @@ model User {
   password  String
   name      String
   image     String?
-  role      Role     @default(USER)
+  role      Role     @default(STUDENT)
 }
 
 model Student {
@@ -42,6 +42,8 @@ model Student {
 
   enrollments Enrollment[] // 👈 Related to Enrollment
   results     Result[] // 👈 Related to Result
+
+  @@index([studentId]) // 👈 Add index for better query performance
 }
 
 model AcademicYear {
@@ -117,7 +119,7 @@ model Notice {
 }
 
 enum Role {
-  USER
+  STUDENT
   ADMIN
   TEACHER
 }

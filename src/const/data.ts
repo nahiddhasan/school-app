@@ -1,17 +1,22 @@
 import {
   BarChartHorizontalBig,
+  BookA,
   BookOpenCheck,
   BookOpenText,
   BookX,
+  Calendar,
+  CalendarClock,
+  List,
   PanelsTopLeft,
+  Plus,
   SatelliteDish,
   Settings,
+  Speech,
   SquareDot,
   SquareEqual,
   StepForward,
   UserPlus,
   UserRound,
-  UserRoundCog,
   UserRoundPlus,
   UsersRound,
 } from "lucide-react";
@@ -344,13 +349,11 @@ export const sidebarItems = [
         title: "Student Admission",
         path: "/dashboard/students/admission",
         icon: UserPlus,
-        role: "ADMIN",
       },
       {
         title: "Bulk Delete",
         path: "/dashboard/students/bulk-delete",
         icon: BookX,
-        role: "ADMIN",
       },
     ],
   },
@@ -377,14 +380,93 @@ export const sidebarItems = [
       {
         title: "Publish Result",
         path: "/dashboard/result",
-        role: "ADMIN",
+      },
+    ],
+  },
+  {
+    title: "Assignments",
+    icon: BookA,
+    submenu: [
+      {
+        title: "Add New Assignment",
+        path: "/dashboard/assignments/add",
+        icon: Plus,
+      },
+      {
+        title: "Assignments",
+        path: "/dashboard/assignments",
+        icon: List,
+      },
+    ],
+  },
+  {
+    title: "Announcments",
+    icon: Speech,
+    submenu: [
+      {
+        title: "Add Announcment",
+        path: "/dashboard/announcements/add",
+        icon: Plus,
+      },
+      {
+        title: "Announcements",
+        path: "/dashboard/announcements",
+        icon: List,
+      },
+    ],
+  },
+  {
+    title: "Events",
+    icon: CalendarClock,
+    submenu: [
+      {
+        title: "Add New Event",
+        path: "/dashboard/events/add",
+        icon: Plus,
+      },
+      {
+        title: "Events",
+        path: "/dashboard/events",
+        icon: List,
+      },
+    ],
+  },
+
+  {
+    title: "Classes",
+    icon: SquareEqual,
+    submenu: [
+      {
+        title: "Add Class",
+        path: "/dashboard/classes/add-class",
+        icon: SquareDot,
+      },
+      {
+        title: "View Classes",
+        path: "/dashboard/classes/all-classes",
+        icon: SquareEqual,
+      },
+    ],
+  },
+  {
+    title: "Users",
+    icon: UsersRound,
+    submenu: [
+      {
+        title: "Add User",
+        path: "/dashboard/users/add-user",
+        icon: UserRoundPlus,
+      },
+      {
+        title: "All Users",
+        path: "/dashboard/users/current-users",
+        icon: UsersRound,
       },
     ],
   },
   {
     title: "Reports",
     icon: BarChartHorizontalBig,
-    role: "ADMIN",
     submenu: [
       {
         title: "Students",
@@ -399,7 +481,6 @@ export const sidebarItems = [
   {
     title: "Notices",
     icon: SatelliteDish,
-    role: "ADMIN",
     submenu: [
       {
         title: "Add New Notice",
@@ -408,42 +489,6 @@ export const sidebarItems = [
       {
         title: "Current Notices",
         path: "/dashboard/notices",
-      },
-    ],
-  },
-  {
-    title: "Services",
-    path: "/dashboard/services",
-    submenu: [
-      {
-        title: "web design",
-        path: "/web",
-      },
-      {
-        title: "web development",
-        submenu: [
-          {
-            title: "Frontend",
-            path: "/front-end",
-          },
-          {
-            title: "Backend",
-            submenu: [
-              {
-                title: "NodeJS",
-                path: "/node",
-              },
-              {
-                title: "PHP",
-                path: "/php",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        title: "SEO",
-        path: "/seo",
       },
     ],
   },
@@ -457,41 +502,12 @@ export const sidebarItems = [
 //settings sidebar items
 export const settingsSidebarItems = [
   {
-    title: "Users Section",
+    title: "Settings",
     content: [
       {
-        title: "Add User",
-        path: "/dashboard/settings/add-user",
-        icon: UserRoundPlus,
-        role: "ADMIN",
-      },
-      {
-        title: "All Users",
-        path: "/dashboard/settings/current-users",
-        icon: UsersRound,
-        role: "ADMIN",
-      },
-      {
-        title: "Update Profile",
-        path: "/dashboard/settings/update-profile",
-        icon: UserRoundCog,
-      },
-    ],
-  },
-  {
-    title: "Add Class",
-    content: [
-      {
-        title: "Add Class",
-        path: "/dashboard/settings/add-class",
-        icon: SquareDot,
-        role: "ADMIN",
-      },
-      {
-        title: "View Classes",
-        path: "/dashboard/settings/all-classes",
-        icon: SquareEqual,
-        role: "ADMIN",
+        title: "Academic Years",
+        path: "/dashboard/settings/academic-year",
+        icon: Calendar,
       },
     ],
   },

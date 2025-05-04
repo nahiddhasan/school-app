@@ -1,4 +1,4 @@
-import { ExamType } from "@/app/generated/prisma";
+import { ExamType, Role } from "@/app/generated/prisma";
 import { z } from "zod";
 const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
@@ -91,36 +91,6 @@ const phoneValidate = z
   })
   .refine((phone) => phoneRegex.test(phone), "Invalid phone number");
 
-export const admissionSchema = z.object({
-  classRoll: z.string().min(1, { message: "Class Roll is required!" }),
-  className: z.string().min(1, { message: "Class is required!" }),
-  section: z.string().min(1, { message: "Class Section is required!" }),
-  fullName: z.string().min(1, { message: "Name is required!" }),
-  gender: z.string().min(1, { message: "Gender is required!" }),
-  dob: z.string().min(1, { message: "Date of Birth is required!" }),
-  doa: z.string().min(1, { message: "Admission date is required!" }),
-  mobile: z
-    .string()
-    .min(1, { message: "Phone Number is required!" })
-    .regex(phoneRegex, "Invalid Number!"),
-  bloodGroup: z.string().optional(),
-  studentImg: imageValidate,
-  address: z.string().optional(),
-  others: z.string().optional(),
-  fatherName: z.string().min(1, { message: "Father Name is required!" }),
-  motherName: z.string().min(1, { message: "Mother Name is required!" }),
-  fatherPhone: z
-    .string()
-    .min(1, { message: "Phone Number is required!" })
-    .regex(phoneRegex, "Invalid Number!"),
-  gurdianName: z.string().min(1, { message: "Gurdian Name is required!" }),
-  relation: z.string().min(1, { message: "Relation is required!" }),
-  gurdianPhone: z
-    .string()
-    .min(1, { message: "Phone Number is required!" })
-    .regex(phoneRegex, "Invalid Number!"),
-});
-
 export const newAdmissionSchema = z.object({
   fullName: z
     .string({
@@ -205,22 +175,6 @@ export const LoginSchema = z.object({
   }),
 });
 
-// export const getResultSchema = z.object({
-//   studentId: z
-//     .number({
-//       required_error: "StudentId is required",
-//       invalid_type_error: "StudentId must be a number",
-//     })
-//     .min(1, { message: "StudentId is required!" }),
-//   className: z.string().min(1, { message: "Class is required!" }),
-//   session: z
-//     .number({
-//       required_error: "Year is required",
-//       invalid_type_error: "Year must be a number",
-//     })
-//     .min(1, { message: "Year is required!" }),
-// });
-
 export const getResultSchema = z.object({
   studentId: z
     .number({
@@ -236,7 +190,7 @@ export const userSchema = z.object({
   name: z.string().min(1, { message: "Full Name is required!" }),
   email: z.string().min(1, { message: "Email is required!" }).email(),
   password: z.string().min(1, { message: "password is required!" }),
-  role: z.enum(["ADMIN", "TEACHER", "USER"]),
+  role: z.enum(Object.keys(Role) as [string, ...string[]]),
 });
 
 export const uploadResultSchema = z.object({
@@ -261,11 +215,30 @@ export const SampleResultSchema = z.object({
     .min(1, { message: "Select Class!" }),
 });
 
-export const updateProfileSchema = z.object({
-  id: z.string().min(1),
-  name: z.string().min(1, { message: "Full Name is required!" }),
-  file: imageValidateOptional,
-});
+export const updateProfileSchema = z
+  .object({
+    id: z.string().min(1),
+    name: z.string().min(1, { message: "Full Name is required!" }),
+    currentPassword: z
+      .string()
+      .min(1, { message: "Current password is required!" })
+      .optional(),
+    newPassword: z
+      .string()
+      .min(6, { message: "New password must be at least 6 characters long!" })
+      .optional(),
+    confirmPassword: z
+      .string()
+      .min(6, {
+        message: "Confirm password must be at least 6 characters long!",
+      })
+      .optional(),
+    file: imageValidateOptional,
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match!",
+    path: ["confirmPassword"],
+  });
 
 export const importStudentSchema = z.object({
   className: z
@@ -282,7 +255,7 @@ export const updateUserSchema = z.object({
   name: z.string().min(1, { message: "Full Name is required!" }),
   email: z.string().min(1, { message: "Email is required!" }).email(),
   password: z.string().optional(),
-  role: z.enum(["ADMIN", "TEACHER", "USER"]),
+  role: z.enum(Object.keys(Role) as [string, ...string[]]),
 });
 
 export const addClassSchema = z.object({
@@ -290,11 +263,22 @@ export const addClassSchema = z.object({
 });
 
 export const searchStudentReport = z.object({
-  className: z.string().optional(),
+  className: z.string().min(1, { message: "ClassName is required!" }),
   section: z.string().optional(),
 });
 
 export const addNoticeSchema = z.object({
   title: z.string().min(1, { message: "Notice Title is required!" }),
   file: z.string().min(1, { message: "File is required!" }),
+});
+
+export const addAcademicYearSchema = z.object({
+  year: z.number().min(1, { message: "Year is required!" }),
+  isCurrent: z.string().min(1, { message: "IsCurrent is required!" }),
+});
+
+export const updateAcademicYearSchema = z.object({
+  id: z.string(),
+  year: z.number().min(1, { message: "Year is required!" }),
+  isCurrent: z.string().min(1, { message: "IsCurrent is required!" }),
 });

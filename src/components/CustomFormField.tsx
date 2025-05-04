@@ -2,6 +2,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Control } from "react-hook-form";
 
+import { cn } from "@/lib/utils";
 import CustomDatePickerHeader from "./CustomDatePickerHeader";
 import { Checkbox } from "./ui/checkbox";
 import {
@@ -18,6 +19,7 @@ import { Textarea } from "./ui/textarea";
 export enum FormFieldType {
   INPUT = "input",
   NUMBER = "number",
+  PASSWORD = "password",
   FILE = "file",
   TEXTAREA = "textarea",
   PHONE_INPUT = "phoneInput",
@@ -42,6 +44,7 @@ interface CustomProps {
   };
   currentDate?: Date;
   required?: boolean;
+  className?: string;
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
@@ -55,7 +58,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               disabled={props.disabled}
               placeholder={props.placeholder}
               {...field}
-              className="shad-input "
+              className={cn("shad-input", props.className)}
             />
           </FormControl>
         </div>
@@ -68,9 +71,23 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               type="number"
               disabled={props.disabled}
               placeholder={props.placeholder}
-              value={field.value || ""}
+              value={Number(field.value) || ""}
               onChange={(e) => field.onChange(Number(e.target.value))}
-              className="shad-input "
+              className={cn("shad-input", props.className)}
+            />
+          </FormControl>
+        </div>
+      );
+    case FormFieldType.PASSWORD:
+      return (
+        <div className="rounded-md">
+          <FormControl>
+            <Input
+              type="password"
+              disabled={props.disabled}
+              placeholder={props.placeholder}
+              {...field}
+              className={cn("shad-input", props.className)}
             />
           </FormControl>
         </div>
@@ -84,7 +101,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               type={props.fieldType}
               placeholder={props.placeholder}
               {...props.fileRef}
-              className="shad-input"
+              className={cn("shad-input", props.className)}
             />
           </FormControl>
         </div>
@@ -120,7 +137,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <Textarea
             placeholder={props.placeholder}
             {...field}
-            className="shad-textArea"
+            className={cn("shad-textArea", props.className)}
             disabled={props.disabled}
           />
         </FormControl>
@@ -148,10 +165,15 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <Select
             disabled={props.disabled}
             onValueChange={field.onChange}
-            defaultValue={field.value}
+            value={field.value}
           >
             <FormControl>
-              <SelectTrigger className="shad-select-trigger h-10 rounded-md">
+              <SelectTrigger
+                className={cn(
+                  "shad-select-trigger h-10 rounded-md",
+                  props.className
+                )}
+              >
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>

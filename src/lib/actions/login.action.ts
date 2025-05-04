@@ -3,7 +3,6 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { z } from "zod";
 import { prisma } from "../connect";
-import { DEFAULT_LOGIN_REDIRECT } from "../routes";
 import { LoginSchema } from "../zodSchema";
 
 //login user
@@ -26,16 +25,25 @@ export const login = async (
   });
 
   if (!existingUser || !existingUser.email) {
-    return { error: "User does not Exist!" };
+    return { error: "Invalid credentials!" };
   }
 
   try {
-    await signIn("credentials", {
+    const res = await signIn("credentials", {
       email,
       password,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      redirect: false,
     });
-    return { success: "Log in sussecfull" };
+
+    if (res?.error) {
+      return { error: "Invalid credentials!" };
+    }
+
+    // Determine role-based redirect
+    const userRole = existingUser.role?.toLowerCase();
+    const redirectUrl = callbackUrl || `/dashboard/${userRole}`;
+
+    return { success: "Login successful", redirectUrl };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

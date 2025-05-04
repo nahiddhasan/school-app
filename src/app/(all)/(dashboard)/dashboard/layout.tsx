@@ -35,13 +35,12 @@ export default function RootLayout({
     >
       <div className={`${monts.className} h-full overflow-y-hidden`}>
         <Toaster />
-
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel
             defaultSize={20}
             maxSize={30}
             order={1}
-            className=" dark:bg-zinc-900"
+            className="bg-primary"
           >
             <Sidebar />
           </ResizablePanel>

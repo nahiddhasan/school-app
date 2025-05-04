@@ -1,5 +1,3 @@
-import { Student } from "@prisma/client";
-
 export type MenuItem = {
   title: string;
   path?: string;
@@ -91,52 +89,6 @@ export type getResultType = {
   studentId: number;
   className: string;
   session: string;
-};
-
-export type Student = {
-  fullName: string;
-  fatherName: string;
-  classRoll: string;
-  dob: string;
-  gender: string;
-};
-
-export type Subject = {
-  grade: string;
-  marks: string;
-  subjectName: string;
-};
-
-export type Result = {
-  id: string;
-  gpa: number;
-  position: number | null;
-  status: string;
-  className: string;
-  year: number;
-  type: string;
-  totalMarks: number;
-  studentId: number;
-  student: Student;
-  subjects: Subject[];
-};
-
-export type ImportStudent = {
-  fullName: string;
-  classRoll: number;
-  gender: string;
-  dob: string;
-  doa: string;
-  mobile: number;
-  bloodGroup: string;
-  address: string | null;
-  others: string | null;
-  fatherName: string;
-  motherName: string;
-  fatherPhone: number;
-  gurdianName: string;
-  relation: string;
-  gurdianPhone: number;
 };
 
 // add classvalus type

@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { Role } from "@/app/generated/prisma";
 import { type DefaultSession } from "next-auth";
 
 export type ExtendedUser = DefaultSession["user"] & {

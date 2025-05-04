@@ -76,7 +76,7 @@ const ResultImportForm = ({ classes }: props) => {
   const selectedClass = form.watch("className");
 
   return (
-    <div className="ring-1 p-4 ring-zinc-300 dark:ring-zinc-800  rounded-md">
+    <div className="ring-1 p-4 ring-border   rounded-md">
       <h1 className="text-xl font-semibold">Upload Result Data here</h1>
       <Form {...form}>
         <form
@@ -88,7 +88,9 @@ const ResultImportForm = ({ classes }: props) => {
             name="className"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Class</FormLabel>
+                <FormLabel>
+                  Class <span className="text-red-500">*</span>
+                </FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger className="h-10 rounded-md">
@@ -113,7 +115,9 @@ const ResultImportForm = ({ classes }: props) => {
             name="section"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Section</FormLabel>
+                <FormLabel>
+                  Section <span className="text-red-500">*</span>
+                </FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger className="h-10 rounded-md">
@@ -139,7 +143,9 @@ const ResultImportForm = ({ classes }: props) => {
             name="examType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Exam</FormLabel>
+                <FormLabel>
+                  Exam <span className="text-red-500">*</span>
+                </FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger className="h-10 rounded-md">
@@ -166,7 +172,9 @@ const ResultImportForm = ({ classes }: props) => {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Select CSV</FormLabel>
+                  <FormLabel>
+                    Select CSV <span className="text-red-500">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="file"
