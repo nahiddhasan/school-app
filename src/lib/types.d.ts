@@ -1,3 +1,5 @@
+import { User } from "@/app/generated/prisma";
+
 export type MenuItem = {
   title: string;
   path?: string;
@@ -112,3 +114,5 @@ export type NoticesType = {
     file: string;
   }[];
 };
+
+export type UserWithoutPass = Omit<User, "password">;

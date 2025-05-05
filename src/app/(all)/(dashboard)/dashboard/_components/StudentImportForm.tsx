@@ -6,6 +6,7 @@ import { SelectItem } from "@/components/ui/select";
 import { importStudent } from "@/lib/actions/importStudent.action";
 import { Class } from "@/lib/types";
 import { importStudentSchema } from "@/lib/zodSchema";
+import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -16,6 +17,7 @@ type props = {
   classes: Class[];
 };
 const StudentImportForm = ({ classes }: props) => {
+  const { isCurrent } = useAcademicYearStore();
   const form = useForm<z.infer<typeof importStudentSchema>>({
     resolver: zodResolver(importStudentSchema),
   });
@@ -109,7 +111,7 @@ const StudentImportForm = ({ classes }: props) => {
             type="submit"
             variant={"outline"}
             className="rounded-md"
-            disabled={mutation.isPending}
+            disabled={mutation.isPending || !isCurrent}
           >
             Submit
           </Button>

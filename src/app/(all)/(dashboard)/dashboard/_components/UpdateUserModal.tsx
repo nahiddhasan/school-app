@@ -1,23 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { SelectItem } from "@/components/ui/select";
 
 import { updateUserSchema } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Role } from "@/app/generated/prisma";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import {
   Dialog,
   DialogContent,
@@ -34,16 +21,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { updateUser } from "@/lib/actions";
+import { UserWithoutPass } from "@/lib/types";
 import { SquarePen } from "lucide-react";
 import { toast } from "sonner";
 type props = {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    image?: string | null;
-    role: Role;
-  };
+  user: UserWithoutPass;
 };
 const UpdateUserModal = ({ user }: props) => {
   const [open, setOpen] = useState(false);
@@ -53,16 +35,17 @@ const UpdateUserModal = ({ user }: props) => {
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
       id: user.id,
-      email: user.email,
+      email: user.email || undefined,
       name: user.name,
       role: user.role,
+      isDisabled: user.isDisabled,
       password: undefined,
     },
   });
 
   const onSubmit = (values: z.infer<typeof updateUserSchema>) => {
     startTransition(() => {
-      updateUser(values).then((res) => {
+      updateUser({ ...values, id: user.id }).then((res) => {
         if (res.messege) {
           toast.success(res.messege);
           setOpen(false);
@@ -87,104 +70,52 @@ const UpdateUserModal = ({ user }: props) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full space-y-2"
           >
-            <FormField
-              control={form.control}
-              name="id"
-              render={({ field }) => (
-                <FormItem className="hidden">
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="id"
-                      {...field}
-                      className="py-5 rounded-md"
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
               control={form.control}
               name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="h-10 rounded-md"
-                      placeholder="Full Name"
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Full Name"
+              placeholder="Full Name"
             />
-            <FormField
+
+            <CustomFormField
+              fieldType={FormFieldType.INPUT}
               control={form.control}
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="h-10 rounded-md"
-                      placeholder="Email"
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Email"
+              placeholder="Email"
+              required={false}
             />
-            <FormField
+
+            <CustomFormField
+              fieldType={FormFieldType.SELECT}
               control={form.control}
               name="role"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Role</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="h-10 rounded-md">
-                        <SelectValue placeholder="Select Role" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {Object.keys(Role).map((role) => (
-                        <SelectItem key={role} value={role}>
-                          {role}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
+              label="Role"
+              placeholder="Select Role"
+            >
+              {Object.keys(Role).map((role) => (
+                <SelectItem key={role} value={role}>
+                  {role}
+                </SelectItem>
+              ))}
+            </CustomFormField>
+
+            <CustomFormField
+              fieldType={FormFieldType.PASSWORD}
               control={form.control}
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="h-10 rounded-md"
-                      autoComplete="off"
-                      placeholder="Password"
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Password"
+              placeholder="Password"
             />
+            <CustomFormField
+              fieldType={FormFieldType.CHECKBOX}
+              control={form.control}
+              name="isDisabled"
+              label="Disable"
+              placeholder="Disable"
+            />
+
             <Button
               variant={"outline"}
               disabled={isPending}

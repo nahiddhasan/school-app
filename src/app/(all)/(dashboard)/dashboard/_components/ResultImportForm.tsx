@@ -30,6 +30,8 @@ type props = {
   classes: Class[];
 };
 const ResultImportForm = ({ classes }: props) => {
+  const { isCurrent } = useAcademicYearStore();
+
   const form = useForm<z.infer<typeof uploadResultSchema>>({
     resolver: zodResolver(uploadResultSchema),
   });
@@ -194,7 +196,7 @@ const ResultImportForm = ({ classes }: props) => {
               type="submit"
               variant={"outline"}
               className="rounded-md"
-              disabled={mutation.isPending}
+              disabled={mutation.isPending || !isCurrent}
             >
               {mutation.isPending ? "Submiting..." : "Submit"}
             </Button>

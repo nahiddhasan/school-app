@@ -6,14 +6,14 @@ import {
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import Navbar from "./_components/navbar/Navbar";
 import Sidebar from "./_components/sidebar/Sidebar";
 
-const monts = Montserrat({
+const sans = Open_Sans({
   subsets: ["latin"],
-  variable: "--font-monts",
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function RootLayout({
       enableSystem
       disableTransitionOnChange
     >
-      <div className={`${monts.className} h-full overflow-y-hidden`}>
+      <div className={`${sans.className} h-full overflow-y-hidden`}>
         <Toaster />
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel

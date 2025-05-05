@@ -18,6 +18,7 @@ import {
 import { fetchSampleData } from "@/lib/actions/sampleResultData.action";
 import { Class } from "@/lib/types";
 import { SampleResultSchema } from "@/lib/zodSchema";
+import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -25,6 +26,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const SampleResultData = ({ classes }: { classes: Class[] }) => {
+  const { isCurrent } = useAcademicYearStore();
   const form = useForm<z.infer<typeof SampleResultSchema>>({
     resolver: zodResolver(SampleResultSchema),
   });
@@ -116,7 +118,7 @@ const SampleResultData = ({ classes }: { classes: Class[] }) => {
           <Button
             type="submit"
             variant={"secondary"}
-            disabled={mutation.isPending}
+            disabled={mutation.isPending || !isCurrent}
             className="rounded-md"
           >
             {mutation.isPending ? "Downloading..." : "Download Sample Data"}

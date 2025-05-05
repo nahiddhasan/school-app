@@ -1,6 +1,6 @@
 import { fetchClasses } from "@/lib/actions/classes.action";
-import ResultImportForm from "../_components/ResultImportForm";
-import SampleResultData from "../_components/SampleResultData";
+import ResultImportForm from "../../_components/ResultImportForm";
+import SampleResultData from "../../_components/SampleResultData";
 
 const ManageResultPage = async () => {
   const classes = await fetchClasses();

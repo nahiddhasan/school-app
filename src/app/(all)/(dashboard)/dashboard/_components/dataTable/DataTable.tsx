@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import TooltipComp from "@/components/ui/TooltipComp";
 import {
   Table,
@@ -14,9 +15,12 @@ import { Eye, SquarePen } from "lucide-react";
 import Link from "next/link";
 type props = {
   data: StudentType[];
-  selectedYearId?: string | string[];
+  searchParams: { [key: string]: string | string[] | undefined };
 };
-const DataTable = ({ data, selectedYearId }: props) => {
+const DataTable = async ({ data, searchParams }: props) => {
+  const session = await auth();
+  const { selectedYearId, isCurrent } = searchParams;
+  const currentYear = isCurrent === "true";
   return (
     <div>
       <Table>
@@ -47,6 +51,7 @@ const DataTable = ({ data, selectedYearId }: props) => {
               <TableCell>{item.enrollments[0].classRoll}</TableCell>
               <TableCell>{item.gender}</TableCell>
               <TableCell>{item.bloodGroup}</TableCell>
+
               <TableCell className="flex gap-2">
                 <TooltipComp text="View">
                   <Link
@@ -60,18 +65,21 @@ const DataTable = ({ data, selectedYearId }: props) => {
                     <Eye size={18} className="cursor-pointer" />
                   </Link>
                 </TooltipComp>
-                <TooltipComp text="Update">
-                  <Link
-                    href={{
-                      pathname: `/dashboard/students/edit/${item.id}`,
-                      query: {
-                        selectedYearId,
-                      },
-                    }}
-                  >
-                    <SquarePen size={16} className="cursor-pointer" />
-                  </Link>
-                </TooltipComp>
+                {currentYear && session?.user.role === "ADMIN" && (
+                  <TooltipComp text="Update">
+                    <Link
+                      href={{
+                        pathname: `/dashboard/students/edit/${item.id}`,
+                        query: {
+                          selectedYearId,
+                          isCurrent,
+                        },
+                      }}
+                    >
+                      <SquarePen size={16} className="cursor-pointer" />
+                    </Link>
+                  </TooltipComp>
+                )}
                 {/* <TooltipComp text="Disable">
                   <Trash size={16} className="cursor-pointer" />
                 </TooltipComp> */}

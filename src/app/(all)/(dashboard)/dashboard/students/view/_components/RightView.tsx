@@ -1,8 +1,8 @@
 "use client";
 import TooltipComp from "@/components/ui/TooltipComp";
-import { useAcademicLink } from "@/hooks/useAcademicLink";
 import { StudentType } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { SquarePen } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -14,10 +14,10 @@ type props = {
   student: StudentType;
 };
 const RightView = ({ student }: props) => {
+  const { isCurrent, selectedYearId } = useAcademicYearStore();
+
   const [active, setActive] = useState("Profile");
   const tabs = ["Profile", "ExamResult", "Attendance"];
-
-  const updateLink = useAcademicLink(`/dashboard/students/edit/${student.id}`);
 
   return (
     <div className="">
@@ -35,13 +35,23 @@ const RightView = ({ student }: props) => {
           </span>
         ))}
       </div>
-      <div className="w-full flex gap-2 items-center justify-end pr-4">
-        <TooltipComp text="Update">
-          <Link href={updateLink}>
-            <SquarePen size={16} className="cursor-pointer" />
-          </Link>
-        </TooltipComp>
-      </div>
+      {isCurrent && (
+        <div className="w-full flex gap-2 items-center justify-end pr-4">
+          <TooltipComp text="Update">
+            <Link
+              href={{
+                pathname: `/dashboard/students/edit/${student.id}`,
+                query: {
+                  selectedYearId,
+                  isCurrent,
+                },
+              }}
+            >
+              <SquarePen size={16} className="cursor-pointer" />
+            </Link>
+          </TooltipComp>
+        </div>
+      )}
       {active === "Profile" && <Profile student={student} />}
       {active === "ExamResult" && <ExamResult student={student} />}
       {active === "Attendance" && <Attendance student={student} />}

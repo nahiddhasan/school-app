@@ -374,12 +374,20 @@ export const sidebarItems = [
     icon: BookOpenText,
     submenu: [
       {
+        title: "Create Quiz",
+        path: "/dashboard/exam/quiz/add",
+      },
+      {
+        title: "Recent Quizzes",
+        path: "/dashboard/exam/quiz",
+      },
+      {
         title: "Exam Schedule",
-        path: "/dashboard/schedule",
+        path: "/dashboard/exam/schedule",
       },
       {
         title: "Publish Result",
-        path: "/dashboard/result",
+        path: "/dashboard/exam/result",
       },
     ],
   },
@@ -459,8 +467,24 @@ export const sidebarItems = [
       },
       {
         title: "All Users",
-        path: "/dashboard/users/current-users",
         icon: UsersRound,
+        submenu: [
+          {
+            title: "Admin's",
+            path: "/dashboard/users/admins",
+            icon: UsersRound,
+          },
+          {
+            title: "Teacher's",
+            path: "/dashboard/users/teachers",
+            icon: UsersRound,
+          },
+          {
+            title: "Student's",
+            path: "/dashboard/users/students",
+            icon: UsersRound,
+          },
+        ],
       },
     ],
   },
@@ -508,6 +532,11 @@ export const settingsSidebarItems = [
         title: "Academic Years",
         path: "/dashboard/settings/academic-year",
         icon: Calendar,
+      },
+      {
+        title: "Create Students Account",
+        path: "/dashboard/settings/student-account",
+        icon: UserPlus,
       },
     ],
   },

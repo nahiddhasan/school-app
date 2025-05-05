@@ -1,3 +1,4 @@
+import { Prisma, Role } from "@/app/generated/prisma";
 import { auth } from "@/auth";
 import { prisma } from "../connect";
 
@@ -6,6 +7,7 @@ export const getCurrentUsers = async (values: {
   pageSize?: string;
   search?: string;
   page?: string;
+  type: Role;
 }) => {
   const session = await auth();
 
@@ -26,13 +28,14 @@ export const getCurrentUsers = async (values: {
   }
 
   try {
-    const filters: any = {
+    const filters: Prisma.UserWhereInput = {
       ...(values.search && {
         OR: [
           { name: { contains: values.search, mode: "insensitive" } },
           { email: { contains: values.search, mode: "insensitive" } },
         ],
       }),
+      role: values.type,
     };
 
     const users = await prisma.user.findMany({
@@ -47,7 +50,11 @@ export const getCurrentUsers = async (values: {
         name: true,
         email: true,
         image: true,
+        studentId: true,
         role: true,
+        isDisabled: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
 

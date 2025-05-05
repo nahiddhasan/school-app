@@ -12,11 +12,16 @@ model User {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  email     String   @unique
+  email     String?  @unique
   password  String
   name      String
   image     String?
   role      Role     @default(STUDENT)
+
+  isDisabled Boolean @default(false)
+
+  student   Student? @relation(fields: [studentId], references: [id])
+  studentId String?  @unique
 }
 
 model Student {
@@ -40,10 +45,12 @@ model Student {
   relation     String
   gurdianPhone String
 
-  enrollments Enrollment[] // 👈 Related to Enrollment
-  results     Result[] // 👈 Related to Result
+  enrollments Enrollment[]
+  results     Result[]
 
-  @@index([studentId]) // 👈 Add index for better query performance
+  User User?
+
+  @@index([studentId])
 }
 
 model AcademicYear {
@@ -51,7 +58,7 @@ model AcademicYear {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   year      Int      @unique
-  current   Boolean  @default(false) // 👈 Only one current at a time!
+  current   Boolean  @default(false)
 
   enrollments Enrollment[]
   results     Result[]
@@ -62,7 +69,7 @@ model Class {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   className   String   @unique
-  sectionName String[] // ["A", "B", "C", etc.]
+  sectionName String[]
 
   enrollments Enrollment[]
   results     Result[]
@@ -82,8 +89,8 @@ model Enrollment {
   classId String
 
   section   String
-  status    EnrollmentStatus // "Promoted", "Repeated", "Left", etc.
-  classRoll Int // 👈 Roll number based on marks
+  status    EnrollmentStatus
+  classRoll Int
 }
 
 model Result {
@@ -91,8 +98,8 @@ model Result {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   gpa        Float?
-  status     ReusltStatus // "Pass", "Fail"
-  type       ExamType // "Midterm", "Final", etc.
+  status     ReusltStatus
+  type       ExamType
   totalMarks Int
   position   Int?
 
@@ -107,7 +114,7 @@ model Result {
   student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId String
 
-  subjects Json[] // Subjects and marks, flexible
+  subjects Json[]
 }
 
 model Notice {

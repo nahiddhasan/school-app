@@ -27,7 +27,7 @@ const UpdateForm = ({ classes, student }: Props) => {
   const [uploading, setUploading] = useState(false);
   const [checked, setChecked] = useState(false);
   const queryClient = useQueryClient();
-  const { selectedYearId } = useAcademicYearStore();
+  const { selectedYearId, isCurrent } = useAcademicYearStore();
 
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -328,7 +328,7 @@ const UpdateForm = ({ classes, student }: Props) => {
               variant="outline"
               size="sm"
               className="rounded-sm"
-              disabled={mutation.isPending || uploading}
+              disabled={mutation.isPending || uploading || !isCurrent}
             >
               {uploading
                 ? "Uploading..."

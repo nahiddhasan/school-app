@@ -1,5 +1,6 @@
 "use server";
 
+import { Role } from "@/app/generated/prisma";
 import bcrypt from "bcryptjs";
 import { writeFile } from "fs/promises";
 import { AuthError } from "next-auth";
@@ -285,6 +286,7 @@ export const deleteUser = async (userId: string) => {
 };
 
 //update user
+
 export const updateUser = async (values: z.infer<typeof updateUserSchema>) => {
   const session = await auth();
 
@@ -485,5 +487,57 @@ export const updateAcademicYear = async (
   } catch (error) {
     console.log(error);
     return { error: "Failed to update academic year!" };
+  }
+};
+
+export const createUsersFromStudents = async () => {
+  const session = await auth();
+  if (!session || session.user.role !== "ADMIN") {
+    return { error: "Only admin can update academic years!" };
+  }
+
+  try {
+    const existingStudentIds = (
+      await prisma.user.findMany({
+        where: { studentId: { not: null } },
+        select: { studentId: true },
+      })
+    ).map((u) => u.studentId!);
+
+    const students = await prisma.student.findMany({
+      where: {
+        id: {
+          notIn: existingStudentIds,
+        },
+      },
+    });
+
+    const defaultPassword = await bcrypt.hash("student123", 10);
+
+    for (const student of students) {
+      try {
+        await prisma.user.create({
+          data: {
+            name: student.fullName,
+            password: defaultPassword,
+            role: Role.STUDENT,
+            student: {
+              connect: { id: student.id },
+            },
+          },
+        });
+      } catch (error) {
+        console.error(
+          `❌ Failed to create user for student ${student.fullName}:`,
+          error
+        );
+      }
+    }
+
+    console.log(`✅ Created ${students.length} users from students.`);
+    return { success: `${students.length} users created.` };
+  } catch (error) {
+    console.error("❌ Create user from student failed failed:", error);
+    return { error: "An error occurred." };
   }
 };

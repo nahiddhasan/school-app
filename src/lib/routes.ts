@@ -9,7 +9,7 @@ export const apiAuthPrefix = "/api/auth";
 export const DEFAULT_LOGIN_REDIRECT = "/dashboard";
 
 export const routeAccessMap: { [pattern: string]: Role[] } = {
-  "/dashboard/students/admission(.*)": [Role.ADMIN, Role.TEACHER],
+  "/dashboard/students/admission(.*)": [Role.ADMIN],
   "/dashboard/students/edit(.*)": [Role.ADMIN],
   "/dashboard/students/import": [Role.ADMIN],
   "/dashboard/students/view(.*)": [Role.ADMIN, Role.TEACHER],
@@ -17,16 +17,20 @@ export const routeAccessMap: { [pattern: string]: Role[] } = {
   "/dashboard/students(.*)": [Role.ADMIN, Role.TEACHER],
 
   "/dashboard/enrollment(.*)": [Role.ADMIN],
-  "/dashboard/result(.*)": [Role.ADMIN],
+
+  "/dashboard/exam/quiz/add(.*)": [Role.ADMIN, Role.TEACHER],
+  "/dashboard/exam/quiz(.*)": [Role.ADMIN, Role.TEACHER, Role.STUDENT],
+  "/dashboard/exam/schedule(.*)": [Role.ADMIN, Role.TEACHER],
+  "/dashboard/exam/result(.*)": [Role.ADMIN],
 
   "/dashboard/assignments/add(.*)": [Role.TEACHER],
   "/dashboard/assignments(.*)": [Role.ADMIN, Role.TEACHER, Role.STUDENT],
 
-  "/dashboard/anouncements/add(.*)": [Role.ADMIN],
-  "/dashboard/anouncements(.*)": [Role.ADMIN, Role.TEACHER],
+  "/dashboard/announcements/add(.*)": [Role.ADMIN],
+  "/dashboard/announcements(.*)": [Role.ADMIN, Role.TEACHER, Role.STUDENT],
 
   "/dashboard/events/add(.*)": [Role.ADMIN],
-  "/dashboard/events(.*)": [Role.ADMIN, Role.TEACHER],
+  "/dashboard/events(.*)": [Role.ADMIN, Role.TEACHER, Role.STUDENT],
 
   "/dashboard/reports(.*)": [Role.ADMIN],
 
@@ -44,10 +48,9 @@ export const routeAccessMap: { [pattern: string]: Role[] } = {
     Role.STUDENT,
   ],
 
-  "/dashboard/settings/add-class(.*)": [Role.ADMIN],
-  "/dashboard/settings/all-classes(.*)": [Role.ADMIN, Role.TEACHER],
+  "/dashboard/settings/academic-year(.*)": [Role.ADMIN],
 
-  "/dashboard/settings/(.*)": [Role.ADMIN, Role.TEACHER],
+  "/dashboard/settings(.*)": [Role.ADMIN, Role.TEACHER],
 
   // Put these at the end to avoid catching broader matches too early
   "/dashboard/admin(.*)": [Role.ADMIN],

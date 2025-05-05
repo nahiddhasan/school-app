@@ -190,7 +190,7 @@ export const userSchema = z.object({
   name: z.string().min(1, { message: "Full Name is required!" }),
   email: z.string().min(1, { message: "Email is required!" }).email(),
   password: z.string().min(1, { message: "password is required!" }),
-  role: z.enum(Object.keys(Role) as [string, ...string[]]),
+  role: z.nativeEnum(Role),
 });
 
 export const uploadResultSchema = z.object({
@@ -250,13 +250,27 @@ export const importStudentSchema = z.object({
   file: csvValidate,
 });
 
-export const updateUserSchema = z.object({
-  id: z.string().min(1, { message: "Id is required!" }),
-  name: z.string().min(1, { message: "Full Name is required!" }),
-  email: z.string().min(1, { message: "Email is required!" }).email(),
-  password: z.string().optional(),
-  role: z.enum(Object.keys(Role) as [string, ...string[]]),
-});
+export const updateUserSchema = z
+  .object({
+    id: z.string().optional(),
+    name: z.string().min(1, { message: "Full Name is required!" }),
+    email: z.string().optional(),
+    password: z.string().optional(),
+    role: z.nativeEnum(Role),
+    isDisabled: z.boolean().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.role !== Role.STUDENT && !data.email) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Email is required for non-student roles!",
+      path: ["email"],
+    }
+  );
 
 export const addClassSchema = z.object({
   className: z.string().min(1, { message: "ClassName is required!" }),

@@ -30,10 +30,7 @@ const StudentPage = async ({
       <hr />
 
       <Suspense fallback={<span>Loading...</span>}>
-        <DataTable
-          data={students}
-          selectedYearId={searchParams.selectedYearId}
-        />
+        <DataTable data={students} searchParams={searchParams} />
         {totalStudents > Number(searchParams.pageSize || "10") && (
           <PaginationCom totalCount={totalStudents} />
         )}

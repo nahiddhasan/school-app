@@ -4,10 +4,12 @@ import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { SelectItem } from "@/components/ui/select";
+import TooltipComp from "@/components/ui/TooltipComp";
 import { addAcademicYear } from "@/lib/actions";
 
 import { addAcademicYearSchema } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -40,7 +42,16 @@ const AddAcademicYear = () => {
 
   return (
     <div className="p-4 px-16">
-      <h1 className="text-2xl py-4">Add New Academic Year</h1>
+      <div className="flex gap-4">
+        <TooltipComp text="go back">
+          <ChevronLeft
+            onClick={() => router.back()}
+            size={32}
+            className="cursor-pointer p-1 ring-1 rounded-full ring-border hover:bg-muted transition-all"
+          />
+        </TooltipComp>
+        <h1 className="text-2xl py-4">Add New Academic Year</h1>
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

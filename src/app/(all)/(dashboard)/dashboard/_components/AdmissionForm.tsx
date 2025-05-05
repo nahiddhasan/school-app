@@ -9,6 +9,7 @@ import { uploadImage } from "@/lib/actions";
 import { studentAdmission } from "@/lib/actions/admission.action";
 import { Class } from "@/lib/types";
 import { newAdmissionSchema } from "@/lib/zodSchema";
+import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
@@ -24,6 +25,8 @@ type Props = {
 const AdmissionForm = ({ classes }: Props) => {
   const [uploading, setUploading] = useState(false);
   const [checked, setChecked] = useState(false);
+
+  const { isCurrent } = useAcademicYearStore();
 
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -297,7 +300,7 @@ const AdmissionForm = ({ classes }: Props) => {
               variant="outline"
               size="sm"
               className="rounded-sm"
-              disabled={mutation.isPending || uploading}
+              disabled={mutation.isPending || uploading || !isCurrent}
             >
               {uploading
                 ? "Uploading..."
