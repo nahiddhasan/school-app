@@ -20,6 +20,7 @@ export function Profile() {
   if (status === "loading") {
     return <Loader2 className="animate-spin" />;
   }
+
   if (status === "authenticated") {
     return (
       <div>

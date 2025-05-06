@@ -20,8 +20,8 @@ model User {
 
   isDisabled Boolean @default(false)
 
-  student   Student? @relation(fields: [studentId], references: [id])
-  studentId String?  @unique
+  studentId Int?     @unique
+  student   Student? @relation(fields: [studentId], references: [studentId])
 }
 
 model Student {

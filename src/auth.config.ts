@@ -4,7 +4,7 @@ import type { NextAuthConfig } from "next-auth";
 import credentials from "next-auth/providers/credentials";
 import { Role } from "./app/generated/prisma";
 import { prisma } from "./lib/connect";
-import { getUserByEmail, getUserById } from "./lib/data";
+import { getUserById } from "./lib/data";
 import { LoginSchema } from "./lib/zodSchema";
 
 export default {
@@ -15,7 +15,19 @@ export default {
 
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
-          const user = await getUserByEmail(email);
+
+          const isNumericId = /^\d+$/.test(email);
+
+          const user = await prisma.user.findFirst({
+            where: {
+              OR: [
+                { email: isNumericId ? undefined : email },
+                { studentId: isNumericId ? Number(email) : undefined },
+              ],
+            },
+          });
+
+          // const user = await getUserByEmail(email);
 
           if (!user || !user.password) return null;
 

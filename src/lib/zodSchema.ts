@@ -157,7 +157,6 @@ export const newAdmissionSchema = z.object({
 export const searchStudent = z.object({
   className: z.string().min(1, { message: "Class is required!" }),
   section: z.string().optional(),
-  search: z.string().optional(),
 });
 
 export const searchFilter = z.object({
@@ -167,9 +166,15 @@ export const searchFilter = z.object({
 });
 
 export const LoginSchema = z.object({
-  email: z.string().email({
-    message: "Email Required!",
-  }),
+  email: z
+    .string()
+    .refine(
+      (val) =>
+        z.string().email().safeParse(val).success || /^[0-9]+$/.test(val),
+      {
+        message: "Must be a valid email or student ID!",
+      }
+    ),
   password: z.string().min(1, {
     message: "Password is required!",
   }),

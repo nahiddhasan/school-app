@@ -17,17 +17,21 @@ export const login = async (
   }
 
   const { email, password } = validatedLoginValues.data;
+  // email can be email or student id
+  const isNumericId = /^\d+$/.test(email);
 
-  const existingUser = await prisma.user.findUnique({
+  const existingUser = await prisma.user.findFirst({
     where: {
-      email,
+      OR: [
+        { email: isNumericId ? undefined : email },
+        { studentId: isNumericId ? Number(email) : undefined },
+      ],
     },
   });
 
-  if (!existingUser || !existingUser.email) {
+  if (!existingUser) {
     return { error: "Invalid credentials!" };
   }
-
   try {
     const res = await signIn("credentials", {
       email,

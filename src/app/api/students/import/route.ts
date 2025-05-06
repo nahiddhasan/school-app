@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     if (session.user.role !== "ADMIN") {
-      return NextResponse.json({ message: "Not authorized" }, { status: 403 });
+      return NextResponse.json({ error: "Not authorized" }, { status: 403 });
     }
 
     // Handle FormData

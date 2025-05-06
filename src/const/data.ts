@@ -375,19 +375,19 @@ export const sidebarItems = [
     submenu: [
       {
         title: "Create Quiz",
-        path: "/dashboard/exam/quiz/add",
+        path: "/dashboard/exams/quiz/add",
       },
       {
         title: "Recent Quizzes",
-        path: "/dashboard/exam/quiz",
+        path: "/dashboard/exams/quiz",
       },
       {
         title: "Exam Schedule",
-        path: "/dashboard/exam/schedule",
+        path: "/dashboard/exams/schedule",
       },
       {
         title: "Publish Result",
-        path: "/dashboard/exam/result",
+        path: "/dashboard/exams/result",
       },
     ],
   },

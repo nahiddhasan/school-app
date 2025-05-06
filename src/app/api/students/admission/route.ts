@@ -1,4 +1,3 @@
-// app/api/admission/route.ts
 import { auth } from "@/auth";
 import { prisma } from "@/lib/connect";
 import { newAdmissionSchema } from "@/lib/zodSchema";

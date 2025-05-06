@@ -24,6 +24,7 @@ const UserDataTable = ({ users }: props) => {
       <TableHeader>
         <TableRow>
           <TableHead>Image</TableHead>
+          <TableHead>ID</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
@@ -44,6 +45,7 @@ const UserDataTable = ({ users }: props) => {
                 className="rounded-full aspect-square object-cover"
               />
             </TableCell>
+            <TableCell>{user.studentId}</TableCell>
             <TableCell>{user.name}</TableCell>
             <TableCell>{user.email}</TableCell>
             <TableCell>{user.role}</TableCell>

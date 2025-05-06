@@ -23,7 +23,7 @@ const LoginPage = () => {
 
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState("");
+  const [error, setError] = useState<any>("");
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -35,9 +35,12 @@ const LoginPage = () => {
     startTransition(async () => {
       try {
         const res = await login(values, callbackUrl);
+
         if (res.success && res.redirectUrl) {
           router.push(res.redirectUrl);
           router.refresh();
+        } else {
+          setError(res.error);
         }
       } catch (err) {
         setError("An unexpected error occurred.");
@@ -64,8 +67,8 @@ const LoginPage = () => {
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
                 name="email"
-                label="Email"
-                placeholder="Enter Your Email"
+                label="Email or StudentId"
+                placeholder="Enter Your Email or Student Id"
                 className="text-black"
               />
               <CustomFormField
@@ -76,13 +79,6 @@ const LoginPage = () => {
                 placeholder="Enter Your Password"
                 className="text-black"
               />
-
-              {urlError && (
-                <span className="text-sm text-rose-500 block">{urlError}</span>
-              )}
-              {error && (
-                <span className="text-sm text-rose-500 block">{error}</span>
-              )}
             </div>
             <Link
               href={"#"}
@@ -90,6 +86,7 @@ const LoginPage = () => {
             >
               Forgot Password?
             </Link>
+
             <Button
               type="submit"
               disabled={isPending}
@@ -97,6 +94,18 @@ const LoginPage = () => {
             >
               {isPending ? "Logging in..." : "Login"}
             </Button>
+            <div className="py-4">
+              {urlError && (
+                <span className="text-sm rounded-md px-4 py-2 bg-rose-200 text-rose-700 block">
+                  {urlError}
+                </span>
+              )}
+              {error && (
+                <span className="text-sm rounded-md px-4 py-2 bg-rose-200 text-rose-700 block">
+                  {error}
+                </span>
+              )}
+            </div>
           </form>
         </Form>
       </div>

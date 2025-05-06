@@ -35,9 +35,11 @@ export const login = async (
 
   const { email, password } = validatedLoginValues.data;
 
-  const existingUser = await prisma?.user.findUnique({
+  // email can be email or student id
+
+  const existingUser = await prisma.user.findFirst({
     where: {
-      email,
+      OR: [{ email }, { studentId: email }],
     },
   });
 
@@ -506,7 +508,7 @@ export const createUsersFromStudents = async () => {
 
     const students = await prisma.student.findMany({
       where: {
-        id: {
+        studentId: {
           notIn: existingStudentIds,
         },
       },

@@ -1,4 +1,4 @@
-import { User } from "@/app/generated/prisma";
+import { ReusltStatus, User } from "@/app/generated/prisma";
 
 export type MenuItem = {
   title: string;
@@ -116,3 +116,15 @@ export type NoticesType = {
 };
 
 export type UserWithoutPass = Omit<User, "password">;
+
+export type EnrollmentData = {
+  id: string;
+  studentId: number | undefined;
+  fullName: string;
+  classRoll: number;
+  className: string;
+  section: string;
+  gpa: number | null;
+  position: number | null;
+  status: ReusltStatus;
+};
