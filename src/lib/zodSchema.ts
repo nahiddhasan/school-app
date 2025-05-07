@@ -154,10 +154,13 @@ export const newAdmissionSchema = z.object({
   gurdianPhone: phoneValidate,
 });
 
-export const searchStudent = z.object({
-  className: z.string().min(1, { message: "Class is required!" }),
-  section: z.string().optional(),
-});
+export const searchStudent = (sectionRequire: boolean) =>
+  z.object({
+    className: z.string().min(1, { message: "Class is required!" }),
+    section: sectionRequire
+      ? z.string().min(1, { message: "Section is required!" })
+      : z.string().optional(),
+  });
 
 export const searchFilter = z.object({
   pageSize: z.number().optional(),

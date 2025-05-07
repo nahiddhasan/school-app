@@ -52,7 +52,6 @@ const PromoteDialog = ({
     mutationFn: (values: { className: string; section?: string | undefined }) =>
       promoteStudents({ ...values, studentIds: selectedDataRowIds }),
     onSuccess: (res) => {
-      console.log(res);
       if (res.success) {
         toast.success(
           `${res.success}, Promoted: ${res.promotedCount}, Repeated: ${res.repeatedCount}`
@@ -68,13 +67,13 @@ const PromoteDialog = ({
       console.error(error);
     },
   });
-
-  const form = useForm<z.infer<typeof searchStudent>>({
-    resolver: zodResolver(searchStudent),
+  const searchSchema = searchStudent(true);
+  const form = useForm<z.infer<typeof searchSchema>>({
+    resolver: zodResolver(searchSchema),
   });
 
   // onsubmit function
-  const onSubmit = async (values: z.infer<typeof searchStudent>) => {
+  const onSubmit = async (values: z.infer<typeof searchSchema>) => {
     mutation.mutate(values);
   };
   const selectedClass = form.watch("className");

@@ -17,7 +17,7 @@ const Enrollment = async ({ searchParams }: { searchParams: searchParams }) => {
 
   return (
     <div className="p-4 h-full overflow-y-scroll pb-14">
-      <SearchForm />
+      <SearchForm requireSection />
       <EnrollmentDataTable columns={columns} data={students} />
     </div>
   );

@@ -31,6 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { ReusltStatus } from "@/app/generated/prisma";
 import DataTablePagination from "../../_components/DataTablePagination";
 import PromoteDialog from "./PromoteDialog";
 
@@ -40,7 +41,7 @@ interface DataTableProps<TData, TValue> {
 }
 
 export default function EnrollmentDataTable<
-  TData extends { status?: string; studentId: number },
+  TData extends { status: ReusltStatus; studentId: number },
   TValue
 >({ columns, data }: DataTableProps<TData, TValue>) {
   const [open, setOpen] = useState(false);
@@ -80,7 +81,7 @@ export default function EnrollmentDataTable<
     const selection: Record<string, boolean> = {};
 
     data.forEach((row) => {
-      if (row.status === "PASSED") {
+      if (row.status === ReusltStatus.PASSED) {
         selection[row.studentId] = true;
       }
     });

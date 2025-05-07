@@ -117,7 +117,7 @@ export type NoticesType = {
 export type UserWithoutPass = Omit<User, "password">;
 
 export type EnrollmentData = {
-  studentId: number | undefined;
+  studentId: number;
   fullName: string;
   classRoll: number;
   className: string;

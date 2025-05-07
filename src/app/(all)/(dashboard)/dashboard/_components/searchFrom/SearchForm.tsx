@@ -21,7 +21,11 @@ const fetchClasses = async (): Promise<Class[]> => {
   return response.json();
 };
 
-const SearchForm = () => {
+const SearchForm = ({
+  requireSection = false,
+}: {
+  requireSection?: boolean;
+}) => {
   const {
     data: classesData,
     isLoading,
@@ -39,8 +43,10 @@ const SearchForm = () => {
   const selectedClassParam = params.get("className");
   const selectedSectionParam = params.get("section");
 
-  const form = useForm<z.infer<typeof searchStudent>>({
-    resolver: zodResolver(searchStudent),
+  const searchSchema = searchStudent(requireSection);
+
+  const form = useForm<z.infer<typeof searchSchema>>({
+    resolver: zodResolver(searchSchema),
     defaultValues: {
       className: selectedClassParam || "",
       section: selectedSectionParam || "",
@@ -48,7 +54,7 @@ const SearchForm = () => {
   });
 
   // onsubmit function
-  const onSubmit = async (values: z.infer<typeof searchStudent>) => {
+  const onSubmit = async (values: z.infer<typeof searchSchema>) => {
     params.set("className", values.className);
 
     if (values.section) {
@@ -94,7 +100,7 @@ const SearchForm = () => {
                   name="section"
                   label="Select Section"
                   placeholder="Select Section"
-                  required={false}
+                  required={requireSection}
                   disabled={isLoading}
                 >
                   {classesData
