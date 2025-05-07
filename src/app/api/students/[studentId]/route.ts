@@ -5,9 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { studentId: string } }
 ) => {
-  const { id: studentId } = params;
+  const { studentId } = params;
 
   if (!studentId) {
     return NextResponse.json(
@@ -31,7 +31,7 @@ export const GET = async (
 
     const student = await prisma.student.findUnique({
       where: {
-        id: studentId,
+        studentId: Number(studentId),
       },
       include: {
         enrollments: {
@@ -70,9 +70,10 @@ export const GET = async (
 
 export const PUT = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { studentId: string } }
 ) => {
-  const { id: studentId } = params;
+  const { studentId } = params;
+
   const body = await req.json();
 
   if (!studentId) {
@@ -160,7 +161,7 @@ export const PUT = async (
 
     await prisma.$transaction(async (tx) => {
       await tx.student.update({
-        where: { id: studentId },
+        where: { studentId: Number(studentId) },
         data: {
           fullName,
           gender,
@@ -182,7 +183,7 @@ export const PUT = async (
 
       await tx.enrollment.updateMany({
         where: {
-          studentId,
+          studentId: Number(studentId),
           academicYearId: currentYear.id,
         },
         data: {

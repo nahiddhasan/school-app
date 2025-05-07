@@ -55,15 +55,20 @@ const UpdateForm = ({ classes, student }: Props) => {
   });
 
   const mutation = useMutation({
-    mutationFn: (data: { id: string; selectedYearId: any; values: any }) =>
-      updateStudent(data.id, data.selectedYearId, data.values),
+    mutationFn: (data: {
+      studentId: number;
+      selectedYearId: any;
+      values: any;
+    }) => updateStudent(data.studentId, data.selectedYearId, data.values),
     onSuccess: (res) => {
       form.reset();
-      queryClient.invalidateQueries({ queryKey: ["student", student.id] });
+      queryClient.invalidateQueries({
+        queryKey: ["student", student.studentId],
+      });
       if (res.success) {
         toast.success(res.success);
         router.push(
-          `/dashboard/students/view/${student.id}?selectedYearId=${selectedYearId}`
+          `/dashboard/students/view/${student.studentId}?selectedYearId=${selectedYearId}`
         );
         router.refresh();
       } else {
@@ -92,7 +97,7 @@ const UpdateForm = ({ classes, student }: Props) => {
     }
 
     mutation.mutate({
-      id: student.id,
+      studentId: student.studentId,
       selectedYearId,
       values: {
         ...values,
@@ -333,8 +338,8 @@ const UpdateForm = ({ classes, student }: Props) => {
               {uploading
                 ? "Uploading..."
                 : mutation.isPending
-                ? "Submitting..."
-                : "Submit"}
+                ? "Updating..."
+                : "Update"}
             </Button>
           </div>
         </form>

@@ -114,7 +114,7 @@ export const POST = async (req: NextRequest) => {
 
       const enrollment = await tx.enrollment.create({
         data: {
-          studentId: student.id,
+          studentId: student.studentId,
           section,
           classRoll,
           classId: enrollmentClass.id,

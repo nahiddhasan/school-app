@@ -40,7 +40,7 @@ interface DataTableProps<TData, TValue> {
 }
 
 export default function EnrollmentDataTable<
-  TData extends { status?: string; id: string },
+  TData extends { status?: string; studentId: number },
   TValue
 >({ columns, data }: DataTableProps<TData, TValue>) {
   const [open, setOpen] = useState(false);
@@ -56,7 +56,7 @@ export default function EnrollmentDataTable<
   const table = useReactTable({
     data,
     columns,
-    getRowId: (row) => row.id,
+    getRowId: (row) => row.studentId.toString(),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -81,7 +81,7 @@ export default function EnrollmentDataTable<
 
     data.forEach((row) => {
       if (row.status === "PASSED") {
-        selection[row.id] = true;
+        selection[row.studentId] = true;
       }
     });
 
@@ -94,7 +94,7 @@ export default function EnrollmentDataTable<
     .flatRows.map((row) => row.original);
 
   const selectedDataRowIds = selectedDataRow.map((row) => {
-    return row.id;
+    return row.studentId;
   });
 
   return (
@@ -201,35 +201,4 @@ export default function EnrollmentDataTable<
       />
     </div>
   );
-}
-
-{
-  /* <AlertDialog>
-          <AlertDialogTrigger
-            disabled={selectedDataRowIds.length === 0}
-            asChild
-          >
-            <Button variant="destructive" size={"sm"} className="ml-auto">
-              Promote selected <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will promote the selected
-                students.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                className="bg-destructive hover:bg-destructive/90 text-white"
-                onClick={() => handlePromote(selectedDataRowIds)}
-              >
-                Promote
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog> */
 }

@@ -22,13 +22,14 @@ model User {
 
   studentId Int?     @unique
   student   Student? @relation(fields: [studentId], references: [studentId])
+
+  @@index([studentId])
 }
 
 model Student {
-  id           String   @id @default(cuid())
+  studentId    Int      @id @unique @default(autoincrement())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  studentId    Int      @unique @default(autoincrement())
   fullName     String
   gender       String
   dob          DateTime
@@ -49,8 +50,6 @@ model Student {
   results     Result[]
 
   User User?
-
-  @@index([studentId])
 }
 
 model AcademicYear {
@@ -79,8 +78,8 @@ model Enrollment {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  student   Student  @relation(fields: [studentId], references: [id])
-  studentId String
+  student   Student  @relation(fields: [studentId], references: [studentId])
+  studentId Int
 
   academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
   academicYearId String
@@ -91,6 +90,8 @@ model Enrollment {
   section   String
   status    EnrollmentStatus
   classRoll Int
+
+  @@index([studentId])
 }
 
 model Result {
@@ -111,10 +112,12 @@ model Result {
 
   section String
 
-  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  studentId String
+  student   Student @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
+  studentId Int
 
   subjects Json[]
+
+  @@index([studentId])
 }
 
 model Notice {

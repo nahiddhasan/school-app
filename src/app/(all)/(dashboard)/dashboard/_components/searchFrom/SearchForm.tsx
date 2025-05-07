@@ -8,11 +8,28 @@ import { SelectItem } from "@/components/ui/select";
 import { Class } from "@/lib/types";
 import { searchStudent } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const SearchForm = ({ classes }: { classes: Class[] }) => {
+const fetchClasses = async (): Promise<Class[]> => {
+  const response = await fetch("/api/classes");
+  if (!response.ok) {
+    throw new Error("Failed to fetch classes");
+  }
+  return response.json();
+};
+
+const SearchForm = () => {
+  const {
+    data: classesData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["classes"],
+    queryFn: fetchClasses,
+  });
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -61,8 +78,9 @@ const SearchForm = ({ classes }: { classes: Class[] }) => {
                   name="className"
                   label="Select Class"
                   placeholder="Select Class"
+                  disabled={isLoading}
                 >
-                  {classes.map((cls) => (
+                  {classesData?.map((cls) => (
                     <SelectItem key={cls.id} value={cls.className}>
                       {cls.className}
                     </SelectItem>
@@ -77,9 +95,10 @@ const SearchForm = ({ classes }: { classes: Class[] }) => {
                   label="Select Section"
                   placeholder="Select Section"
                   required={false}
+                  disabled={isLoading}
                 >
-                  {classes
-                    .find((item) => item.className === selectedClass)
+                  {classesData
+                    ?.find((item) => item.className === selectedClass)
                     ?.sectionName.map((section) => (
                       <SelectItem key={section} value={section}>
                         {section}

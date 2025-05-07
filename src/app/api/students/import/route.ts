@@ -80,7 +80,7 @@ export const POST = async (req: NextRequest) => {
         if (existingStudent) {
           const alreadyEnrolled = await prisma.enrollment.findFirst({
             where: {
-              studentId: existingStudent.id,
+              studentId: existingStudent.studentId,
               academicYearId: currentYear.id,
               classId: enrollmentClass.id,
               section,
@@ -109,7 +109,7 @@ export const POST = async (req: NextRequest) => {
               classId: enrollmentClass.id,
               section,
               classRoll: parseInt(classRoll, 10),
-              studentId: student.id,
+              studentId: student.studentId,
               academicYearId: currentYear.id,
               status: "ADMITTED",
             },

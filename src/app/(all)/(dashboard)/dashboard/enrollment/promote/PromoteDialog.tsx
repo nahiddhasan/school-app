@@ -12,12 +12,15 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { SelectItem } from "@/components/ui/select";
+import { promoteStudents } from "@/lib/actions/promoteStudents";
 import { searchStudent } from "@/lib/zodSchema";
+import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ChevronRight } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const fetchClasses = async (): Promise<Class[]> => {
@@ -29,7 +32,7 @@ const fetchClasses = async (): Promise<Class[]> => {
 type Props = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  selectedDataRowIds: string[];
+  selectedDataRowIds: number[];
   disabled: boolean;
 };
 const PromoteDialog = ({
@@ -38,9 +41,32 @@ const PromoteDialog = ({
   selectedDataRowIds,
   disabled,
 }: Props) => {
+  const { isCurrent } = useAcademicYearStore();
+
   const { data: classes, isLoading } = useQuery({
     queryKey: ["classes"],
     queryFn: fetchClasses,
+  });
+
+  const mutation = useMutation({
+    mutationFn: (values: { className: string; section?: string | undefined }) =>
+      promoteStudents({ ...values, studentIds: selectedDataRowIds }),
+    onSuccess: (res) => {
+      console.log(res);
+      if (res.success) {
+        toast.success(
+          `${res.success}, Promoted: ${res.promotedCount}, Repeated: ${res.repeatedCount}`
+        );
+        form.reset();
+        setOpen(false);
+      } else {
+        toast.error(res.error);
+      }
+    },
+    onError: (error) => {
+      toast.error("Something went wrong!");
+      console.error(error);
+    },
   });
 
   const form = useForm<z.infer<typeof searchStudent>>({
@@ -49,15 +75,14 @@ const PromoteDialog = ({
 
   // onsubmit function
   const onSubmit = async (values: z.infer<typeof searchStudent>) => {
-    console.log(values);
-    console.log(selectedDataRowIds);
+    mutation.mutate(values);
   };
   const selectedClass = form.watch("className");
 
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild disabled={disabled}>
+        <DialogTrigger asChild disabled={disabled || !isCurrent}>
           <Button variant="destructive" size={"sm"} className="ml-auto">
             Promote selected <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
@@ -118,6 +143,7 @@ const PromoteDialog = ({
                   type="submit"
                   size={"sm"}
                   className="rounded-md"
+                  disabled={mutation.isPending}
                 >
                   Promote Now
                 </Button>

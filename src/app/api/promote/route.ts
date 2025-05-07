@@ -1,3 +1,4 @@
+import { EnrollmentStatus } from "@/app/generated/prisma";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/connect";
 import { NextRequest, NextResponse } from "next/server";
@@ -37,11 +38,10 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    // Current academic year
+    // Current and Next Academic Year
     const currentYear = await prisma.academicYear.findFirst({
       where: { current: true },
     });
-
     if (!currentYear) {
       return NextResponse.json(
         { error: "Current academic year not found." },
@@ -49,24 +49,39 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    // Next academic year
     const nextYearValue = new Date().getFullYear() + 1;
     const nextYear = await prisma.academicYear.findFirst({
       where: { year: nextYearValue },
     });
-
     if (!nextYear) {
       return NextResponse.json(
-        { error: "Next academic year not found! Please create it first." },
+        { error: "Next academic year not found!" },
         { status: 400 }
       );
     }
+
+    // Get current class ID for selected students
+    const enrollmentSample = await prisma.enrollment.findFirst({
+      where: {
+        academicYearId: currentYear.id,
+        studentId: { in: studentIds },
+      },
+      include: {
+        class: { select: { className: true } },
+      },
+    });
+
+    const currentClass = {
+      id: enrollmentSample?.classId,
+      className: enrollmentSample?.class?.className,
+      section: enrollmentSample?.section,
+    };
 
     // Get next class info
     const nextClass = await prisma.class.findFirst({
       where: {
         className,
-        sectionName: section,
+        sectionName: { has: section },
       },
     });
 
@@ -77,66 +92,91 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    // Get eligible students in current year, class, and section
-    const eligibleStudents = await prisma.student.findMany({
+    // All students in the selected current class & section
+    const allClassStudents = await prisma.student.findMany({
       where: {
-        id: { in: studentIds },
         enrollments: {
           some: {
             academicYearId: currentYear.id,
-            class: {
-              className,
-            },
-            section,
+            class: { className: currentClass.className },
+            section: currentClass.section,
           },
         },
       },
+      select: { studentId: true },
     });
 
-    const eligibleStudentIds = eligibleStudents.map((s) => s.id);
-    const notPromotedStudentIds = studentIds.filter(
-      (id: string) => !eligibleStudentIds.includes(id)
+    const allClassStudentIds = allClassStudents.map((s) => s.studentId);
+
+    // Skip already promoted/repeated students (already enrolled in next year)
+    const alreadyEnrolled = await prisma.enrollment.findMany({
+      where: {
+        academicYearId: nextYear.id,
+        studentId: { in: allClassStudentIds },
+      },
+      select: { studentId: true },
+    });
+
+    const alreadyEnrolledIds = new Set(alreadyEnrolled.map((e) => e.studentId));
+    const studentIdsToProcess = studentIds.filter(
+      (id: number) => !alreadyEnrolledIds.has(id)
     );
 
-    // Promoted → New class
-    const promotedData = eligibleStudentIds.map((studentId) => ({
-      studentId,
-      classId: nextClass.id,
-      academicYearId: nextYear.id,
-      section: nextClass.sectionName,
-    }));
-
-    // Not Promoted → Same class
-    const sameClass = await prisma.class.findFirst({
-      where: {
-        className,
-        sectionName: section,
-      },
-    });
-
-    if (!sameClass) {
+    if (studentIdsToProcess.length === 0) {
       return NextResponse.json(
-        { error: "Could not find current class for repeating students." },
+        {
+          error:
+            "All selected students have already been promoted or repeated.",
+        },
         { status: 400 }
       );
     }
 
-    const repeatedData = notPromotedStudentIds.map((studentId: string) => ({
+    // Determine who was not selected → to be repeated
+    const repeatedIds = allClassStudentIds.filter(
+      (id: number) => !studentIds.includes(id) && !alreadyEnrolledIds.has(id)
+    );
+
+    // Fetch positions
+    const results = await prisma.result.findMany({
+      where: {
+        studentId: { in: studentIdsToProcess },
+        academicYearId: currentYear.id,
+      },
+      select: { studentId: true, position: true },
+    });
+
+    const positionMap = new Map(results.map((r) => [r.studentId, r.position]));
+
+    // Promoted students
+    const promotedData = studentIdsToProcess.map((studentId: number) => ({
       studentId,
-      classId: sameClass.id,
+      classId: nextClass.id,
       academicYearId: nextYear.id,
-      section: sameClass.sectionName,
+      section,
+      classRoll: positionMap.get(studentId) ?? -1,
+      status: EnrollmentStatus.PROMOTED,
     }));
 
-    // Insert enrollments
-    const created = await prisma.enrollment.createMany({
+    // Repeated students
+    const repeatedData = repeatedIds.map((studentId: number) => ({
+      studentId,
+      classId: currentClass.id,
+      academicYearId: nextYear.id,
+      section: currentClass.section,
+      classRoll: positionMap.get(studentId) ?? -1,
+      status: EnrollmentStatus.REPEATED,
+    }));
+
+    await prisma.enrollment.createMany({
       data: [...promotedData, ...repeatedData],
     });
 
     return NextResponse.json({
-      succees: "Promotion process completed.",
+      success: "Promotion process completed.",
       promotedCount: promotedData.length,
       repeatedCount: repeatedData.length,
+      skippedCount: alreadyEnrolledIds.size,
     });
   } catch (error) {
     console.error("[PROMOTION_POST_ERROR]", error);

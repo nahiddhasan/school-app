@@ -6,6 +6,7 @@ export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
   const className = searchParams.get("className");
   const section = searchParams.get("section");
+  const selectedYearId = searchParams.get("selectedYearId");
 
   if (!className || !section) {
     return NextResponse.json([]);
@@ -24,11 +25,16 @@ export const GET = async (req: NextRequest) => {
     const currentYear = await prisma.academicYear.findFirst({
       where: { current: true },
     });
+
     if (!currentYear) {
       return NextResponse.json(
         { error: "Current Year not found!" },
         { status: 400 }
       );
+    }
+
+    if (currentYear.id !== selectedYearId) {
+      return NextResponse.json([]);
     }
     // Get enrollments matching class, section, and year
     const enrollments = await prisma.enrollment.findMany({
@@ -59,7 +65,6 @@ export const GET = async (req: NextRequest) => {
     const students = enrollments.map((enroll) => {
       const result = results.find((r) => r.studentId === enroll.studentId);
       return {
-        id: enroll.student.id,
         studentId: enroll.student.studentId,
         fullName: enroll.student.fullName,
         classRoll: enroll.classRoll,

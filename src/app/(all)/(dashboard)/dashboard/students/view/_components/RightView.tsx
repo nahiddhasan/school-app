@@ -40,7 +40,7 @@ const RightView = ({ student }: props) => {
           <TooltipComp text="Update">
             <Link
               href={{
-                pathname: `/dashboard/students/edit/${student.id}`,
+                pathname: `/dashboard/students/edit/${student.studentId}`,
                 query: {
                   selectedYearId,
                   isCurrent,

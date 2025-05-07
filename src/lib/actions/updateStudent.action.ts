@@ -1,11 +1,11 @@
 export async function updateStudent(
-  id: string,
+  studentId: number,
   selectedYearId: string,
   data: any
 ) {
   try {
     const res = await fetch(
-      `/api/students/${id}?selectedYearId=${selectedYearId}`,
+      `/api/students/${studentId}?selectedYearId=${selectedYearId}`,
       {
         method: "PUT",
         body: JSON.stringify(data),

@@ -64,7 +64,7 @@ export const POST = async (req: NextRequest) => {
     const errorList: { student: string; error: string }[] = [];
 
     const resultData: {
-      studentId: string;
+      studentId: number;
       classId: string;
       section: string;
       type: ExamType;
@@ -92,7 +92,7 @@ export const POST = async (req: NextRequest) => {
 
         const existingResult = await prisma.result.findFirst({
           where: {
-            studentId: student.id,
+            studentId: student.studentId,
             academicYearId: currentYear.id,
             type: examType,
           },
@@ -124,7 +124,7 @@ export const POST = async (req: NextRequest) => {
           : ReusltStatus.PASSED;
 
         resultData.push({
-          studentId: student.id,
+          studentId: student.studentId,
           classId: classObj.id,
           section,
           type: examType,

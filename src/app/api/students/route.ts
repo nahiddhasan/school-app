@@ -76,6 +76,12 @@ export const GET = async (req: NextRequest) => {
       },
     });
 
+    //sort by classroll
+    students.sort((a, b) => {
+      const aRoll = a.enrollments[0]?.classRoll ?? 0;
+      const bRoll = b.enrollments[0]?.classRoll ?? 0;
+      return aRoll - bRoll; // Use aRoll - bRoll for ascending
+    });
     return NextResponse.json({ students, totalStudents });
   } catch (error) {
     console.error("Failed to fetch students:", error);

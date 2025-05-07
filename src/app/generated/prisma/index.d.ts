@@ -2787,10 +2787,9 @@ export namespace Prisma {
   }
 
   export type StudentMinAggregateOutputType = {
-    id: string | null
+    studentId: number | null
     createdAt: Date | null
     updatedAt: Date | null
-    studentId: number | null
     fullName: string | null
     gender: string | null
     dob: Date | null
@@ -2809,10 +2808,9 @@ export namespace Prisma {
   }
 
   export type StudentMaxAggregateOutputType = {
-    id: string | null
+    studentId: number | null
     createdAt: Date | null
     updatedAt: Date | null
-    studentId: number | null
     fullName: string | null
     gender: string | null
     dob: Date | null
@@ -2831,10 +2829,9 @@ export namespace Prisma {
   }
 
   export type StudentCountAggregateOutputType = {
-    id: number
+    studentId: number
     createdAt: number
     updatedAt: number
-    studentId: number
     fullName: number
     gender: number
     dob: number
@@ -2863,10 +2860,9 @@ export namespace Prisma {
   }
 
   export type StudentMinAggregateInputType = {
-    id?: true
+    studentId?: true
     createdAt?: true
     updatedAt?: true
-    studentId?: true
     fullName?: true
     gender?: true
     dob?: true
@@ -2885,10 +2881,9 @@ export namespace Prisma {
   }
 
   export type StudentMaxAggregateInputType = {
-    id?: true
+    studentId?: true
     createdAt?: true
     updatedAt?: true
-    studentId?: true
     fullName?: true
     gender?: true
     dob?: true
@@ -2907,10 +2902,9 @@ export namespace Prisma {
   }
 
   export type StudentCountAggregateInputType = {
-    id?: true
+    studentId?: true
     createdAt?: true
     updatedAt?: true
-    studentId?: true
     fullName?: true
     gender?: true
     dob?: true
@@ -3016,10 +3010,9 @@ export namespace Prisma {
   }
 
   export type StudentGroupByOutputType = {
-    id: string
+    studentId: number
     createdAt: Date
     updatedAt: Date
-    studentId: number
     fullName: string
     gender: string
     dob: Date
@@ -3057,10 +3050,9 @@ export namespace Prisma {
 
 
   export type StudentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
+    studentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    studentId?: boolean
     fullName?: boolean
     gender?: boolean
     dob?: boolean
@@ -3083,10 +3075,9 @@ export namespace Prisma {
   }, ExtArgs["result"]["student"]>
 
   export type StudentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
+    studentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    studentId?: boolean
     fullName?: boolean
     gender?: boolean
     dob?: boolean
@@ -3105,10 +3096,9 @@ export namespace Prisma {
   }, ExtArgs["result"]["student"]>
 
   export type StudentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
+    studentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    studentId?: boolean
     fullName?: boolean
     gender?: boolean
     dob?: boolean
@@ -3127,10 +3117,9 @@ export namespace Prisma {
   }, ExtArgs["result"]["student"]>
 
   export type StudentSelectScalar = {
-    id?: boolean
+    studentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    studentId?: boolean
     fullName?: boolean
     gender?: boolean
     dob?: boolean
@@ -3148,7 +3137,7 @@ export namespace Prisma {
     gurdianPhone?: boolean
   }
 
-  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "studentId" | "fullName" | "gender" | "dob" | "doa" | "mobile" | "bloodGroup" | "studentImg" | "address" | "others" | "fatherName" | "motherName" | "fatherPhone" | "gurdianName" | "relation" | "gurdianPhone", ExtArgs["result"]["student"]>
+  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"studentId" | "createdAt" | "updatedAt" | "fullName" | "gender" | "dob" | "doa" | "mobile" | "bloodGroup" | "studentImg" | "address" | "others" | "fatherName" | "motherName" | "fatherPhone" | "gurdianName" | "relation" | "gurdianPhone", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     enrollments?: boolean | Student$enrollmentsArgs<ExtArgs>
     results?: boolean | Student$resultsArgs<ExtArgs>
@@ -3166,10 +3155,9 @@ export namespace Prisma {
       User: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
+      studentId: number
       createdAt: Date
       updatedAt: Date
-      studentId: number
       fullName: string
       gender: string
       dob: Date
@@ -3268,8 +3256,8 @@ export namespace Prisma {
      * // Get first 10 Students
      * const students = await prisma.student.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const studentWithIdOnly = await prisma.student.findMany({ select: { id: true } })
+     * // Only select the `studentId`
+     * const studentWithStudentIdOnly = await prisma.student.findMany({ select: { studentId: true } })
      * 
      */
     findMany<T extends StudentFindManyArgs>(args?: SelectSubset<T, StudentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -3313,9 +3301,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Students and only return the `id`
-     * const studentWithIdOnly = await prisma.student.createManyAndReturn({
-     *   select: { id: true },
+     * // Create many Students and only return the `studentId`
+     * const studentWithStudentIdOnly = await prisma.student.createManyAndReturn({
+     *   select: { studentId: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -3404,9 +3392,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Students and only return the `id`
-     * const studentWithIdOnly = await prisma.student.updateManyAndReturn({
-     *   select: { id: true },
+     * // Update zero or more Students and only return the `studentId`
+     * const studentWithStudentIdOnly = await prisma.student.updateManyAndReturn({
+     *   select: { studentId: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3611,10 +3599,9 @@ export namespace Prisma {
    * Fields of the Student model
    */
   interface StudentFieldRefs {
-    readonly id: FieldRef<"Student", 'String'>
+    readonly studentId: FieldRef<"Student", 'Int'>
     readonly createdAt: FieldRef<"Student", 'DateTime'>
     readonly updatedAt: FieldRef<"Student", 'DateTime'>
-    readonly studentId: FieldRef<"Student", 'Int'>
     readonly fullName: FieldRef<"Student", 'String'>
     readonly gender: FieldRef<"Student", 'String'>
     readonly dob: FieldRef<"Student", 'DateTime'>
@@ -6342,10 +6329,12 @@ export namespace Prisma {
   }
 
   export type EnrollmentAvgAggregateOutputType = {
+    studentId: number | null
     classRoll: number | null
   }
 
   export type EnrollmentSumAggregateOutputType = {
+    studentId: number | null
     classRoll: number | null
   }
 
@@ -6353,7 +6342,7 @@ export namespace Prisma {
     id: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    studentId: string | null
+    studentId: number | null
     academicYearId: string | null
     classId: string | null
     section: string | null
@@ -6365,7 +6354,7 @@ export namespace Prisma {
     id: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    studentId: string | null
+    studentId: number | null
     academicYearId: string | null
     classId: string | null
     section: string | null
@@ -6388,10 +6377,12 @@ export namespace Prisma {
 
 
   export type EnrollmentAvgAggregateInputType = {
+    studentId?: true
     classRoll?: true
   }
 
   export type EnrollmentSumAggregateInputType = {
+    studentId?: true
     classRoll?: true
   }
 
@@ -6522,7 +6513,7 @@ export namespace Prisma {
     id: string
     createdAt: Date
     updatedAt: Date
-    studentId: string
+    studentId: number
     academicYearId: string
     classId: string
     section: string
@@ -6634,7 +6625,7 @@ export namespace Prisma {
       id: string
       createdAt: Date
       updatedAt: Date
-      studentId: string
+      studentId: number
       academicYearId: string
       classId: string
       section: string
@@ -7069,7 +7060,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Enrollment", 'String'>
     readonly createdAt: FieldRef<"Enrollment", 'DateTime'>
     readonly updatedAt: FieldRef<"Enrollment", 'DateTime'>
-    readonly studentId: FieldRef<"Enrollment", 'String'>
+    readonly studentId: FieldRef<"Enrollment", 'Int'>
     readonly academicYearId: FieldRef<"Enrollment", 'String'>
     readonly classId: FieldRef<"Enrollment", 'String'>
     readonly section: FieldRef<"Enrollment", 'String'>
@@ -7505,12 +7496,14 @@ export namespace Prisma {
     gpa: number | null
     totalMarks: number | null
     position: number | null
+    studentId: number | null
   }
 
   export type ResultSumAggregateOutputType = {
     gpa: number | null
     totalMarks: number | null
     position: number | null
+    studentId: number | null
   }
 
   export type ResultMinAggregateOutputType = {
@@ -7525,7 +7518,7 @@ export namespace Prisma {
     academicYearId: string | null
     classId: string | null
     section: string | null
-    studentId: string | null
+    studentId: number | null
   }
 
   export type ResultMaxAggregateOutputType = {
@@ -7540,7 +7533,7 @@ export namespace Prisma {
     academicYearId: string | null
     classId: string | null
     section: string | null
-    studentId: string | null
+    studentId: number | null
   }
 
   export type ResultCountAggregateOutputType = {
@@ -7565,12 +7558,14 @@ export namespace Prisma {
     gpa?: true
     totalMarks?: true
     position?: true
+    studentId?: true
   }
 
   export type ResultSumAggregateInputType = {
     gpa?: true
     totalMarks?: true
     position?: true
+    studentId?: true
   }
 
   export type ResultMinAggregateInputType = {
@@ -7718,7 +7713,7 @@ export namespace Prisma {
     academicYearId: string
     classId: string
     section: string
-    studentId: string
+    studentId: number
     subjects: JsonValue[]
     _count: ResultCountAggregateOutputType | null
     _avg: ResultAvgAggregateOutputType | null
@@ -7850,7 +7845,7 @@ export namespace Prisma {
       academicYearId: string
       classId: string
       section: string
-      studentId: string
+      studentId: number
       subjects: Prisma.JsonValue[]
     }, ExtArgs["result"]["result"]>
     composites: {}
@@ -8289,7 +8284,7 @@ export namespace Prisma {
     readonly academicYearId: FieldRef<"Result", 'String'>
     readonly classId: FieldRef<"Result", 'String'>
     readonly section: FieldRef<"Result", 'String'>
-    readonly studentId: FieldRef<"Result", 'String'>
+    readonly studentId: FieldRef<"Result", 'Int'>
     readonly subjects: FieldRef<"Result", 'Json[]'>
   }
     
@@ -9731,10 +9726,9 @@ export namespace Prisma {
 
 
   export const StudentScalarFieldEnum: {
-    id: 'id',
+    studentId: 'studentId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    studentId: 'studentId',
     fullName: 'fullName',
     gender: 'gender',
     dob: 'dob',
@@ -10073,10 +10067,9 @@ export namespace Prisma {
     AND?: StudentWhereInput | StudentWhereInput[]
     OR?: StudentWhereInput[]
     NOT?: StudentWhereInput | StudentWhereInput[]
-    id?: StringFilter<"Student"> | string
+    studentId?: IntFilter<"Student"> | number
     createdAt?: DateTimeFilter<"Student"> | Date | string
     updatedAt?: DateTimeFilter<"Student"> | Date | string
-    studentId?: IntFilter<"Student"> | number
     fullName?: StringFilter<"Student"> | string
     gender?: StringFilter<"Student"> | string
     dob?: DateTimeFilter<"Student"> | Date | string
@@ -10098,10 +10091,9 @@ export namespace Prisma {
   }
 
   export type StudentOrderByWithRelationInput = {
-    id?: SortOrder
+    studentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    studentId?: SortOrder
     fullName?: SortOrder
     gender?: SortOrder
     dob?: SortOrder
@@ -10123,7 +10115,6 @@ export namespace Prisma {
   }
 
   export type StudentWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
     studentId?: number
     AND?: StudentWhereInput | StudentWhereInput[]
     OR?: StudentWhereInput[]
@@ -10148,13 +10139,12 @@ export namespace Prisma {
     enrollments?: EnrollmentListRelationFilter
     results?: ResultListRelationFilter
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-  }, "id" | "studentId">
+  }, "studentId" | "studentId">
 
   export type StudentOrderByWithAggregationInput = {
-    id?: SortOrder
+    studentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    studentId?: SortOrder
     fullName?: SortOrder
     gender?: SortOrder
     dob?: SortOrder
@@ -10181,10 +10171,9 @@ export namespace Prisma {
     AND?: StudentScalarWhereWithAggregatesInput | StudentScalarWhereWithAggregatesInput[]
     OR?: StudentScalarWhereWithAggregatesInput[]
     NOT?: StudentScalarWhereWithAggregatesInput | StudentScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Student"> | string
+    studentId?: IntWithAggregatesFilter<"Student"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
-    studentId?: IntWithAggregatesFilter<"Student"> | number
     fullName?: StringWithAggregatesFilter<"Student"> | string
     gender?: StringWithAggregatesFilter<"Student"> | string
     dob?: DateTimeWithAggregatesFilter<"Student"> | Date | string
@@ -10327,7 +10316,7 @@ export namespace Prisma {
     id?: StringFilter<"Enrollment"> | string
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
     updatedAt?: DateTimeFilter<"Enrollment"> | Date | string
-    studentId?: StringFilter<"Enrollment"> | string
+    studentId?: IntFilter<"Enrollment"> | number
     academicYearId?: StringFilter<"Enrollment"> | string
     classId?: StringFilter<"Enrollment"> | string
     section?: StringFilter<"Enrollment"> | string
@@ -10360,7 +10349,7 @@ export namespace Prisma {
     NOT?: EnrollmentWhereInput | EnrollmentWhereInput[]
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
     updatedAt?: DateTimeFilter<"Enrollment"> | Date | string
-    studentId?: StringFilter<"Enrollment"> | string
+    studentId?: IntFilter<"Enrollment"> | number
     academicYearId?: StringFilter<"Enrollment"> | string
     classId?: StringFilter<"Enrollment"> | string
     section?: StringFilter<"Enrollment"> | string
@@ -10395,7 +10384,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Enrollment"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Enrollment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Enrollment"> | Date | string
-    studentId?: StringWithAggregatesFilter<"Enrollment"> | string
+    studentId?: IntWithAggregatesFilter<"Enrollment"> | number
     academicYearId?: StringWithAggregatesFilter<"Enrollment"> | string
     classId?: StringWithAggregatesFilter<"Enrollment"> | string
     section?: StringWithAggregatesFilter<"Enrollment"> | string
@@ -10418,7 +10407,7 @@ export namespace Prisma {
     academicYearId?: StringFilter<"Result"> | string
     classId?: StringFilter<"Result"> | string
     section?: StringFilter<"Result"> | string
-    studentId?: StringFilter<"Result"> | string
+    studentId?: IntFilter<"Result"> | number
     subjects?: JsonNullableListFilter<"Result">
     academicYear?: XOR<AcademicYearScalarRelationFilter, AcademicYearWhereInput>
     class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
@@ -10459,7 +10448,7 @@ export namespace Prisma {
     academicYearId?: StringFilter<"Result"> | string
     classId?: StringFilter<"Result"> | string
     section?: StringFilter<"Result"> | string
-    studentId?: StringFilter<"Result"> | string
+    studentId?: IntFilter<"Result"> | number
     subjects?: JsonNullableListFilter<"Result">
     academicYear?: XOR<AcademicYearScalarRelationFilter, AcademicYearWhereInput>
     class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
@@ -10502,7 +10491,7 @@ export namespace Prisma {
     academicYearId?: StringWithAggregatesFilter<"Result"> | string
     classId?: StringWithAggregatesFilter<"Result"> | string
     section?: StringWithAggregatesFilter<"Result"> | string
-    studentId?: StringWithAggregatesFilter<"Result"> | string
+    studentId?: IntWithAggregatesFilter<"Result"> | number
     subjects?: JsonNullableListFilter<"Result">
   }
 
@@ -10649,10 +10638,8 @@ export namespace Prisma {
   }
 
   export type StudentCreateInput = {
-    id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId?: number
     fullName: string
     gender: string
     dob: Date | string
@@ -10674,10 +10661,9 @@ export namespace Prisma {
   }
 
   export type StudentUncheckedCreateInput = {
-    id?: string
+    studentId?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId?: number
     fullName: string
     gender: string
     dob: Date | string
@@ -10699,7 +10685,6 @@ export namespace Prisma {
   }
 
   export type StudentUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fullName?: StringFieldUpdateOperationsInput | string
@@ -10723,10 +10708,9 @@ export namespace Prisma {
   }
 
   export type StudentUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: IntFieldUpdateOperationsInput | number
     fullName?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     dob?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10748,10 +10732,9 @@ export namespace Prisma {
   }
 
   export type StudentCreateManyInput = {
-    id?: string
+    studentId?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId?: number
     fullName: string
     gender: string
     dob: Date | string
@@ -10770,7 +10753,6 @@ export namespace Prisma {
   }
 
   export type StudentUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fullName?: StringFieldUpdateOperationsInput | string
@@ -10791,10 +10773,9 @@ export namespace Prisma {
   }
 
   export type StudentUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: IntFieldUpdateOperationsInput | number
     fullName?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     dob?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10956,7 +10937,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId: string
+    studentId: number
     academicYearId: string
     classId: string
     section: string
@@ -10980,7 +10961,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     academicYearId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
@@ -10992,7 +10973,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId: string
+    studentId: number
     academicYearId: string
     classId: string
     section: string
@@ -11013,7 +10994,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     academicYearId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
@@ -11049,7 +11030,7 @@ export namespace Prisma {
     academicYearId: string
     classId: string
     section: string
-    studentId: string
+    studentId: number
     subjects?: ResultCreatesubjectsInput | InputJsonValue[]
   }
 
@@ -11081,7 +11062,7 @@ export namespace Prisma {
     academicYearId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     subjects?: ResultUpdatesubjectsInput | InputJsonValue[]
   }
 
@@ -11097,7 +11078,7 @@ export namespace Prisma {
     academicYearId: string
     classId: string
     section: string
-    studentId: string
+    studentId: number
     subjects?: ResultCreatesubjectsInput | InputJsonValue[]
   }
 
@@ -11126,7 +11107,7 @@ export namespace Prisma {
     academicYearId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     subjects?: ResultUpdatesubjectsInput | InputJsonValue[]
   }
 
@@ -11428,10 +11409,9 @@ export namespace Prisma {
   }
 
   export type StudentCountOrderByAggregateInput = {
-    id?: SortOrder
+    studentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    studentId?: SortOrder
     fullName?: SortOrder
     gender?: SortOrder
     dob?: SortOrder
@@ -11454,10 +11434,9 @@ export namespace Prisma {
   }
 
   export type StudentMaxOrderByAggregateInput = {
-    id?: SortOrder
+    studentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    studentId?: SortOrder
     fullName?: SortOrder
     gender?: SortOrder
     dob?: SortOrder
@@ -11476,10 +11455,9 @@ export namespace Prisma {
   }
 
   export type StudentMinOrderByAggregateInput = {
-    id?: SortOrder
+    studentId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    studentId?: SortOrder
     fullName?: SortOrder
     gender?: SortOrder
     dob?: SortOrder
@@ -11614,6 +11592,7 @@ export namespace Prisma {
   }
 
   export type EnrollmentAvgOrderByAggregateInput = {
+    studentId?: SortOrder
     classRoll?: SortOrder
   }
 
@@ -11642,6 +11621,7 @@ export namespace Prisma {
   }
 
   export type EnrollmentSumOrderByAggregateInput = {
+    studentId?: SortOrder
     classRoll?: SortOrder
   }
 
@@ -11714,6 +11694,7 @@ export namespace Prisma {
     gpa?: SortOrder
     totalMarks?: SortOrder
     position?: SortOrder
+    studentId?: SortOrder
   }
 
   export type ResultMaxOrderByAggregateInput = {
@@ -11750,6 +11731,7 @@ export namespace Prisma {
     gpa?: SortOrder
     totalMarks?: SortOrder
     position?: SortOrder
+    studentId?: SortOrder
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12531,10 +12513,8 @@ export namespace Prisma {
   }
 
   export type StudentCreateWithoutUserInput = {
-    id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId?: number
     fullName: string
     gender: string
     dob: Date | string
@@ -12555,10 +12535,9 @@ export namespace Prisma {
   }
 
   export type StudentUncheckedCreateWithoutUserInput = {
-    id?: string
+    studentId?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId?: number
     fullName: string
     gender: string
     dob: Date | string
@@ -12595,7 +12574,6 @@ export namespace Prisma {
   }
 
   export type StudentUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fullName?: StringFieldUpdateOperationsInput | string
@@ -12618,10 +12596,9 @@ export namespace Prisma {
   }
 
   export type StudentUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: IntFieldUpdateOperationsInput | number
     fullName?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     dob?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12765,7 +12742,7 @@ export namespace Prisma {
     id?: StringFilter<"Enrollment"> | string
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
     updatedAt?: DateTimeFilter<"Enrollment"> | Date | string
-    studentId?: StringFilter<"Enrollment"> | string
+    studentId?: IntFilter<"Enrollment"> | number
     academicYearId?: StringFilter<"Enrollment"> | string
     classId?: StringFilter<"Enrollment"> | string
     section?: StringFilter<"Enrollment"> | string
@@ -12804,7 +12781,7 @@ export namespace Prisma {
     academicYearId?: StringFilter<"Result"> | string
     classId?: StringFilter<"Result"> | string
     section?: StringFilter<"Result"> | string
-    studentId?: StringFilter<"Result"> | string
+    studentId?: IntFilter<"Result"> | number
     subjects?: JsonNullableListFilter<"Result">
   }
 
@@ -12858,7 +12835,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId: string
+    studentId: number
     classId: string
     section: string
     status: $Enums.EnrollmentStatus
@@ -12901,7 +12878,7 @@ export namespace Prisma {
     position?: number | null
     classId: string
     section: string
-    studentId: string
+    studentId: number
     subjects?: ResultCreatesubjectsInput | InputJsonValue[]
   }
 
@@ -12962,7 +12939,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId: string
+    studentId: number
     academicYearId: string
     section: string
     status: $Enums.EnrollmentStatus
@@ -13005,7 +12982,7 @@ export namespace Prisma {
     position?: number | null
     academicYearId: string
     section: string
-    studentId: string
+    studentId: number
     subjects?: ResultCreatesubjectsInput | InputJsonValue[]
   }
 
@@ -13052,10 +13029,8 @@ export namespace Prisma {
   }
 
   export type StudentCreateWithoutEnrollmentsInput = {
-    id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId?: number
     fullName: string
     gender: string
     dob: Date | string
@@ -13076,10 +13051,9 @@ export namespace Prisma {
   }
 
   export type StudentUncheckedCreateWithoutEnrollmentsInput = {
-    id?: string
+    studentId?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId?: number
     fullName: string
     gender: string
     dob: Date | string
@@ -13162,7 +13136,6 @@ export namespace Prisma {
   }
 
   export type StudentUpdateWithoutEnrollmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fullName?: StringFieldUpdateOperationsInput | string
@@ -13185,10 +13158,9 @@ export namespace Prisma {
   }
 
   export type StudentUncheckedUpdateWithoutEnrollmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: IntFieldUpdateOperationsInput | number
     fullName?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     dob?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13313,10 +13285,8 @@ export namespace Prisma {
   }
 
   export type StudentCreateWithoutResultsInput = {
-    id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId?: number
     fullName: string
     gender: string
     dob: Date | string
@@ -13337,10 +13307,9 @@ export namespace Prisma {
   }
 
   export type StudentUncheckedCreateWithoutResultsInput = {
-    id?: string
+    studentId?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId?: number
     fullName: string
     gender: string
     dob: Date | string
@@ -13435,7 +13404,6 @@ export namespace Prisma {
   }
 
   export type StudentUpdateWithoutResultsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     fullName?: StringFieldUpdateOperationsInput | string
@@ -13458,10 +13426,9 @@ export namespace Prisma {
   }
 
   export type StudentUncheckedUpdateWithoutResultsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: IntFieldUpdateOperationsInput | number
     fullName?: StringFieldUpdateOperationsInput | string
     gender?: StringFieldUpdateOperationsInput | string
     dob?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13589,7 +13556,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId: string
+    studentId: number
     classId: string
     section: string
     status: $Enums.EnrollmentStatus
@@ -13607,7 +13574,7 @@ export namespace Prisma {
     position?: number | null
     classId: string
     section: string
-    studentId: string
+    studentId: number
     subjects?: ResultCreatesubjectsInput | InputJsonValue[]
   }
 
@@ -13626,7 +13593,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     classId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
     status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
@@ -13637,7 +13604,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     classId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
     status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
@@ -13670,7 +13637,7 @@ export namespace Prisma {
     position?: NullableIntFieldUpdateOperationsInput | number | null
     classId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     subjects?: ResultUpdatesubjectsInput | InputJsonValue[]
   }
 
@@ -13685,7 +13652,7 @@ export namespace Prisma {
     position?: NullableIntFieldUpdateOperationsInput | number | null
     classId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     subjects?: ResultUpdatesubjectsInput | InputJsonValue[]
   }
 
@@ -13693,7 +13660,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    studentId: string
+    studentId: number
     academicYearId: string
     section: string
     status: $Enums.EnrollmentStatus
@@ -13711,7 +13678,7 @@ export namespace Prisma {
     position?: number | null
     academicYearId: string
     section: string
-    studentId: string
+    studentId: number
     subjects?: ResultCreatesubjectsInput | InputJsonValue[]
   }
 
@@ -13730,7 +13697,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     academicYearId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
     status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
@@ -13741,7 +13708,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     academicYearId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
     status?: EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
@@ -13774,7 +13741,7 @@ export namespace Prisma {
     position?: NullableIntFieldUpdateOperationsInput | number | null
     academicYearId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     subjects?: ResultUpdatesubjectsInput | InputJsonValue[]
   }
 
@@ -13789,7 +13756,7 @@ export namespace Prisma {
     position?: NullableIntFieldUpdateOperationsInput | number | null
     academicYearId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
-    studentId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
     subjects?: ResultUpdatesubjectsInput | InputJsonValue[]
   }
 

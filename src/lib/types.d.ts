@@ -21,10 +21,9 @@ export type Class = {
 };
 
 export type StudentType = {
-  id: string;
+  studentId: number;
   createdAt: string;
   updatedAt: string;
-  studentId: number;
   fullName: string;
   gender: string;
   dob: string;
@@ -118,7 +117,6 @@ export type NoticesType = {
 export type UserWithoutPass = Omit<User, "password">;
 
 export type EnrollmentData = {
-  id: string;
   studentId: number | undefined;
   fullName: string;
   classRoll: number;

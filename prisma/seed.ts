@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-// import { PrismaClient } from "../src/app/generated/prisma";
+// import { PrismaClient } from "../src/app/gene/rated/prisma";
 
 const prisma = new PrismaClient();
 //generated client not work in seed file used @prisma/client from previous method
@@ -76,7 +76,7 @@ async function main() {
 
   if (!targetClass) throw new Error("Class 1 not found");
 
-  const studentsToCreate = 20; // number of dummy students
+  const studentsToCreate = 50; // number of dummy students
   let rollNumber = 1;
 
   for (let i = 0; i < studentsToCreate; i++) {
@@ -90,7 +90,7 @@ async function main() {
     const guardianPhone = mobile;
 
     // 1. Create Student only (without classRoll)
-    const student = await prisma.student.create({
+    const createdStudent = await prisma.student.create({
       data: {
         fullName,
         gender,
@@ -109,12 +109,12 @@ async function main() {
     // 2. Create Enrollment (attach to class, academic year, section, and assign roll)
     await prisma.enrollment.create({
       data: {
-        studentId: student.id,
+        studentId: createdStudent.studentId,
         classId: targetClass.id,
         academicYearId: academicYear.id,
-        section: sections[Math.floor(Math.random() * sections.length)], // random section
+        section: sections[Math.floor(Math.random() * sections.length)],
         classRoll: rollNumber,
-        status: "ADMITTED", // default status
+        status: "ADMITTED",
       },
     });
 

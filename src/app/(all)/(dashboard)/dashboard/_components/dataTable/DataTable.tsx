@@ -41,7 +41,7 @@ const DataTable = async ({ data, searchParams }: props) => {
 
         <TableBody>
           {data.map((item) => (
-            <TableRow key={item.id}>
+            <TableRow key={item.studentId}>
               <TableCell>{item.studentId}</TableCell>
               <TableCell className="font-medium">{item.fullName}</TableCell>
               <TableCell>
@@ -56,7 +56,7 @@ const DataTable = async ({ data, searchParams }: props) => {
                 <TooltipComp text="View">
                   <Link
                     href={{
-                      pathname: `/dashboard/students/view/${item.id}`,
+                      pathname: `/dashboard/students/view/${item.studentId}`,
                       query: {
                         selectedYearId,
                       },
@@ -69,7 +69,7 @@ const DataTable = async ({ data, searchParams }: props) => {
                   <TooltipComp text="Update">
                     <Link
                       href={{
-                        pathname: `/dashboard/students/edit/${item.id}`,
+                        pathname: `/dashboard/students/edit/${item.studentId}`,
                         query: {
                           selectedYearId,
                           isCurrent,
