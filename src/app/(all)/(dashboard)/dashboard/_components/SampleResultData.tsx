@@ -1,35 +1,41 @@
 "use client";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Form } from "@/components/ui/form";
+import { SelectItem } from "@/components/ui/select";
 import { fetchSampleData } from "@/lib/actions/sampleResultData.action";
 import { Class } from "@/lib/types";
 import { SampleResultSchema } from "@/lib/zodSchema";
 import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-const SampleResultData = ({ classes }: { classes: Class[] }) => {
+const fetchClasses = async (): Promise<Class[]> => {
+  const response = await fetch("/api/classes");
+  if (!response.ok) {
+    throw new Error("Failed to fetch classes");
+  }
+  return response.json();
+};
+
+const SampleResultData = () => {
   const { isCurrent } = useAcademicYearStore();
   const form = useForm<z.infer<typeof SampleResultSchema>>({
     resolver: zodResolver(SampleResultSchema),
   });
+
+  const {
+    data: classesData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["classes"],
+    queryFn: fetchClasses,
+  });
+
   const mutation = useMutation({
     mutationFn: async (values: z.infer<typeof SampleResultSchema>) =>
       fetchSampleData(values),
@@ -58,61 +64,37 @@ const SampleResultData = ({ classes }: { classes: Class[] }) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className=" grid grid-cols-4 gap-4 items-center justify-center my-4"
       >
-        <FormField
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
           control={form.control}
           name="className"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Class <span className="text-red-500">*</span>
-              </FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger className="h-10 rounded-md">
-                    <SelectValue placeholder="Select Class" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {classes.map((cls) => (
-                    <SelectItem key={cls.id} value={cls.className}>
-                      {cls.className}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          label="Select Class"
+          placeholder="Select Class"
+          disabled={isLoading}
+        >
+          {classesData?.map((cls) => (
+            <SelectItem key={cls.id} value={cls.className}>
+              {cls.className}
+            </SelectItem>
+          ))}
+        </CustomFormField>
 
-        <FormField
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
           control={form.control}
           name="section"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Section <span className="text-red-500">*</span>
-              </FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger className="h-10 rounded-md">
-                    <SelectValue placeholder="Select Section" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {classes
-                    .find((item) => item.className === selectedClass)
-                    ?.sectionName.map((section) => (
-                      <SelectItem key={section} value={section}>
-                        {section}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          label="Select Section"
+          placeholder="Select Section"
+          disabled={isLoading}
+        >
+          {classesData
+            ?.find((item) => item.className === selectedClass)
+            ?.sectionName.map((section) => (
+              <SelectItem key={section} value={section}>
+                {section}
+              </SelectItem>
+            ))}
+        </CustomFormField>
 
         <div className="space-x-2 flex items-end h-full">
           <Button

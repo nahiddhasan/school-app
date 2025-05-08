@@ -393,15 +393,20 @@ export const sidebarItems = [
     icon: CalendarClock,
     submenu: [
       {
+        title: "Create Schedule",
+        path: "/dashboard/schedule/add",
+        icon: List,
+      },
+      {
         title: "Class Schedules",
         path: "/dashboard/schedule/classes",
         icon: List,
       },
-      {
-        title: "Exam Schedules",
-        path: "/dashboard/schedule/exam",
-        icon: List,
-      },
+      // {
+      //   title: "Exam Schedules",
+      //   path: "/dashboard/schedule/exam",
+      //   icon: List,
+      // },
     ],
   },
   {

@@ -57,7 +57,7 @@ const SearchFilter = ({
             defaultValue={selectedPageSize}
             onValueChange={(val) => handlePageSize(Number(val))}
           >
-            <SelectTrigger className="h-10 w-[70px] rounded-md ">
+            <SelectTrigger className="h-10 w-[70px] rounded-md bg-transparent">
               <SelectValue placeholder="Select Page Size" />
             </SelectTrigger>
             <SelectContent>
@@ -75,7 +75,7 @@ const SearchFilter = ({
           <Input
             onChange={handleSearch}
             placeholder={inputLabel}
-            className="max-w-sm border-none outline-none px-1"
+            className="max-w-sm border-none outline-none px-1 bg-transparent"
           />
         </div>
       </div>

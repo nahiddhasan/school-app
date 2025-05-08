@@ -23,7 +23,7 @@ const StudentPage = async ({
   const { students, totalStudents } = await fetchStudents(searchParams);
 
   return (
-    <div className="p-4 h-[calc(100vh-48px)] overflow-y-scroll">
+    <div className="p-4 m-4 h-[calc(100vh-70px)] overflow-y-auto bg-card rounded-lg">
       <SearchForm />
       <SearchFilter inputLabel="Search By Name Roll or StudentId..." />
       <hr />

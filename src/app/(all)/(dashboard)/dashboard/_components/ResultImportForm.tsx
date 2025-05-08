@@ -1,40 +1,41 @@
 "use client";
 import { ExamType } from "@/app/generated/prisma";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Form } from "@/components/ui/form";
+import { SelectItem } from "@/components/ui/select";
 import { importResults } from "@/lib/actions/importResult.action";
 import { Class } from "@/lib/types";
 import { uploadResultSchema } from "@/lib/zodSchema";
 import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-type props = {
-  classes: Class[];
+const fetchClasses = async (): Promise<Class[]> => {
+  const response = await fetch("/api/classes");
+  if (!response.ok) {
+    throw new Error("Failed to fetch classes");
+  }
+  return response.json();
 };
-const ResultImportForm = ({ classes }: props) => {
+
+const ResultImportForm = () => {
   const { isCurrent } = useAcademicYearStore();
 
   const form = useForm<z.infer<typeof uploadResultSchema>>({
     resolver: zodResolver(uploadResultSchema),
+  });
+
+  const {
+    data: classesData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["classes"],
+    queryFn: fetchClasses,
   });
 
   const mutation = useMutation({
@@ -86,116 +87,65 @@ const ResultImportForm = ({ classes }: props) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid grid-cols-4 gap-4 items-center my-4"
         >
-          <FormField
+          <CustomFormField
+            fieldType={FormFieldType.SELECT}
             control={form.control}
             name="className"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Class <span className="text-red-500">*</span>
-                </FormLabel>
-                <Select onValueChange={field.onChange}>
-                  <FormControl>
-                    <SelectTrigger className="h-10 rounded-md">
-                      <SelectValue placeholder="Select Class" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {classes.map((cls) => (
-                      <SelectItem key={cls.id} value={cls.className}>
-                        {cls.className}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            label="Select Class"
+            placeholder="Select Class"
+            disabled={isLoading}
+          >
+            {classesData?.map((cls) => (
+              <SelectItem key={cls.id} value={cls.className}>
+                {cls.className}
+              </SelectItem>
+            ))}
+          </CustomFormField>
 
-          <FormField
+          <CustomFormField
+            fieldType={FormFieldType.SELECT}
             control={form.control}
             name="section"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Section <span className="text-red-500">*</span>
-                </FormLabel>
-                <Select onValueChange={field.onChange}>
-                  <FormControl>
-                    <SelectTrigger className="h-10 rounded-md">
-                      <SelectValue placeholder="Select Section" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {classes
-                      .find((item) => item.className === selectedClass)
-                      ?.sectionName.map((section) => (
-                        <SelectItem key={section} value={section}>
-                          {section}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
+            label="Select Section"
+            placeholder="Select Section"
+            disabled={isLoading}
+          >
+            {classesData
+              ?.find((item) => item.className === selectedClass)
+              ?.sectionName.map((section) => (
+                <SelectItem key={section} value={section}>
+                  {section}
+                </SelectItem>
+              ))}
+          </CustomFormField>
+
+          <CustomFormField
+            fieldType={FormFieldType.SELECT}
             control={form.control}
             name="examType"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Exam <span className="text-red-500">*</span>
-                </FormLabel>
-                <Select onValueChange={field.onChange}>
-                  <FormControl>
-                    <SelectTrigger className="h-10 rounded-md">
-                      <SelectValue placeholder="Select Exam Type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value={ExamType.MIDTERM}>
-                      {ExamType.MIDTERM}
-                    </SelectItem>
-                    <SelectItem value={ExamType.FINAL}>
-                      {ExamType.FINAL}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
+            label="Select Exam Type"
+            placeholder="Select Exam Type"
+            disabled={isLoading}
+          >
+            {Object.keys(ExamType).map((type) => (
+              <SelectItem key={type} value={type}>
+                {type}
+              </SelectItem>
+            ))}
+          </CustomFormField>
+          <CustomFormField
+            fieldType={FormFieldType.FILE}
             control={form.control}
             name="file"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>
-                    Select CSV <span className="text-red-500">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      placeholder="Select CSV"
-                      {...fileRef}
-                      className="text-sm h-10 rounded-md"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
+            label="Choose CSV"
+            placeholder="Choose CSV"
+            fileRef={fileRef}
           />
 
           <div className="space-x-2 flex items-end h-full">
             <Button
               type="submit"
-              variant={"outline"}
+              variant={"secondary"}
               className="rounded-md"
               disabled={mutation.isPending || !isCurrent}
             >

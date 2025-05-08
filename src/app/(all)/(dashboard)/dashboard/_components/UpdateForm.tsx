@@ -112,7 +112,7 @@ const UpdateForm = ({ classes, student }: Props) => {
   const selectedImage = ImageFile && ImageFile[0];
 
   return (
-    <div className="p-4">
+    <div className="p-4 m-4 h-[calc(100vh-70px)] overflow-y-auto bg-card rounded-lg">
       <div className="flex items-center justify-between overflow-auto">
         <h1 className="text-3xl">Update Student</h1>
       </div>
@@ -330,9 +330,8 @@ const UpdateForm = ({ classes, student }: Props) => {
           <div className="space-x-2 flex items-end pb-12">
             <Button
               type="submit"
-              variant="outline"
-              size="sm"
-              className="rounded-sm"
+              variant={"secondary"}
+              className="rounded-md"
               disabled={mutation.isPending || uploading || !isCurrent}
             >
               {uploading

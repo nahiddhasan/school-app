@@ -304,3 +304,17 @@ export const updateAcademicYearSchema = z.object({
   year: z.number().min(1, { message: "Year is required!" }),
   isCurrent: z.string().min(1, { message: "IsCurrent is required!" }),
 });
+
+export const scheduleSchema = z.object({
+  className: z.string().min(1, { message: "ClassName is required!" }),
+  section: z.string().min(1, { message: "Section is required!" }),
+  subject: z.string().min(1, { message: "Subject is required!" }),
+  teacher: z.string().min(1, { message: "Teacher is required!" }),
+  dayOfWeek: z.string().min(1, { message: "Day is required!" }),
+  startTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: "Start Time must be in HH:mm format!",
+  }),
+  endTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+    message: "End Time must be in HH:mm format!",
+  }),
+});

@@ -16,7 +16,7 @@ const Enrollment = async ({ searchParams }: { searchParams: searchParams }) => {
   const students = await fetchPromotePreview(searchParams);
 
   return (
-    <div className="p-4 h-full overflow-y-scroll pb-14">
+    <div className="p-4 m-4 h-[calc(100vh-70px)] overflow-y-auto bg-card rounded-lg">
       <SearchForm requireSection />
       <EnrollmentDataTable columns={columns} data={students} />
     </div>

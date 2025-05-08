@@ -92,7 +92,7 @@ const AdmissionForm = ({ classes }: Props) => {
   };
 
   return (
-    <div className="p-4 overflow-y-auto h-full">
+    <div className="p-4 overflow-y-auto h-[calc(100vh-70px)] m-4 bg-card rounded-lg">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl">Student Admission</h1>
         <Button variant="outline" size="sm">
@@ -297,8 +297,7 @@ const AdmissionForm = ({ classes }: Props) => {
           <div className="space-x-2 flex items-end pb-12">
             <Button
               type="submit"
-              variant="outline"
-              size="sm"
+              variant={"secondary"}
               className="rounded-sm"
               disabled={mutation.isPending || uploading || !isCurrent}
             >

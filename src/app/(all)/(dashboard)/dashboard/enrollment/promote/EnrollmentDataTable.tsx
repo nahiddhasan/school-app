@@ -108,7 +108,7 @@ export default function EnrollmentDataTable<
               defaultValue={table.getState().pagination.pageSize.toString()}
               onValueChange={(val) => table.setPageSize(Number(val))}
             >
-              <SelectTrigger className="h-10 w-[70px] rounded-md ">
+              <SelectTrigger className="h-10 w-[70px] rounded-md bg-transparent">
                 <SelectValue placeholder="Select Page Size" />
               </SelectTrigger>
               <SelectContent>
@@ -129,7 +129,7 @@ export default function EnrollmentDataTable<
             onChange={(event) =>
               table.getColumn("fullName")?.setFilterValue(event.target.value)
             }
-            className="max-w-md h-10 rounded-md"
+            className="max-w-md h-10 rounded-md bg-transparent"
           />
         </div>
 

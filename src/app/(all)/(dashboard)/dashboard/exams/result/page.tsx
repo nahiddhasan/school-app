@@ -6,7 +6,7 @@ const ManageResultPage = async () => {
   const classes = await fetchClasses();
 
   return (
-    <div className="p-4">
+    <div className="p-4 m-4 h-[calc(100vh-70px)] overflow-y-scroll bg-card rounded-lg">
       <div className="">
         <span className="text-xl">Import Citeria</span>
       </div>
@@ -17,8 +17,8 @@ const ManageResultPage = async () => {
           <li>3. Ensure all the columns included.</li>
           <li>3. Select class and section to insert specific class.</li>
         </ol>
-        <SampleResultData classes={classes} />
-        <ResultImportForm classes={classes} />
+        <SampleResultData />
+        <ResultImportForm />
       </div>
     </div>
   );

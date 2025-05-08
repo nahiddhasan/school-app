@@ -34,6 +34,7 @@ const SearchForm = ({
     queryKey: ["classes"],
     queryFn: fetchClasses,
   });
+
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -113,7 +114,11 @@ const SearchForm = ({
                 </CustomFormField>
               </div>
 
-              <Button type="submit" variant={"outline"} className="rounded-md">
+              <Button
+                type="submit"
+                variant={"secondary"}
+                className="rounded-md"
+              >
                 Submit
               </Button>
             </div>

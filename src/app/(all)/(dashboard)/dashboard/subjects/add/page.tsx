@@ -14,7 +14,6 @@ import { addClass } from "@/lib/actions";
 
 import { addClassSchema } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -75,11 +74,11 @@ const AddClass = () => {
             name="className"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>ClassName</FormLabel>
+                <FormLabel>Subject Name</FormLabel>
                 <FormControl>
                   <Input
                     className="rounded-md h-10 bg-transparent"
-                    placeholder="Class Name"
+                    placeholder="Subject Name"
                     {...field}
                   />
                 </FormControl>
@@ -89,47 +88,6 @@ const AddClass = () => {
             )}
           />
 
-          <div className="flex flex-col">
-            <div className="flex gap-2">
-              <div>
-                <FormLabel>Section</FormLabel>
-                <Input
-                  ref={inputRef}
-                  type="text"
-                  className="rounded-md h-10 bg-transparent"
-                  value={section}
-                  placeholder="Section Name"
-                  onChange={(e) => setSection(e.target.value)}
-                />
-              </div>
-              <Button
-                variant={"secondary"}
-                onClick={handleAdd}
-                type="button"
-                className="w-max self-end"
-              >
-                Add
-              </Button>
-            </div>
-            {sectionError && (
-              <p className={"text-sm font-medium text-destructive py-1"}>
-                {sectionError}
-              </p>
-            )}
-            <div className=" flex gap-2 flex-wrap mt-2">
-              {sections.length > 0 &&
-                sections.map((section, i) => (
-                  <span
-                    key={i}
-                    onClick={() => handleRemoveSection(i)}
-                    className=" bg-zinc-700 rounded-md px-2 py-1 flex items-center gap-2 cursor-pointer"
-                  >
-                    {section}
-                    <X size={14} className="text-red-600 font-bold" />
-                  </span>
-                ))}
-            </div>
-          </div>
           <Button variant={"secondary"} disabled={isPending} type="submit">
             Submit
           </Button>

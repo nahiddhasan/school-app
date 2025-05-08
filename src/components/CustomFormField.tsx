@@ -19,6 +19,7 @@ import { Textarea } from "./ui/textarea";
 export enum FormFieldType {
   INPUT = "input",
   NUMBER = "number",
+  TIME = "time",
   PASSWORD = "password",
   FILE = "file",
   TEXTAREA = "textarea",
@@ -58,7 +59,21 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               disabled={props.disabled}
               placeholder={props.placeholder}
               {...field}
-              className={cn("shad-input", props.className)}
+              className={cn("shad-input bg-transparent", props.className)}
+            />
+          </FormControl>
+        </div>
+      );
+    case FormFieldType.TIME:
+      return (
+        <div className="rounded-md">
+          <FormControl>
+            <Input
+              type="time"
+              disabled={props.disabled}
+              placeholder={props.placeholder}
+              {...field}
+              className={cn("shad-input bg-transparent", props.className)}
             />
           </FormControl>
         </div>
@@ -73,7 +88,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               placeholder={props.placeholder}
               value={Number(field.value) || ""}
               onChange={(e) => field.onChange(Number(e.target.value))}
-              className={cn("shad-input", props.className)}
+              className={cn("shad-input bg-transparent", props.className)}
             />
           </FormControl>
         </div>
@@ -101,7 +116,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               type={props.fieldType}
               placeholder={props.placeholder}
               {...props.fileRef}
-              className={cn("shad-input", props.className)}
+              className={cn("shad-input bg-transparent", props.className)}
             />
           </FormControl>
         </div>
@@ -170,7 +185,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             <FormControl>
               <SelectTrigger
                 className={cn(
-                  "shad-select-trigger h-10 rounded-md",
+                  "bg-transparent h-10 rounded-md",
                   props.className
                 )}
               >

@@ -51,13 +51,14 @@ const AddUser = () => {
   };
 
   return (
-    <div className="p-4 px-16">
-      <h1 className="text-2xl py-4">Add New User</h1>
+    <div className="h-[calc(100%-48px)] flex items-center justify-center">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-2"
+          className="w-full space-y-2 max-w-xl mx-auto bg-card rounded-lg p-6 shadow-md"
         >
+          <h1 className="text-3xl font-bold py-4">Add New User</h1>
+
           <FormField
             control={form.control}
             name="name"
