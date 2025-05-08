@@ -20,10 +20,34 @@ model User {
 
   isDisabled Boolean @default(false)
 
+  teacherId Int?     @unique
+  teacher   Teacher? @relation(fields: [teacherId], references: [teacherId])
+
   studentId Int?     @unique
   student   Student? @relation(fields: [studentId], references: [studentId])
 
   @@index([studentId])
+}
+
+model Teacher {
+  teacherId   Int      @id @default(autoincrement())
+  name        String
+  phone       String   @unique
+  email       String   @unique
+  subject     String?
+  designation String?
+  department  String?
+  joinedAt    DateTime @default(now())
+  dob         DateTime
+  gender      String
+  address     String?
+  bloodGroup  String?
+  profileImg  String?
+
+  user      User?
+  schedules WeeklySchedule[]
+  Subject   Subject?         @relation(fields: [subjectId], references: [id])
+  subjectId String?
 }
 
 model Student {
@@ -74,6 +98,7 @@ model Class {
   results      Result[]
   Event        Event[]
   Announcement Announcement[]
+  schedules    WeeklySchedule[]
 }
 
 model Enrollment {
@@ -142,6 +167,32 @@ model Announcement {
   date      DateTime
   class     Class?   @relation(fields: [classId], references: [id])
   classId   String?
+}
+
+model Subject {
+  id        String           @id @default(cuid())
+  name      String
+  teachers  Teacher[]
+  schedules WeeklySchedule[]
+}
+
+model WeeklySchedule {
+  id String @id @default(cuid())
+
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+
+  section String // NEW: Add this field to link to a specific section
+
+  teacher   Teacher @relation(fields: [teacherId], references: [teacherId])
+  teacherId Int
+
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId String
+
+  dayOfWeek Int // 0 = Sunday, ..., 6 = Saturday
+  startTime String // e.g., "08:00"
+  endTime   String // e.g., "08:45"
 }
 
 model Notice {

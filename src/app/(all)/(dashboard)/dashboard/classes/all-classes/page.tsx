@@ -6,15 +6,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getClasses } from "@/lib/data";
+import { fetchClasses } from "@/lib/actions/classes.action";
 import UpdateClassModal from "../../_components/UpdateClassModal";
 
 const Classes = async () => {
-  const classes = await getClasses();
+  const classes = await fetchClasses();
 
   return (
-    <div className="p-4 px-16">
-      <h1 className="text-3xl mb-4">All Classes</h1>
+    <div className="p-4 px-16 h-[calc(100%-48px)] overflow-y-auto">
+      <h1 className="text-3xl mb-4 font-bold">All Classes</h1>
       <div className=" ">
         <Table>
           <TableHeader>

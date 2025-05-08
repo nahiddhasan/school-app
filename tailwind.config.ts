@@ -32,6 +32,10 @@ const config = {
           "900": "#064e36",
           "950": "#022c1e",
         },
+        chart: {
+          "1": "#2661D9",
+          "2": "#E2366F",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

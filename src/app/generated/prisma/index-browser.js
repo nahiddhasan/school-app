@@ -127,7 +127,25 @@ exports.Prisma.UserScalarFieldEnum = {
   image: 'image',
   role: 'role',
   isDisabled: 'isDisabled',
+  teacherId: 'teacherId',
   studentId: 'studentId'
+};
+
+exports.Prisma.TeacherScalarFieldEnum = {
+  teacherId: 'teacherId',
+  name: 'name',
+  phone: 'phone',
+  email: 'email',
+  subject: 'subject',
+  designation: 'designation',
+  department: 'department',
+  joinedAt: 'joinedAt',
+  dob: 'dob',
+  gender: 'gender',
+  address: 'address',
+  bloodGroup: 'bloodGroup',
+  profileImg: 'profileImg',
+  subjectId: 'subjectId'
 };
 
 exports.Prisma.StudentScalarFieldEnum = {
@@ -215,6 +233,22 @@ exports.Prisma.AnnouncementScalarFieldEnum = {
   classId: 'classId'
 };
 
+exports.Prisma.SubjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.WeeklyScheduleScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  section: 'section',
+  teacherId: 'teacherId',
+  subjectId: 'subjectId',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime'
+};
+
 exports.Prisma.NoticeScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -262,6 +296,7 @@ exports.ExamType = exports.$Enums.ExamType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Teacher: 'Teacher',
   Student: 'Student',
   AcademicYear: 'AcademicYear',
   Class: 'Class',
@@ -269,6 +304,8 @@ exports.Prisma.ModelName = {
   Result: 'Result',
   Event: 'Event',
   Announcement: 'Announcement',
+  Subject: 'Subject',
+  WeeklySchedule: 'WeeklySchedule',
   Notice: 'Notice'
 };
 

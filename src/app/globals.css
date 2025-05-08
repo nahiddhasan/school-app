@@ -41,6 +41,7 @@ body,
     --radius: 0.5rem;
 
     --chart-1: 173 58% 39%;
+    --chart-1-border: hsl(var(--chart-1) / 0.8);
     --chart-2: 12 76% 61%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
@@ -77,6 +78,7 @@ body,
     --ring: 220 15% 30%;
 
     --chart-1: 220 70% 50%;
+    --chart-1-border: 220 70% 40%;
     --chart-5: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
@@ -381,12 +383,33 @@ body,
 .react-calendar__navigation__label__labelText {
   font-weight: 600;
 }
-/* .weekend {
-  color: #d00;
-  font-weight: bold;
+
+/* big calender  */
+
+.rbc-today {
+  @apply !bg-green-700/20 !h-full;
+}
+.rbc-event {
+  @apply !bg-[hsl(var(--chart-1))] !border-[hsl(var(--chart-1-border))];
 }
 
-.sunday {
-  color: inherit !important;
-  font-weight: bold;
-} */
+.rbc-toolbar button {
+  @apply dark:hover:!bg-zinc-700 dark:!text-white;
+}
+
+.rbc-time-view,
+.rbc-time-content,
+.rbc-timeslot-group,
+.rbc-time-header-content,
+.rbc-time-content > * + * > *,
+.rbc-day-slot .rbc-time-slot,
+.rbc-toolbar button,
+.rbc-header,
+.rbc-row-bg,
+.rbc-day-bg + .rbc-day-bg {
+  @apply !border-border;
+}
+
+.rbc-active {
+  @apply !bg-[hsl(var(--chart-1))] hover:!bg-[hsl(var(--chart-1))]/90 !text-white;
+}

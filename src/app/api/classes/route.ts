@@ -13,7 +13,11 @@ export const GET = async () => {
       );
     }
 
-    const classes = await prisma.class.findMany();
+    const classes = await prisma.class.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
 
     return NextResponse.json(classes);
   } catch (error) {

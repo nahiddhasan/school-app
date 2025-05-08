@@ -6,6 +6,7 @@ import {
   BookX,
   Calendar,
   CalendarClock,
+  CalendarDays,
   List,
   PanelsTopLeft,
   Plus,
@@ -382,12 +383,24 @@ export const sidebarItems = [
         path: "/dashboard/exams/quiz",
       },
       {
-        title: "Exam Schedule",
-        path: "/dashboard/exams/schedule",
-      },
-      {
         title: "Publish Result",
         path: "/dashboard/exams/result",
+      },
+    ],
+  },
+  {
+    title: "Schedule",
+    icon: CalendarClock,
+    submenu: [
+      {
+        title: "Class Schedules",
+        path: "/dashboard/schedule/classes",
+        icon: List,
+      },
+      {
+        title: "Exam Schedules",
+        path: "/dashboard/schedule/exam",
+        icon: List,
       },
     ],
   },
@@ -425,7 +438,7 @@ export const sidebarItems = [
   },
   {
     title: "Events",
-    icon: CalendarClock,
+    icon: CalendarDays,
     submenu: [
       {
         title: "Add New Event",
@@ -540,4 +553,280 @@ export const settingsSidebarItems = [
       },
     ],
   },
+];
+
+// export const calendarEvents = [
+//   {
+//     title: "Math",
+//     allDay: false,
+//     start: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       8,
+//       0
+//     ),
+//     end: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       8,
+//       45
+//     ),
+//   },
+//   {
+//     title: "English",
+//     allDay: false,
+//     start: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       9,
+//       0
+//     ),
+//     end: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       9,
+//       45
+//     ),
+//   },
+//   {
+//     title: "Biology",
+//     allDay: false,
+//     start: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       10,
+//       0
+//     ),
+//     end: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       10,
+//       45
+//     ),
+//   },
+//   {
+//     title: "Physics",
+//     allDay: false,
+//     start: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       11,
+//       0
+//     ),
+//     end: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       11,
+//       45
+//     ),
+//   },
+//   {
+//     title: "Chemistry",
+//     allDay: false,
+//     start: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       13,
+//       0
+//     ),
+//     end: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       13,
+//       45
+//     ),
+//   },
+//   {
+//     title: "History",
+//     allDay: false,
+//     start: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       14,
+//       0
+//     ),
+//     end: new Date(
+//       new Date().getFullYear(),
+//       new Date().getMonth(),
+//       new Date().getDate(),
+//       14,
+//       45
+//     ),
+//   },
+// ];
+
+export const calendarEvents = [
+  // Monday
+  {
+    title: "Math - Mr. Ali (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 8, 0),
+    end: new Date(2025, 4, 5 + 1, 8, 45),
+  },
+  {
+    title: "English - Ms. Sara (Class 9-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 9, 0),
+    end: new Date(2025, 4, 5 + 1, 9, 45),
+  },
+  {
+    title: "Science - Dr. Khan (Class 10-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 10, 0),
+    end: new Date(2025, 4, 5 + 1, 10, 45),
+  },
+  {
+    title: "History - Mr. Ahmed (Class 8-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 11, 0),
+    end: new Date(2025, 4, 5 + 1, 11, 45),
+  },
+  {
+    title: "Biology - Ms. Hina (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 12, 0),
+    end: new Date(2025, 4, 5 + 1, 12, 45),
+  },
+  {
+    title: "Physics - Mr. Imran (Class 10-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 14, 0),
+    end: new Date(2025, 4, 5 + 1, 14, 45),
+  },
+  {
+    title: "Chemistry - Ms. Nida (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 15, 0),
+    end: new Date(2025, 4, 5 + 1, 15, 45),
+  },
+  {
+    title: "Computer - Mr. Zain (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 16, 0),
+    end: new Date(2025, 4, 5 + 1, 16, 45),
+  },
+
+  // Repeat for Tuesday (dayOfWeek = 2)
+  {
+    title: "Math - Mr. Ali (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 8, 0),
+    end: new Date(2025, 4, 5 + 2, 8, 45),
+  },
+  {
+    title: "English - Ms. Sara (Class 9-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 9, 0),
+    end: new Date(2025, 4, 5 + 2, 9, 45),
+  },
+  {
+    title: "Science - Dr. Khan (Class 10-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 10, 0),
+    end: new Date(2025, 4, 5 + 2, 10, 45),
+  },
+  {
+    title: "History - Mr. Ahmed (Class 8-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 11, 0),
+    end: new Date(2025, 4, 5 + 2, 11, 45),
+  },
+  {
+    title: "Biology - Ms. Hina (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 12, 0),
+    end: new Date(2025, 4, 5 + 2, 12, 45),
+  },
+  {
+    title: "Physics - Mr. Imran (Class 10-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 14, 0),
+    end: new Date(2025, 4, 5 + 2, 14, 45),
+  },
+  {
+    title: "Chemistry - Ms. Nida (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 15, 0),
+    end: new Date(2025, 4, 5 + 2, 15, 45),
+  },
+  {
+    title: "Computer - Mr. Zain (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 16, 0),
+    end: new Date(2025, 4, 5 + 2, 16, 45),
+  },
+  // wk3
+  {
+    title: "Math - Mr. Ali (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 8, 0),
+    end: new Date(2025, 4, 5 + 3, 8, 45),
+  },
+  {
+    title: "Eng (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 8, 0),
+    end: new Date(2025, 4, 5 + 3, 8, 45),
+  },
+  {
+    title: "Eng (Class 7-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 8, 0),
+    end: new Date(2025, 4, 5 + 3, 8, 45),
+  },
+  {
+    title: "English - Ms. Sara (Class 9-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 9, 0),
+    end: new Date(2025, 4, 5 + 3, 9, 45),
+  },
+  {
+    title: "Science - Dr. Khan (Class 10-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 10, 0),
+    end: new Date(2025, 4, 5 + 3, 10, 45),
+  },
+  {
+    title: "History - Mr. Ahmed (Class 8-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 11, 0),
+    end: new Date(2025, 4, 5 + 3, 11, 45),
+  },
+  {
+    title: "Biology - Ms. Hina (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 12, 0),
+    end: new Date(2025, 4, 5 + 3, 12, 45),
+  },
+  {
+    title: "Physics - Mr. Imran (Class 10-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 14, 0),
+    end: new Date(2025, 4, 5 + 3, 14, 45),
+  },
+  {
+    title: "Chemistry - Ms. Nida (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 15, 0),
+    end: new Date(2025, 4, 5 + 3, 15, 45),
+  },
+  {
+    title: "Computer - Mr. Zain (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 16, 0),
+    end: new Date(2025, 4, 5 + 3, 16, 45),
+  },
+
+  // Add Wed (dayOfWeek = 3), Thu (4), Fri (5) similarly...
 ];

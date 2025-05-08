@@ -18,17 +18,7 @@ const CalenderComponent = () => {
           <h1 className="text-lg font-semibold mb-2">Events Calender</h1>
           <MoreHorizontal />
         </div>
-        <Calendar
-          onChange={onChange}
-          value={value}
-          calendarType="hebrew"
-          // tileClassName={({ date }) => {
-          //   const day = date.getDay();
-          //   if (day === 5 || day === 6) return "weekend";
-          //   if (day === 0) return "sunday";
-          //   return null;
-          // }}
-        />
+        <Calendar onChange={onChange} value={value} calendarType="hebrew" />
       </div>
       <div className="mt-4">
         <div className="flex items-center justify-between mb-2">
