@@ -195,6 +195,26 @@ exports.Prisma.ResultScalarFieldEnum = {
   subjects: 'subjects'
 };
 
+exports.Prisma.EventScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  title: 'title',
+  data: 'data',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  classId: 'classId'
+};
+
+exports.Prisma.AnnouncementScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  title: 'title',
+  date: 'date',
+  classId: 'classId'
+};
+
 exports.Prisma.NoticeScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -247,6 +267,8 @@ exports.Prisma.ModelName = {
   Class: 'Class',
   Enrollment: 'Enrollment',
   Result: 'Result',
+  Event: 'Event',
+  Announcement: 'Announcement',
   Notice: 'Notice'
 };
 

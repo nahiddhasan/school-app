@@ -70,8 +70,10 @@ model Class {
   className   String   @unique
   sectionName String[]
 
-  enrollments Enrollment[]
-  results     Result[]
+  enrollments  Enrollment[]
+  results      Result[]
+  Event        Event[]
+  Announcement Announcement[]
 }
 
 model Enrollment {
@@ -118,6 +120,28 @@ model Result {
   subjects Json[]
 
   @@index([studentId])
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  data      DateTime
+  startTime DateTime
+  endTime   DateTime
+  class     Class?   @relation(fields: [classId], references: [id])
+  classId   String?
+}
+
+model Announcement {
+  id        String   @id @default(cuid())       
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  date      DateTime
+  class     Class?   @relation(fields: [classId], references: [id])
+  classId   String?
 }
 
 model Notice {

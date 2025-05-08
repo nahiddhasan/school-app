@@ -27,7 +27,7 @@ const SingleStudentPage = async ({
 
   return (
     <div className=" flex h-full overflow-y-auto">
-      <div className="flex-1  border-r border-border p-3">
+      <div className="w-1/3 h-[calc(100%-70px)] p-3 bg-card m-3 rounded-md shadow-md">
         <div className="relative w-1/2 aspect-square flex items-center justify-center mx-auto my-4">
           <Image
             src={student.studentImg || "/img/avatar.png"}
@@ -82,7 +82,7 @@ const SingleStudentPage = async ({
           <QrCode student={student} />
         </div>
       </div>
-      <div className="flex-[2] p-2 overflow-y-auto">
+      <div className="w-2/3 p-2 overflow-y-auto">
         <RightView student={student} />
       </div>
     </div>

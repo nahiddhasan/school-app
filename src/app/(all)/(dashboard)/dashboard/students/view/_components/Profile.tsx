@@ -5,8 +5,8 @@ type props = {
 };
 const Profile = ({ student }: props) => {
   return (
-    <div className="space-y-4 mb-10 mt-2">
-      <div className="ring-1 ring-border p-4 rounded-md">
+    <div className="space-y-4 mb-12 mt-2">
+      <div className="bg-card p-4 rounded-md">
         <h1 className="text-2xl mb-2">Student Details</h1>
         <Table>
           <TableBody>
@@ -33,7 +33,7 @@ const Profile = ({ student }: props) => {
           </TableBody>
         </Table>
       </div>
-      <div className="ring-1 ring-border p-4 rounded-md ">
+      <div className="bg-card p-4 rounded-md ">
         <h1 className="text-2xl mb-2">Address</h1>
         <Table>
           <TableBody>
@@ -44,7 +44,7 @@ const Profile = ({ student }: props) => {
           </TableBody>
         </Table>
       </div>
-      <div className="ring-1 ring-border p-4 rounded-md ">
+      <div className="bg-card p-4 rounded-md ">
         <h1 className="text-2xl mb-2">Parents</h1>
         <Table>
           <TableBody>
@@ -63,7 +63,7 @@ const Profile = ({ student }: props) => {
           </TableBody>
         </Table>
       </div>
-      <div className="ring-1 ring-border p-4 rounded-md ">
+      <div className="bg-card p-4 rounded-md ">
         <h1 className="text-2xl mb-2">Gurdian</h1>
         <Table>
           <TableBody>
