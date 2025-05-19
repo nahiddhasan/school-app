@@ -1,0 +1,54 @@
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import { ThemeProvider } from "@/providers/ThemeProvider";
+import type { Metadata } from "next";
+import { Open_Sans } from "next/font/google";
+import Navbar from "./_components/navbar/Navbar";
+import Sidebar from "./_components/sidebar/Sidebar";
+
+const sans = Open_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+export const metadata: Metadata = {
+  title: "School Dashboard",
+  description: "School dashboard for manage school",
+};
+
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <div className={`${sans.className} h-full overflow-y-hidden`}>
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel
+            defaultSize={20}
+            maxSize={30}
+            order={1}
+            className="bg-primary"
+          >
+            <Sidebar />
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel order={2} defaultSize={80} className="h-full">
+            <Navbar />
+            {children}
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
+    </ThemeProvider>
+  );
+}

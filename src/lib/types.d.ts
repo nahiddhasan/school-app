@@ -1,4 +1,4 @@
-import { ReusltStatus, User } from "@/app/generated/prisma";
+import { Prisma, ReusltStatus, User } from "@/app/generated/prisma";
 
 export type MenuItem = {
   title: string;
@@ -126,3 +126,37 @@ export type EnrollmentData = {
   position: number | null;
   status: ReusltStatus;
 };
+
+export type WeeklyScheduleFull = {
+  id: string;
+  classId: string;
+  section: string;
+  teacherId: number;
+  subjectId: string;
+  dayOfWeek: number; // 0 = Sunday, ..., 6 = Saturday
+  startTime: string; // e.g. "08:00"
+  endTime: string; // e.g. "08:45"
+  class: { className: string };
+  subject: { name: string };
+  teacher: { name: string };
+};
+
+export type BigCalendarEvent = {
+  id: string;
+  title: string;
+  allDay: boolean;
+  start: Date;
+  end: Date;
+};
+
+export type TeacherType = Prisma.TeacherGetPayload<{
+  include: {
+    user: true;
+    schedules: {
+      include: {
+        class: true;
+        subject: true;
+      };
+    };
+  };
+}>;

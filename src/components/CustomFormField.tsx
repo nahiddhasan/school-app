@@ -59,7 +59,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               disabled={props.disabled}
               placeholder={props.placeholder}
               {...field}
-              className={cn("shad-input bg-transparent", props.className)}
+              className={cn("shad-input bg-input", props.className)}
             />
           </FormControl>
         </div>
@@ -73,7 +73,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               disabled={props.disabled}
               placeholder={props.placeholder}
               {...field}
-              className={cn("shad-input bg-transparent", props.className)}
+              className={cn("shad-input bg-input", props.className)}
             />
           </FormControl>
         </div>
@@ -88,7 +88,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               placeholder={props.placeholder}
               value={Number(field.value) || ""}
               onChange={(e) => field.onChange(Number(e.target.value))}
-              className={cn("shad-input bg-transparent", props.className)}
+              className={cn("shad-input bg-input", props.className)}
             />
           </FormControl>
         </div>
@@ -102,7 +102,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               disabled={props.disabled}
               placeholder={props.placeholder}
               {...field}
-              className={cn("shad-input", props.className)}
+              className={cn("shad-input bg-input", props.className)}
             />
           </FormControl>
         </div>
@@ -116,7 +116,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               type={props.fieldType}
               placeholder={props.placeholder}
               {...props.fileRef}
-              className={cn("shad-input bg-transparent", props.className)}
+              className={cn("shad-input bg-input", props.className)}
             />
           </FormControl>
         </div>
@@ -152,7 +152,10 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <Textarea
             placeholder={props.placeholder}
             {...field}
-            className={cn("shad-textArea", props.className)}
+            className={cn(
+              "bg-input focus-visible:ring-1 focus-visible:ring-primary-base-600 focus-visible:ring-offset-1 resize-none",
+              props.className
+            )}
             disabled={props.disabled}
           />
         </FormControl>
@@ -161,13 +164,13 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.CHECKBOX:
       return (
         <FormControl>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 size-5">
             <Checkbox
               id={props.name}
               checked={field.value}
               onCheckedChange={field.onChange}
             />
-            <label htmlFor={props.name} className="checkbox-label">
+            <label htmlFor={props.name} className="">
               {props.label}
             </label>
           </div>
@@ -184,17 +187,12 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           >
             <FormControl>
               <SelectTrigger
-                className={cn(
-                  "bg-transparent h-10 rounded-md",
-                  props.className
-                )}
+                className={cn("h-10 rounded-md bg-input", props.className)}
               >
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>
-            <SelectContent className="shad-select-content">
-              {props.children}
-            </SelectContent>
+            <SelectContent className="">{props.children}</SelectContent>
           </Select>
         </FormControl>
       );

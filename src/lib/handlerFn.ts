@@ -5,7 +5,17 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import Papa from "papaparse";
 import { toast } from "sonner";
-import { StudentType } from "./types";
+import { BigCalendarEvent, StudentType, WeeklyScheduleFull } from "./types";
+
+export const hasAccess = (path: string, userRole: Role): boolean => {
+  for (const [pattern, allowedRoles] of Object.entries(routeAccessMap)) {
+    const regex = new RegExp(`^${pattern}$`);
+    if (regex.test(path)) {
+      return (allowedRoles as Role[]).includes(userRole);
+    }
+  }
+  return true; // Default: accessible if no specific restriction
+};
 
 export const parseCSV = (file: File): Promise<any> => {
   return new Promise((resolve, reject) => {
@@ -103,12 +113,42 @@ export const studentPdfReport = (students: StudentType[]) => {
   doc.save("Student_Report.pdf");
 };
 
-export const hasAccess = (path: string, userRole: Role): boolean => {
-  for (const [pattern, allowedRoles] of Object.entries(routeAccessMap)) {
-    const regex = new RegExp(`^${pattern}$`);
-    if (regex.test(path)) {
-      return (allowedRoles as Role[]).includes(userRole);
+export const convertToRepeatingEvents = (
+  schedules: WeeklyScheduleFull[],
+  repeatWeeks: number = 10,
+  baseWeekStart: Date = new Date("2025-05-04")
+): BigCalendarEvent[] => {
+  const events: BigCalendarEvent[] = [];
+
+  for (const schedule of schedules) {
+    const [startHour, startMinute] = schedule.startTime
+      ?.split(":")
+      .map(Number) || [0, 0];
+    const [endHour, endMinute] = schedule.endTime?.split(":").map(Number) || [
+      0, 0,
+    ];
+
+    for (let i = 0; i < repeatWeeks; i++) {
+      const start = new Date(baseWeekStart);
+      start.setDate(baseWeekStart.getDate() + schedule.dayOfWeek + i * 7);
+      start.setHours(startHour, startMinute, 0, 0);
+
+      const end = new Date(start);
+      end.setHours(endHour, endMinute, 0, 0);
+
+      events.push({
+        id: schedule.id,
+        title: `${schedule.subject?.name || "Unknown Subject"} - ${
+          schedule.class?.className || "Unknown Class"
+        } (${schedule.section || "Unknown Section"}) by ${
+          schedule.teacher?.name || "Unknown Teacher"
+        }`,
+        allDay: false,
+        start,
+        end,
+      });
     }
   }
-  return true; // Default: accessible if no specific restriction
+
+  return events;
 };

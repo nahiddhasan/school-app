@@ -23,6 +23,7 @@ export default {
               OR: [
                 { email: isNumericId ? undefined : email },
                 { studentId: isNumericId ? Number(email) : undefined },
+                { teacherId: isNumericId ? Number(email) : undefined },
               ],
             },
           });
@@ -52,6 +53,14 @@ export default {
       }
 
       if (session.user) {
+        if (token.teacherId) {
+          session.user.teacherId = token.teacherId as number;
+        } else if (token.studentId) {
+          session.user.studentId = token.studentId as number;
+        }
+      }
+
+      if (session.user) {
         session.user.name = token.name;
         session.user.image = token.image as string;
         session.user.email = token.email!;
@@ -70,6 +79,8 @@ export default {
       token.image = existingUser.image;
       token.email = existingUser.email;
       token.role = existingUser.role;
+      token.studentId = existingUser.studentId;
+      token.teacherId = existingUser.teacherId;
       return token;
     },
   },

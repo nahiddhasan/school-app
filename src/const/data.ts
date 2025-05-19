@@ -3,7 +3,6 @@ import {
   BookA,
   BookOpenCheck,
   BookOpenText,
-  BookX,
   Calendar,
   CalendarClock,
   CalendarDays,
@@ -351,13 +350,14 @@ export const sidebarItems = [
         path: "/dashboard/students/admission",
         icon: UserPlus,
       },
-      {
-        title: "Bulk Delete",
-        path: "/dashboard/students/bulk-delete",
-        icon: BookX,
-      },
+      // {
+      //   title: "Bulk Delete",
+      //   path: "/dashboard/students/bulk-delete",
+      //   icon: BookX,
+      // },
     ],
   },
+
   {
     title: "Enrollment",
     icon: StepForward,
@@ -379,7 +379,7 @@ export const sidebarItems = [
         path: "/dashboard/exams/quiz/add",
       },
       {
-        title: "Recent Quizzes",
+        title: "Quizzes",
         path: "/dashboard/exams/quiz",
       },
       {
@@ -399,7 +399,7 @@ export const sidebarItems = [
       },
       {
         title: "Class Schedules",
-        path: "/dashboard/schedule/classes",
+        path: "/dashboard/schedule/class-schedules",
         icon: List,
       },
       // {
@@ -407,6 +407,22 @@ export const sidebarItems = [
       //   path: "/dashboard/schedule/exam",
       //   icon: List,
       // },
+    ],
+  },
+  {
+    title: "Teachers",
+    icon: UsersRound,
+    submenu: [
+      {
+        title: "Add Teacher",
+        path: "/dashboard/teachers/add",
+        icon: UserPlus,
+      },
+      {
+        title: "Teachers",
+        path: "/dashboard/teachers",
+        icon: UsersRound,
+      },
     ],
   },
   {
@@ -484,25 +500,19 @@ export const sidebarItems = [
         icon: UserRoundPlus,
       },
       {
-        title: "All Users",
+        title: "Admin's",
+        path: "/dashboard/users/admins",
         icon: UsersRound,
-        submenu: [
-          {
-            title: "Admin's",
-            path: "/dashboard/users/admins",
-            icon: UsersRound,
-          },
-          {
-            title: "Teacher's",
-            path: "/dashboard/users/teachers",
-            icon: UsersRound,
-          },
-          {
-            title: "Student's",
-            path: "/dashboard/users/students",
-            icon: UsersRound,
-          },
-        ],
+      },
+      {
+        title: "Teacher's",
+        path: "/dashboard/users/teachers",
+        icon: UsersRound,
+      },
+      {
+        title: "Student's",
+        path: "/dashboard/users/students",
+        icon: UsersRound,
       },
     ],
   },
@@ -517,6 +527,20 @@ export const sidebarItems = [
       {
         title: "Exams",
         path: "/dashboard/reports/examReport",
+      },
+    ],
+  },
+  {
+    title: "Attendence",
+    icon: BarChartHorizontalBig,
+    submenu: [
+      {
+        title: "Take Attendence",
+        path: "/dashboard/attendence",
+      },
+      {
+        title: "Asign Attendence",
+        path: "/dashboard/attendence/asign",
       },
     ],
   },

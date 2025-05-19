@@ -3,16 +3,13 @@
 import { Role } from "@/app/generated/prisma";
 import bcrypt from "bcryptjs";
 import { writeFile } from "fs/promises";
-import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
 import path from "path";
 import { z } from "zod";
-import { auth, signIn, signOut } from "../auth";
+import { auth, signOut } from "../auth";
 import { prisma } from "./connect";
-import { DEFAULT_LOGIN_REDIRECT } from "./routes";
 import { AddClassTypes, UpdateClassType } from "./types";
 import {
-  LoginSchema,
   addAcademicYearSchema,
   addNoticeSchema,
   newAdmissionSchema,
@@ -21,50 +18,6 @@ import {
   updateUserSchema,
   userSchema,
 } from "./zodSchema";
-
-//login user
-export const login = async (
-  values: z.infer<typeof LoginSchema>,
-  callbackUrl?: string | null
-) => {
-  const validatedLoginValues = LoginSchema.safeParse(values);
-
-  if (!validatedLoginValues.success) {
-    return { error: "Invalid fields error!" };
-  }
-
-  const { email, password } = validatedLoginValues.data;
-
-  // email can be email or student id
-
-  const existingUser = await prisma.user.findFirst({
-    where: {
-      OR: [{ email }, { studentId: email }],
-    },
-  });
-
-  if (!existingUser || !existingUser.email) {
-    return { error: "User does not Exist!" };
-  }
-
-  try {
-    await signIn("credentials", {
-      email,
-      password,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
-    });
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return { error: "Invalid credentials!" };
-        default:
-          return { error: "Something went wrong!" };
-      }
-    }
-    throw error;
-  }
-};
 
 //logout
 export const logout = async () => {
@@ -524,7 +477,7 @@ export const createUsersFromStudents = async () => {
             password: defaultPassword,
             role: Role.STUDENT,
             student: {
-              connect: { id: student.id },
+              connect: { studentId: student.studentId },
             },
           },
         });

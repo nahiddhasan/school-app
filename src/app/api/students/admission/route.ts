@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/connect";
 import { newAdmissionSchema } from "@/lib/zodSchema";
+import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
-
 export const POST = async (req: NextRequest) => {
   try {
     const session = await auth();
@@ -89,30 +89,30 @@ export const POST = async (req: NextRequest) => {
         { status: 404 }
       );
     }
-
+    const defaultPassword = await bcrypt.hash("student123", 10);
     //to create student and enrollmet at same time if any fails stop creating both
-    const { student, enrollment } = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx) => {
       const student = await tx.student.create({
         data: {
           fullName,
           gender,
           dob: new Date(dob),
           doa: new Date(doa),
-          mobile,
+          mobile: String(mobile),
           bloodGroup,
           studentImg,
           address,
           others,
           fatherName,
           motherName,
-          fatherPhone,
+          fatherPhone: String(fatherPhone),
           gurdianName,
-          gurdianPhone,
+          gurdianPhone: String(gurdianPhone),
           relation,
         },
       });
 
-      const enrollment = await tx.enrollment.create({
+      await tx.enrollment.create({
         data: {
           studentId: student.studentId,
           section,
@@ -123,13 +123,25 @@ export const POST = async (req: NextRequest) => {
         },
       });
 
-      return { student, enrollment };
+      await tx.user.create({
+        data: {
+          name: student.fullName,
+          password: defaultPassword,
+          image: student.studentImg,
+          role: "STUDENT",
+          studentId: student.studentId,
+        },
+      });
+
+      return student;
     });
+
     return NextResponse.json({
       success: "Student Admission Successful",
+      student: result,
     });
   } catch (error) {
-    console.error("[ADMISSION_POST_ERROR]", error);
+    console.error("[ADMISSION_ERROR]", error);
     return NextResponse.json(
       { error: "Something went wrong, try again later." },
       { status: 500 }

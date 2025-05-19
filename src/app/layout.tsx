@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/QureyProvider";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -26,7 +27,10 @@ export default async function RootLayout({
     <QueryProvider>
       <SessionProvider session={session}>
         <html lang="en" suppressHydrationWarning>
-          <body className={poppins.className}>{children}</body>
+          <body className={poppins.className}>
+            <Toaster />
+            {children}
+          </body>
         </html>
       </SessionProvider>
     </QueryProvider>

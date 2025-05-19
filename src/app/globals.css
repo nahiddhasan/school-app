@@ -10,7 +10,7 @@ body,
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
+    --background: 0 0% 95%;
     --foreground: 240 8% 10%;
 
     --card: 0 0% 100%;
@@ -194,7 +194,7 @@ body,
   }
 }
 .shad-input {
-  @apply h-10 rounded-md focus-visible:ring-0 focus-visible:ring-offset-0 !important;
+  @apply h-10 rounded-md focus-visible:ring-1 ring-primary-base-600/70 focus-visible:ring-offset-1 !important;
 }
 
 /* embla css  */
@@ -289,7 +289,9 @@ body,
 }
 
 /* =====  REACT-DATEPICKER OVERRIDES */
-
+.react-datepicker__input-container input {
+  @apply rounded-md !outline-none focus-visible:border-primary-base-600/70  focus-visible:ring-offset-1 !important;
+}
 .react-datepicker__header h2 {
   display: none;
 }
@@ -318,7 +320,7 @@ body,
 }
 
 .react-datepicker__input-container input {
-  @apply !outline-none px-3 !h-10 rounded-md !w-full !bg-transparent !border !border-border;
+  @apply !outline-none px-3 !h-10 rounded-md !w-full !bg-input !border !border-border;
 }
 
 .react-datepicker__day--selected {
@@ -329,7 +331,7 @@ body,
 .react-datepicker__month-text--today,
 .react-datepicker__quarter-text--today,
 .react-datepicker__year-text--today {
-  @apply !font-extrabold dark:!text-green-600 !text-red-600;
+  @apply !font-extrabold dark:!text-yellow-300 !text-red-600;
 }
 .react-datepicker__time-list-item {
   display: flex !important;
@@ -359,7 +361,7 @@ body,
   padding: 8px;
 }
 
-/* react calender  */
+/* =====  REACT-CALENDER OVERRIDES */
 
 .react-calendar {
   @apply !bg-transparent !border-none !w-full;
@@ -384,7 +386,7 @@ body,
   font-weight: 600;
 }
 
-/* big calender  */
+/* =====  REACT-BIG CALENDER OVERRIDES */
 
 .rbc-today {
   @apply !bg-green-700/20 !h-full;
@@ -410,6 +412,8 @@ body,
   @apply !border-border;
 }
 
-.rbc-active {
+.rbc-active,
+.rbc-toolbar button:active,
+.rbc-toolbar button:focus {
   @apply !bg-[hsl(var(--chart-1))] hover:!bg-[hsl(var(--chart-1))]/90 !text-white;
 }

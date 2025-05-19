@@ -25,6 +25,7 @@ export const login = async (
       OR: [
         { email: isNumericId ? undefined : email },
         { studentId: isNumericId ? Number(email) : undefined },
+        { teacherId: isNumericId ? Number(email) : undefined },
       ],
     },
   });
@@ -36,18 +37,15 @@ export const login = async (
     const res = await signIn("credentials", {
       email,
       password,
-      redirect: false,
+      redirect: true,
+      callbackUrl: callbackUrl || "/dashboard",
     });
 
     if (res?.error) {
       return { error: "Invalid credentials!" };
     }
 
-    // Determine role-based redirect
-    const userRole = existingUser.role?.toLowerCase();
-    const redirectUrl = callbackUrl || `/dashboard/${userRole}`;
-
-    return { success: "Login successful", redirectUrl };
+    return { success: "Login successful" };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

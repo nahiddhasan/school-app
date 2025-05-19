@@ -185,6 +185,11 @@ exports.Prisma.ClassScalarFieldEnum = {
   sectionName: 'sectionName'
 };
 
+exports.Prisma.SubjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
 exports.Prisma.EnrollmentScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -218,7 +223,8 @@ exports.Prisma.EventScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   title: 'title',
-  data: 'data',
+  desc: 'desc',
+  date: 'date',
   startTime: 'startTime',
   endTime: 'endTime',
   classId: 'classId'
@@ -229,13 +235,8 @@ exports.Prisma.AnnouncementScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   title: 'title',
-  date: 'date',
+  desc: 'desc',
   classId: 'classId'
-};
-
-exports.Prisma.SubjectScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
 };
 
 exports.Prisma.WeeklyScheduleScalarFieldEnum = {
@@ -300,11 +301,11 @@ exports.Prisma.ModelName = {
   Student: 'Student',
   AcademicYear: 'AcademicYear',
   Class: 'Class',
+  Subject: 'Subject',
   Enrollment: 'Enrollment',
   Result: 'Result',
   Event: 'Event',
   Announcement: 'Announcement',
-  Subject: 'Subject',
   WeeklySchedule: 'WeeklySchedule',
   Notice: 'Notice'
 };

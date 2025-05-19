@@ -7,7 +7,7 @@ export async function updateStudent(
     const res = await fetch(
       `/api/students/${studentId}?selectedYearId=${selectedYearId}`,
       {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify(data),
       }
     );

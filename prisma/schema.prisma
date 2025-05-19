@@ -31,6 +31,8 @@ model User {
 
 model Teacher {
   teacherId   Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   name        String
   phone       String   @unique
   email       String   @unique
@@ -50,6 +52,7 @@ model Teacher {
   subjectId String?
 }
 
+//TODO: need to change phone number type to number latter on
 model Student {
   studentId    Int      @id @unique @default(autoincrement())
   createdAt    DateTime @default(now())
@@ -99,6 +102,17 @@ model Class {
   Event        Event[]
   Announcement Announcement[]
   schedules    WeeklySchedule[]
+  subjects     Subject[]
+}
+
+//TODO:need to add createdAt and updatedAt latter
+model Subject {
+  id   String @id @default(cuid())
+  name String
+
+  teachers  Teacher[]
+  schedules WeeklySchedule[]
+  Class     Class[]
 }
 
 model Enrollment {
@@ -152,7 +166,8 @@ model Event {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String
-  data      DateTime
+  desc      String
+  date      DateTime
   startTime DateTime
   endTime   DateTime
   class     Class?   @relation(fields: [classId], references: [id])
@@ -164,16 +179,9 @@ model Announcement {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String
-  date      DateTime
+  desc      String
   class     Class?   @relation(fields: [classId], references: [id])
   classId   String?
-}
-
-model Subject {
-  id        String           @id @default(cuid())
-  name      String
-  teachers  Teacher[]
-  schedules WeeklySchedule[]
 }
 
 model WeeklySchedule {

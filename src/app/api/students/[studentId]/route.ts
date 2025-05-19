@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/connect";
 import { newAdmissionSchema } from "@/lib/zodSchema";
+import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
-
 export const GET = async (
   req: NextRequest,
   { params }: { params: { studentId: string } }
@@ -28,6 +28,16 @@ export const GET = async (
         { status: 401 }
       );
     }
+    const currentYear = await prisma.academicYear.findFirst({
+      where: {
+        current: true,
+      },
+    });
+    const academicYear = await prisma.academicYear.findFirst({
+      where: {
+        id: selectedYearId ? selectedYearId : currentYear?.id,
+      },
+    });
 
     const student = await prisma.student.findUnique({
       where: {
@@ -36,7 +46,7 @@ export const GET = async (
       include: {
         enrollments: {
           where: {
-            academicYearId: selectedYearId,
+            academicYearId: academicYear?.id,
           },
           include: {
             class: true,
@@ -68,7 +78,7 @@ export const GET = async (
   }
 };
 
-export const PUT = async (
+export const PATCH = async (
   req: NextRequest,
   { params }: { params: { studentId: string } }
 ) => {
@@ -146,6 +156,7 @@ export const PUT = async (
       className,
       section,
       classRoll,
+      password,
     } = parsed.data;
 
     const enrollmentClass = await prisma.class.findUnique({
@@ -159,37 +170,63 @@ export const PUT = async (
       );
     }
 
+    const student = await prisma.student.findUnique({
+      where: {
+        studentId: Number(studentId),
+      },
+    });
+
+    if (!student) {
+      return NextResponse.json(
+        { error: "Invalid Student Found!" },
+        { status: 404 }
+      );
+    }
+    const updatedPassword = password
+      ? await bcrypt.hash(password, 10)
+      : undefined;
+
     await prisma.$transaction(async (tx) => {
-      await tx.student.update({
-        where: { studentId: Number(studentId) },
+      const updatedStudent = await tx.student.update({
+        where: { studentId: student.studentId },
         data: {
           fullName,
           gender,
           dob: new Date(dob),
           doa: new Date(doa),
-          mobile,
+          mobile: String(mobile),
           bloodGroup,
           studentImg,
           address,
           others,
           fatherName,
           motherName,
-          fatherPhone,
+          fatherPhone: String(fatherPhone),
           gurdianName,
-          gurdianPhone,
+          gurdianPhone: String(gurdianPhone),
           relation,
         },
       });
 
       await tx.enrollment.updateMany({
         where: {
-          studentId: Number(studentId),
+          studentId: student.studentId,
           academicYearId: currentYear.id,
         },
         data: {
           section,
           classRoll,
           classId: enrollmentClass.id,
+        },
+      });
+
+      await tx.user.update({
+        where: {
+          studentId: student.studentId,
+        },
+        data: {
+          name: updatedStudent.fullName,
+          password: updatedPassword,
         },
       });
     });

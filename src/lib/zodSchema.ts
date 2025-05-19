@@ -1,8 +1,6 @@
 import { ExamType, Role } from "@/app/generated/prisma";
 import { z } from "zod";
-const phoneRegex = new RegExp(
-  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
-);
+
 const MAX_FILE_SIZE = 2000000;
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
@@ -86,10 +84,14 @@ const csvValidate =
         });
 
 const phoneValidate = z
-  .string({
+  .number({
     required_error: "Mobile number is required",
+    invalid_type_error: "Mobile number must be a number",
   })
-  .refine((phone) => phoneRegex.test(phone), "Invalid phone number");
+  .refine(
+    (phone) => /^1[0-9]{9}$/.test(phone.toString()),
+    "Invalid phone number. Must start with '1' and be 11 digits long."
+  );
 
 export const newAdmissionSchema = z.object({
   fullName: z
@@ -152,6 +154,7 @@ export const newAdmissionSchema = z.object({
     })
     .min(1, { message: "Student relation is required!" }),
   gurdianPhone: phoneValidate,
+  password: z.string().optional(),
 });
 
 export const searchStudent = (sectionRequire: boolean) =>
@@ -317,4 +320,49 @@ export const scheduleSchema = z.object({
   endTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
     message: "End Time must be in HH:mm format!",
   }),
+});
+
+export const addEventSchema = z.object({
+  title: z.string().min(1, { message: "Event Title is required!" }),
+  desc: z.string().min(1, { message: "Event Description is required!" }),
+  classId: z.string().optional(),
+  date: z.date({
+    required_error: "Event Date is required!",
+  }),
+  startTime: z.string({
+    required_error: "Start Time is required!",
+  }),
+  endTime: z.string({
+    required_error: "End Time is required!",
+  }),
+});
+
+export const addAnnouncementSchema = z.object({
+  title: z.string().min(1, { message: "Announcement Title is required!" }),
+  desc: z.string().min(1, { message: "Event Description is required!" }),
+  classId: z.string().optional(),
+});
+
+export const addTeacherSchema = z.object({
+  name: z
+    .string({ required_error: "Teacher Name is required!" })
+    .min(1, { message: "Teacher Name is required!" }),
+  phone: phoneValidate,
+  email: z
+    .string({ required_error: "Email is required!" })
+    .min(1, { message: "Email is required!" })
+    .email(),
+  subject: z
+    .string({ required_error: "Subject is required!" })
+    .min(1, { message: "Subject is required!" }),
+  designation: z
+    .string({ required_error: "Designation is required!" })
+    .min(1, { message: "Designatioin is required!" }),
+  department: z.string().optional(),
+  dob: z.date({ required_error: "Date of Birth is required!" }),
+  gender: z.string().min(1, { message: "Gender is required!" }),
+  address: z.string().optional(),
+  bloodGroup: z.string().optional(),
+  profileImg: imageValidateOptional,
+  password: z.string().optional(),
 });
