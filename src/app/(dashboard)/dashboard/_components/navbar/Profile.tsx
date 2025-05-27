@@ -50,11 +50,7 @@ export function Profile() {
                 <AvatarFallback>profile</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <Link
-                  href={url}
-                  onClick={() => setOpen(!open)}
-                  className="text-xl"
-                >
+                <Link href={url} className="text-xl">
                   {session?.user?.name}
                 </Link>
                 <span className="text-xs ">{session?.user.email}</span>

@@ -192,7 +192,13 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>
-            <SelectContent className="">{props.children}</SelectContent>
+            <SelectContent
+              sideOffset={4}
+              avoidCollisions
+              className="max-h-[300px] overflow-y-auto"
+            >
+              {props.children}
+            </SelectContent>
           </Select>
         </FormControl>
       );

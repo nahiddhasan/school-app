@@ -39,6 +39,21 @@ export type AcademicYear = $Result.DefaultSelection<Prisma.$AcademicYearPayload>
  */
 export type Class = $Result.DefaultSelection<Prisma.$ClassPayload>
 /**
+ * Model AssignedAttendanceTeacher
+ * 
+ */
+export type AssignedAttendanceTeacher = $Result.DefaultSelection<Prisma.$AssignedAttendanceTeacherPayload>
+/**
+ * Model AttendanceSession
+ * 
+ */
+export type AttendanceSession = $Result.DefaultSelection<Prisma.$AttendanceSessionPayload>
+/**
+ * Model AttendanceRecord
+ * 
+ */
+export type AttendanceRecord = $Result.DefaultSelection<Prisma.$AttendanceRecordPayload>
+/**
  * Model Subject
  * 
  */
@@ -112,6 +127,17 @@ export const EnrollmentStatus: {
 
 export type EnrollmentStatus = (typeof EnrollmentStatus)[keyof typeof EnrollmentStatus]
 
+
+export const AttendanceStatus: {
+  PRESENT: 'PRESENT',
+  ABSENT: 'ABSENT',
+  LATE: 'LATE',
+  EXCUSED: 'EXCUSED',
+  ONLEAVE: 'ONLEAVE'
+};
+
+export type AttendanceStatus = (typeof AttendanceStatus)[keyof typeof AttendanceStatus]
+
 }
 
 export type Role = $Enums.Role
@@ -129,6 +155,10 @@ export const ExamType: typeof $Enums.ExamType
 export type EnrollmentStatus = $Enums.EnrollmentStatus
 
 export const EnrollmentStatus: typeof $Enums.EnrollmentStatus
+
+export type AttendanceStatus = $Enums.AttendanceStatus
+
+export const AttendanceStatus: typeof $Enums.AttendanceStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -304,6 +334,36 @@ export class PrismaClient<
     * ```
     */
   get class(): Prisma.ClassDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.assignedAttendanceTeacher`: Exposes CRUD operations for the **AssignedAttendanceTeacher** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AssignedAttendanceTeachers
+    * const assignedAttendanceTeachers = await prisma.assignedAttendanceTeacher.findMany()
+    * ```
+    */
+  get assignedAttendanceTeacher(): Prisma.AssignedAttendanceTeacherDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attendanceSession`: Exposes CRUD operations for the **AttendanceSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AttendanceSessions
+    * const attendanceSessions = await prisma.attendanceSession.findMany()
+    * ```
+    */
+  get attendanceSession(): Prisma.AttendanceSessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attendanceRecord`: Exposes CRUD operations for the **AttendanceRecord** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AttendanceRecords
+    * const attendanceRecords = await prisma.attendanceRecord.findMany()
+    * ```
+    */
+  get attendanceRecord(): Prisma.AttendanceRecordDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.subject`: Exposes CRUD operations for the **Subject** model.
@@ -819,6 +879,9 @@ export namespace Prisma {
     Student: 'Student',
     AcademicYear: 'AcademicYear',
     Class: 'Class',
+    AssignedAttendanceTeacher: 'AssignedAttendanceTeacher',
+    AttendanceSession: 'AttendanceSession',
+    AttendanceRecord: 'AttendanceRecord',
     Subject: 'Subject',
     Enrollment: 'Enrollment',
     Result: 'Result',
@@ -844,7 +907,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "teacher" | "student" | "academicYear" | "class" | "subject" | "enrollment" | "result" | "event" | "announcement" | "weeklySchedule" | "notice"
+      modelProps: "user" | "teacher" | "student" | "academicYear" | "class" | "assignedAttendanceTeacher" | "attendanceSession" | "attendanceRecord" | "subject" | "enrollment" | "result" | "event" | "announcement" | "weeklySchedule" | "notice"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1215,6 +1278,228 @@ export namespace Prisma {
           count: {
             args: Prisma.ClassCountArgs<ExtArgs>
             result: $Utils.Optional<ClassCountAggregateOutputType> | number
+          }
+        }
+      }
+      AssignedAttendanceTeacher: {
+        payload: Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>
+        fields: Prisma.AssignedAttendanceTeacherFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AssignedAttendanceTeacherFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AssignedAttendanceTeacherFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload>
+          }
+          findFirst: {
+            args: Prisma.AssignedAttendanceTeacherFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AssignedAttendanceTeacherFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload>
+          }
+          findMany: {
+            args: Prisma.AssignedAttendanceTeacherFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload>[]
+          }
+          create: {
+            args: Prisma.AssignedAttendanceTeacherCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload>
+          }
+          createMany: {
+            args: Prisma.AssignedAttendanceTeacherCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AssignedAttendanceTeacherCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload>[]
+          }
+          delete: {
+            args: Prisma.AssignedAttendanceTeacherDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload>
+          }
+          update: {
+            args: Prisma.AssignedAttendanceTeacherUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload>
+          }
+          deleteMany: {
+            args: Prisma.AssignedAttendanceTeacherDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AssignedAttendanceTeacherUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AssignedAttendanceTeacherUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload>[]
+          }
+          upsert: {
+            args: Prisma.AssignedAttendanceTeacherUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AssignedAttendanceTeacherPayload>
+          }
+          aggregate: {
+            args: Prisma.AssignedAttendanceTeacherAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssignedAttendanceTeacher>
+          }
+          groupBy: {
+            args: Prisma.AssignedAttendanceTeacherGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssignedAttendanceTeacherGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AssignedAttendanceTeacherCountArgs<ExtArgs>
+            result: $Utils.Optional<AssignedAttendanceTeacherCountAggregateOutputType> | number
+          }
+        }
+      }
+      AttendanceSession: {
+        payload: Prisma.$AttendanceSessionPayload<ExtArgs>
+        fields: Prisma.AttendanceSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttendanceSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttendanceSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.AttendanceSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttendanceSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload>
+          }
+          findMany: {
+            args: Prisma.AttendanceSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload>[]
+          }
+          create: {
+            args: Prisma.AttendanceSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload>
+          }
+          createMany: {
+            args: Prisma.AttendanceSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttendanceSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.AttendanceSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload>
+          }
+          update: {
+            args: Prisma.AttendanceSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttendanceSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttendanceSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttendanceSessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttendanceSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.AttendanceSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttendanceSession>
+          }
+          groupBy: {
+            args: Prisma.AttendanceSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttendanceSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceSessionCountAggregateOutputType> | number
+          }
+        }
+      }
+      AttendanceRecord: {
+        payload: Prisma.$AttendanceRecordPayload<ExtArgs>
+        fields: Prisma.AttendanceRecordFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttendanceRecordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttendanceRecordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload>
+          }
+          findFirst: {
+            args: Prisma.AttendanceRecordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttendanceRecordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload>
+          }
+          findMany: {
+            args: Prisma.AttendanceRecordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload>[]
+          }
+          create: {
+            args: Prisma.AttendanceRecordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload>
+          }
+          createMany: {
+            args: Prisma.AttendanceRecordCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttendanceRecordCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload>[]
+          }
+          delete: {
+            args: Prisma.AttendanceRecordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload>
+          }
+          update: {
+            args: Prisma.AttendanceRecordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttendanceRecordDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttendanceRecordUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttendanceRecordUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttendanceRecordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttendanceRecordPayload>
+          }
+          aggregate: {
+            args: Prisma.AttendanceRecordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttendanceRecord>
+          }
+          groupBy: {
+            args: Prisma.AttendanceRecordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceRecordGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttendanceRecordCountArgs<ExtArgs>
+            result: $Utils.Optional<AttendanceRecordCountAggregateOutputType> | number
           }
         }
       }
@@ -1825,6 +2110,9 @@ export namespace Prisma {
     student?: StudentOmit
     academicYear?: AcademicYearOmit
     class?: ClassOmit
+    assignedAttendanceTeacher?: AssignedAttendanceTeacherOmit
+    attendanceSession?: AttendanceSessionOmit
+    attendanceRecord?: AttendanceRecordOmit
     subject?: SubjectOmit
     enrollment?: EnrollmentOmit
     result?: ResultOmit
@@ -1927,10 +2215,14 @@ export namespace Prisma {
 
   export type TeacherCountOutputType = {
     schedules: number
+    AssignedAttendanceTeacher: number
+    AttendanceSession: number
   }
 
   export type TeacherCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     schedules?: boolean | TeacherCountOutputTypeCountSchedulesArgs
+    AssignedAttendanceTeacher?: boolean | TeacherCountOutputTypeCountAssignedAttendanceTeacherArgs
+    AttendanceSession?: boolean | TeacherCountOutputTypeCountAttendanceSessionArgs
   }
 
   // Custom InputTypes
@@ -1951,6 +2243,20 @@ export namespace Prisma {
     where?: WeeklyScheduleWhereInput
   }
 
+  /**
+   * TeacherCountOutputType without action
+   */
+  export type TeacherCountOutputTypeCountAssignedAttendanceTeacherArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignedAttendanceTeacherWhereInput
+  }
+
+  /**
+   * TeacherCountOutputType without action
+   */
+  export type TeacherCountOutputTypeCountAttendanceSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceSessionWhereInput
+  }
+
 
   /**
    * Count Type StudentCountOutputType
@@ -1959,11 +2265,13 @@ export namespace Prisma {
   export type StudentCountOutputType = {
     enrollments: number
     results: number
+    AttendanceRecord: number
   }
 
   export type StudentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     enrollments?: boolean | StudentCountOutputTypeCountEnrollmentsArgs
     results?: boolean | StudentCountOutputTypeCountResultsArgs
+    AttendanceRecord?: boolean | StudentCountOutputTypeCountAttendanceRecordArgs
   }
 
   // Custom InputTypes
@@ -1989,6 +2297,13 @@ export namespace Prisma {
    */
   export type StudentCountOutputTypeCountResultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ResultWhereInput
+  }
+
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountAttendanceRecordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceRecordWhereInput
   }
 
 
@@ -2043,6 +2358,8 @@ export namespace Prisma {
     Announcement: number
     schedules: number
     subjects: number
+    AssignedAttendanceTeacher: number
+    AttendanceSession: number
   }
 
   export type ClassCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2052,6 +2369,8 @@ export namespace Prisma {
     Announcement?: boolean | ClassCountOutputTypeCountAnnouncementArgs
     schedules?: boolean | ClassCountOutputTypeCountSchedulesArgs
     subjects?: boolean | ClassCountOutputTypeCountSubjectsArgs
+    AssignedAttendanceTeacher?: boolean | ClassCountOutputTypeCountAssignedAttendanceTeacherArgs
+    AttendanceSession?: boolean | ClassCountOutputTypeCountAttendanceSessionArgs
   }
 
   // Custom InputTypes
@@ -2105,6 +2424,51 @@ export namespace Prisma {
    */
   export type ClassCountOutputTypeCountSubjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SubjectWhereInput
+  }
+
+  /**
+   * ClassCountOutputType without action
+   */
+  export type ClassCountOutputTypeCountAssignedAttendanceTeacherArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignedAttendanceTeacherWhereInput
+  }
+
+  /**
+   * ClassCountOutputType without action
+   */
+  export type ClassCountOutputTypeCountAttendanceSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceSessionWhereInput
+  }
+
+
+  /**
+   * Count Type AttendanceSessionCountOutputType
+   */
+
+  export type AttendanceSessionCountOutputType = {
+    records: number
+  }
+
+  export type AttendanceSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    records?: boolean | AttendanceSessionCountOutputTypeCountRecordsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AttendanceSessionCountOutputType without action
+   */
+  export type AttendanceSessionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSessionCountOutputType
+     */
+    select?: AttendanceSessionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceSessionCountOutputType without action
+   */
+  export type AttendanceSessionCountOutputTypeCountRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceRecordWhereInput
   }
 
 
@@ -3403,6 +3767,8 @@ export namespace Prisma {
 
   export type TeacherMinAggregateOutputType = {
     teacherId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
     name: string | null
     phone: string | null
     email: string | null
@@ -3420,6 +3786,8 @@ export namespace Prisma {
 
   export type TeacherMaxAggregateOutputType = {
     teacherId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
     name: string | null
     phone: string | null
     email: string | null
@@ -3437,6 +3805,8 @@ export namespace Prisma {
 
   export type TeacherCountAggregateOutputType = {
     teacherId: number
+    createdAt: number
+    updatedAt: number
     name: number
     phone: number
     email: number
@@ -3464,6 +3834,8 @@ export namespace Prisma {
 
   export type TeacherMinAggregateInputType = {
     teacherId?: true
+    createdAt?: true
+    updatedAt?: true
     name?: true
     phone?: true
     email?: true
@@ -3481,6 +3853,8 @@ export namespace Prisma {
 
   export type TeacherMaxAggregateInputType = {
     teacherId?: true
+    createdAt?: true
+    updatedAt?: true
     name?: true
     phone?: true
     email?: true
@@ -3498,6 +3872,8 @@ export namespace Prisma {
 
   export type TeacherCountAggregateInputType = {
     teacherId?: true
+    createdAt?: true
+    updatedAt?: true
     name?: true
     phone?: true
     email?: true
@@ -3602,6 +3978,8 @@ export namespace Prisma {
 
   export type TeacherGroupByOutputType = {
     teacherId: number
+    createdAt: Date
+    updatedAt: Date
     name: string
     phone: string
     email: string
@@ -3638,6 +4016,8 @@ export namespace Prisma {
 
   export type TeacherSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     teacherId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     name?: boolean
     phone?: boolean
     email?: boolean
@@ -3654,11 +4034,15 @@ export namespace Prisma {
     user?: boolean | Teacher$userArgs<ExtArgs>
     schedules?: boolean | Teacher$schedulesArgs<ExtArgs>
     Subject?: boolean | Teacher$SubjectArgs<ExtArgs>
+    AssignedAttendanceTeacher?: boolean | Teacher$AssignedAttendanceTeacherArgs<ExtArgs>
+    AttendanceSession?: boolean | Teacher$AttendanceSessionArgs<ExtArgs>
     _count?: boolean | TeacherCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["teacher"]>
 
   export type TeacherSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     teacherId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     name?: boolean
     phone?: boolean
     email?: boolean
@@ -3677,6 +4061,8 @@ export namespace Prisma {
 
   export type TeacherSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     teacherId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     name?: boolean
     phone?: boolean
     email?: boolean
@@ -3695,6 +4081,8 @@ export namespace Prisma {
 
   export type TeacherSelectScalar = {
     teacherId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     name?: boolean
     phone?: boolean
     email?: boolean
@@ -3710,11 +4098,13 @@ export namespace Prisma {
     subjectId?: boolean
   }
 
-  export type TeacherOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"teacherId" | "name" | "phone" | "email" | "subject" | "designation" | "department" | "joinedAt" | "dob" | "gender" | "address" | "bloodGroup" | "profileImg" | "subjectId", ExtArgs["result"]["teacher"]>
+  export type TeacherOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"teacherId" | "createdAt" | "updatedAt" | "name" | "phone" | "email" | "subject" | "designation" | "department" | "joinedAt" | "dob" | "gender" | "address" | "bloodGroup" | "profileImg" | "subjectId", ExtArgs["result"]["teacher"]>
   export type TeacherInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Teacher$userArgs<ExtArgs>
     schedules?: boolean | Teacher$schedulesArgs<ExtArgs>
     Subject?: boolean | Teacher$SubjectArgs<ExtArgs>
+    AssignedAttendanceTeacher?: boolean | Teacher$AssignedAttendanceTeacherArgs<ExtArgs>
+    AttendanceSession?: boolean | Teacher$AttendanceSessionArgs<ExtArgs>
     _count?: boolean | TeacherCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TeacherIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3730,9 +4120,13 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs> | null
       schedules: Prisma.$WeeklySchedulePayload<ExtArgs>[]
       Subject: Prisma.$SubjectPayload<ExtArgs> | null
+      AssignedAttendanceTeacher: Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>[]
+      AttendanceSession: Prisma.$AttendanceSessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       teacherId: number
+      createdAt: Date
+      updatedAt: Date
       name: string
       phone: string
       email: string
@@ -4143,6 +4537,8 @@ export namespace Prisma {
     user<T extends Teacher$userArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     schedules<T extends Teacher$schedulesArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$schedulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklySchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Subject<T extends Teacher$SubjectArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$SubjectArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    AssignedAttendanceTeacher<T extends Teacher$AssignedAttendanceTeacherArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$AssignedAttendanceTeacherArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    AttendanceSession<T extends Teacher$AttendanceSessionArgs<ExtArgs> = {}>(args?: Subset<T, Teacher$AttendanceSessionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4173,6 +4569,8 @@ export namespace Prisma {
    */
   interface TeacherFieldRefs {
     readonly teacherId: FieldRef<"Teacher", 'Int'>
+    readonly createdAt: FieldRef<"Teacher", 'DateTime'>
+    readonly updatedAt: FieldRef<"Teacher", 'DateTime'>
     readonly name: FieldRef<"Teacher", 'String'>
     readonly phone: FieldRef<"Teacher", 'String'>
     readonly email: FieldRef<"Teacher", 'String'>
@@ -4644,6 +5042,54 @@ export namespace Prisma {
   }
 
   /**
+   * Teacher.AssignedAttendanceTeacher
+   */
+  export type Teacher$AssignedAttendanceTeacherArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    where?: AssignedAttendanceTeacherWhereInput
+    orderBy?: AssignedAttendanceTeacherOrderByWithRelationInput | AssignedAttendanceTeacherOrderByWithRelationInput[]
+    cursor?: AssignedAttendanceTeacherWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignedAttendanceTeacherScalarFieldEnum | AssignedAttendanceTeacherScalarFieldEnum[]
+  }
+
+  /**
+   * Teacher.AttendanceSession
+   */
+  export type Teacher$AttendanceSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    where?: AttendanceSessionWhereInput
+    orderBy?: AttendanceSessionOrderByWithRelationInput | AttendanceSessionOrderByWithRelationInput[]
+    cursor?: AttendanceSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceSessionScalarFieldEnum | AttendanceSessionScalarFieldEnum[]
+  }
+
+  /**
    * Teacher without action
    */
   export type TeacherDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4967,6 +5413,7 @@ export namespace Prisma {
     enrollments?: boolean | Student$enrollmentsArgs<ExtArgs>
     results?: boolean | Student$resultsArgs<ExtArgs>
     User?: boolean | Student$UserArgs<ExtArgs>
+    AttendanceRecord?: boolean | Student$AttendanceRecordArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -5038,6 +5485,7 @@ export namespace Prisma {
     enrollments?: boolean | Student$enrollmentsArgs<ExtArgs>
     results?: boolean | Student$resultsArgs<ExtArgs>
     User?: boolean | Student$UserArgs<ExtArgs>
+    AttendanceRecord?: boolean | Student$AttendanceRecordArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StudentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5049,6 +5497,7 @@ export namespace Prisma {
       enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
       results: Prisma.$ResultPayload<ExtArgs>[]
       User: Prisma.$UserPayload<ExtArgs> | null
+      AttendanceRecord: Prisma.$AttendanceRecordPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       studentId: number
@@ -5466,6 +5915,7 @@ export namespace Prisma {
     enrollments<T extends Student$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, Student$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     results<T extends Student$resultsArgs<ExtArgs> = {}>(args?: Subset<T, Student$resultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     User<T extends Student$UserArgs<ExtArgs> = {}>(args?: Subset<T, Student$UserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    AttendanceRecord<T extends Student$AttendanceRecordArgs<ExtArgs> = {}>(args?: Subset<T, Student$AttendanceRecordArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5965,6 +6415,30 @@ export namespace Prisma {
      */
     include?: UserInclude<ExtArgs> | null
     where?: UserWhereInput
+  }
+
+  /**
+   * Student.AttendanceRecord
+   */
+  export type Student$AttendanceRecordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    where?: AttendanceRecordWhereInput
+    orderBy?: AttendanceRecordOrderByWithRelationInput | AttendanceRecordOrderByWithRelationInput[]
+    cursor?: AttendanceRecordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceRecordScalarFieldEnum | AttendanceRecordScalarFieldEnum[]
   }
 
   /**
@@ -7284,6 +7758,8 @@ export namespace Prisma {
     Announcement?: boolean | Class$AnnouncementArgs<ExtArgs>
     schedules?: boolean | Class$schedulesArgs<ExtArgs>
     subjects?: boolean | Class$subjectsArgs<ExtArgs>
+    AssignedAttendanceTeacher?: boolean | Class$AssignedAttendanceTeacherArgs<ExtArgs>
+    AttendanceSession?: boolean | Class$AttendanceSessionArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["class"]>
 
@@ -7319,6 +7795,8 @@ export namespace Prisma {
     Announcement?: boolean | Class$AnnouncementArgs<ExtArgs>
     schedules?: boolean | Class$schedulesArgs<ExtArgs>
     subjects?: boolean | Class$subjectsArgs<ExtArgs>
+    AssignedAttendanceTeacher?: boolean | Class$AssignedAttendanceTeacherArgs<ExtArgs>
+    AttendanceSession?: boolean | Class$AttendanceSessionArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClassIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7333,6 +7811,8 @@ export namespace Prisma {
       Announcement: Prisma.$AnnouncementPayload<ExtArgs>[]
       schedules: Prisma.$WeeklySchedulePayload<ExtArgs>[]
       subjects: Prisma.$SubjectPayload<ExtArgs>[]
+      AssignedAttendanceTeacher: Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>[]
+      AttendanceSession: Prisma.$AttendanceSessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7740,6 +8220,8 @@ export namespace Prisma {
     Announcement<T extends Class$AnnouncementArgs<ExtArgs> = {}>(args?: Subset<T, Class$AnnouncementArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     schedules<T extends Class$schedulesArgs<ExtArgs> = {}>(args?: Subset<T, Class$schedulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklySchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     subjects<T extends Class$subjectsArgs<ExtArgs> = {}>(args?: Subset<T, Class$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    AssignedAttendanceTeacher<T extends Class$AssignedAttendanceTeacherArgs<ExtArgs> = {}>(args?: Subset<T, Class$AssignedAttendanceTeacherArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    AttendanceSession<T extends Class$AttendanceSessionArgs<ExtArgs> = {}>(args?: Subset<T, Class$AttendanceSessionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8306,6 +8788,54 @@ export namespace Prisma {
   }
 
   /**
+   * Class.AssignedAttendanceTeacher
+   */
+  export type Class$AssignedAttendanceTeacherArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    where?: AssignedAttendanceTeacherWhereInput
+    orderBy?: AssignedAttendanceTeacherOrderByWithRelationInput | AssignedAttendanceTeacherOrderByWithRelationInput[]
+    cursor?: AssignedAttendanceTeacherWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AssignedAttendanceTeacherScalarFieldEnum | AssignedAttendanceTeacherScalarFieldEnum[]
+  }
+
+  /**
+   * Class.AttendanceSession
+   */
+  export type Class$AttendanceSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    where?: AttendanceSessionWhereInput
+    orderBy?: AttendanceSessionOrderByWithRelationInput | AttendanceSessionOrderByWithRelationInput[]
+    cursor?: AttendanceSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceSessionScalarFieldEnum | AttendanceSessionScalarFieldEnum[]
+  }
+
+  /**
    * Class without action
    */
   export type ClassDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8325,6 +8855,3401 @@ export namespace Prisma {
 
 
   /**
+   * Model AssignedAttendanceTeacher
+   */
+
+  export type AggregateAssignedAttendanceTeacher = {
+    _count: AssignedAttendanceTeacherCountAggregateOutputType | null
+    _avg: AssignedAttendanceTeacherAvgAggregateOutputType | null
+    _sum: AssignedAttendanceTeacherSumAggregateOutputType | null
+    _min: AssignedAttendanceTeacherMinAggregateOutputType | null
+    _max: AssignedAttendanceTeacherMaxAggregateOutputType | null
+  }
+
+  export type AssignedAttendanceTeacherAvgAggregateOutputType = {
+    teacherId: number | null
+  }
+
+  export type AssignedAttendanceTeacherSumAggregateOutputType = {
+    teacherId: number | null
+  }
+
+  export type AssignedAttendanceTeacherMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    teacherId: number | null
+    classId: string | null
+    section: string | null
+  }
+
+  export type AssignedAttendanceTeacherMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    teacherId: number | null
+    classId: string | null
+    section: string | null
+  }
+
+  export type AssignedAttendanceTeacherCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    updatedAt: number
+    teacherId: number
+    classId: number
+    section: number
+    _all: number
+  }
+
+
+  export type AssignedAttendanceTeacherAvgAggregateInputType = {
+    teacherId?: true
+  }
+
+  export type AssignedAttendanceTeacherSumAggregateInputType = {
+    teacherId?: true
+  }
+
+  export type AssignedAttendanceTeacherMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    teacherId?: true
+    classId?: true
+    section?: true
+  }
+
+  export type AssignedAttendanceTeacherMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    teacherId?: true
+    classId?: true
+    section?: true
+  }
+
+  export type AssignedAttendanceTeacherCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    teacherId?: true
+    classId?: true
+    section?: true
+    _all?: true
+  }
+
+  export type AssignedAttendanceTeacherAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssignedAttendanceTeacher to aggregate.
+     */
+    where?: AssignedAttendanceTeacherWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignedAttendanceTeachers to fetch.
+     */
+    orderBy?: AssignedAttendanceTeacherOrderByWithRelationInput | AssignedAttendanceTeacherOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AssignedAttendanceTeacherWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignedAttendanceTeachers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignedAttendanceTeachers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AssignedAttendanceTeachers
+    **/
+    _count?: true | AssignedAttendanceTeacherCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssignedAttendanceTeacherAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssignedAttendanceTeacherSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssignedAttendanceTeacherMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssignedAttendanceTeacherMaxAggregateInputType
+  }
+
+  export type GetAssignedAttendanceTeacherAggregateType<T extends AssignedAttendanceTeacherAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssignedAttendanceTeacher]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssignedAttendanceTeacher[P]>
+      : GetScalarType<T[P], AggregateAssignedAttendanceTeacher[P]>
+  }
+
+
+
+
+  export type AssignedAttendanceTeacherGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AssignedAttendanceTeacherWhereInput
+    orderBy?: AssignedAttendanceTeacherOrderByWithAggregationInput | AssignedAttendanceTeacherOrderByWithAggregationInput[]
+    by: AssignedAttendanceTeacherScalarFieldEnum[] | AssignedAttendanceTeacherScalarFieldEnum
+    having?: AssignedAttendanceTeacherScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssignedAttendanceTeacherCountAggregateInputType | true
+    _avg?: AssignedAttendanceTeacherAvgAggregateInputType
+    _sum?: AssignedAttendanceTeacherSumAggregateInputType
+    _min?: AssignedAttendanceTeacherMinAggregateInputType
+    _max?: AssignedAttendanceTeacherMaxAggregateInputType
+  }
+
+  export type AssignedAttendanceTeacherGroupByOutputType = {
+    id: string
+    createdAt: Date
+    updatedAt: Date
+    teacherId: number
+    classId: string
+    section: string
+    _count: AssignedAttendanceTeacherCountAggregateOutputType | null
+    _avg: AssignedAttendanceTeacherAvgAggregateOutputType | null
+    _sum: AssignedAttendanceTeacherSumAggregateOutputType | null
+    _min: AssignedAttendanceTeacherMinAggregateOutputType | null
+    _max: AssignedAttendanceTeacherMaxAggregateOutputType | null
+  }
+
+  type GetAssignedAttendanceTeacherGroupByPayload<T extends AssignedAttendanceTeacherGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssignedAttendanceTeacherGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssignedAttendanceTeacherGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssignedAttendanceTeacherGroupByOutputType[P]>
+            : GetScalarType<T[P], AssignedAttendanceTeacherGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AssignedAttendanceTeacherSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    teacherId?: boolean
+    classId?: boolean
+    section?: boolean
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignedAttendanceTeacher"]>
+
+  export type AssignedAttendanceTeacherSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    teacherId?: boolean
+    classId?: boolean
+    section?: boolean
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignedAttendanceTeacher"]>
+
+  export type AssignedAttendanceTeacherSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    teacherId?: boolean
+    classId?: boolean
+    section?: boolean
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["assignedAttendanceTeacher"]>
+
+  export type AssignedAttendanceTeacherSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    teacherId?: boolean
+    classId?: boolean
+    section?: boolean
+  }
+
+  export type AssignedAttendanceTeacherOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "teacherId" | "classId" | "section", ExtArgs["result"]["assignedAttendanceTeacher"]>
+  export type AssignedAttendanceTeacherInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+  }
+  export type AssignedAttendanceTeacherIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+  }
+  export type AssignedAttendanceTeacherIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+  }
+
+  export type $AssignedAttendanceTeacherPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AssignedAttendanceTeacher"
+    objects: {
+      teacher: Prisma.$TeacherPayload<ExtArgs>
+      class: Prisma.$ClassPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      teacherId: number
+      classId: string
+      section: string
+    }, ExtArgs["result"]["assignedAttendanceTeacher"]>
+    composites: {}
+  }
+
+  type AssignedAttendanceTeacherGetPayload<S extends boolean | null | undefined | AssignedAttendanceTeacherDefaultArgs> = $Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload, S>
+
+  type AssignedAttendanceTeacherCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AssignedAttendanceTeacherFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AssignedAttendanceTeacherCountAggregateInputType | true
+    }
+
+  export interface AssignedAttendanceTeacherDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AssignedAttendanceTeacher'], meta: { name: 'AssignedAttendanceTeacher' } }
+    /**
+     * Find zero or one AssignedAttendanceTeacher that matches the filter.
+     * @param {AssignedAttendanceTeacherFindUniqueArgs} args - Arguments to find a AssignedAttendanceTeacher
+     * @example
+     * // Get one AssignedAttendanceTeacher
+     * const assignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AssignedAttendanceTeacherFindUniqueArgs>(args: SelectSubset<T, AssignedAttendanceTeacherFindUniqueArgs<ExtArgs>>): Prisma__AssignedAttendanceTeacherClient<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AssignedAttendanceTeacher that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AssignedAttendanceTeacherFindUniqueOrThrowArgs} args - Arguments to find a AssignedAttendanceTeacher
+     * @example
+     * // Get one AssignedAttendanceTeacher
+     * const assignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AssignedAttendanceTeacherFindUniqueOrThrowArgs>(args: SelectSubset<T, AssignedAttendanceTeacherFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AssignedAttendanceTeacherClient<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssignedAttendanceTeacher that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedAttendanceTeacherFindFirstArgs} args - Arguments to find a AssignedAttendanceTeacher
+     * @example
+     * // Get one AssignedAttendanceTeacher
+     * const assignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AssignedAttendanceTeacherFindFirstArgs>(args?: SelectSubset<T, AssignedAttendanceTeacherFindFirstArgs<ExtArgs>>): Prisma__AssignedAttendanceTeacherClient<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AssignedAttendanceTeacher that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedAttendanceTeacherFindFirstOrThrowArgs} args - Arguments to find a AssignedAttendanceTeacher
+     * @example
+     * // Get one AssignedAttendanceTeacher
+     * const assignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AssignedAttendanceTeacherFindFirstOrThrowArgs>(args?: SelectSubset<T, AssignedAttendanceTeacherFindFirstOrThrowArgs<ExtArgs>>): Prisma__AssignedAttendanceTeacherClient<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AssignedAttendanceTeachers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedAttendanceTeacherFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AssignedAttendanceTeachers
+     * const assignedAttendanceTeachers = await prisma.assignedAttendanceTeacher.findMany()
+     * 
+     * // Get first 10 AssignedAttendanceTeachers
+     * const assignedAttendanceTeachers = await prisma.assignedAttendanceTeacher.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assignedAttendanceTeacherWithIdOnly = await prisma.assignedAttendanceTeacher.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AssignedAttendanceTeacherFindManyArgs>(args?: SelectSubset<T, AssignedAttendanceTeacherFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AssignedAttendanceTeacher.
+     * @param {AssignedAttendanceTeacherCreateArgs} args - Arguments to create a AssignedAttendanceTeacher.
+     * @example
+     * // Create one AssignedAttendanceTeacher
+     * const AssignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.create({
+     *   data: {
+     *     // ... data to create a AssignedAttendanceTeacher
+     *   }
+     * })
+     * 
+     */
+    create<T extends AssignedAttendanceTeacherCreateArgs>(args: SelectSubset<T, AssignedAttendanceTeacherCreateArgs<ExtArgs>>): Prisma__AssignedAttendanceTeacherClient<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AssignedAttendanceTeachers.
+     * @param {AssignedAttendanceTeacherCreateManyArgs} args - Arguments to create many AssignedAttendanceTeachers.
+     * @example
+     * // Create many AssignedAttendanceTeachers
+     * const assignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AssignedAttendanceTeacherCreateManyArgs>(args?: SelectSubset<T, AssignedAttendanceTeacherCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AssignedAttendanceTeachers and returns the data saved in the database.
+     * @param {AssignedAttendanceTeacherCreateManyAndReturnArgs} args - Arguments to create many AssignedAttendanceTeachers.
+     * @example
+     * // Create many AssignedAttendanceTeachers
+     * const assignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AssignedAttendanceTeachers and only return the `id`
+     * const assignedAttendanceTeacherWithIdOnly = await prisma.assignedAttendanceTeacher.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AssignedAttendanceTeacherCreateManyAndReturnArgs>(args?: SelectSubset<T, AssignedAttendanceTeacherCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AssignedAttendanceTeacher.
+     * @param {AssignedAttendanceTeacherDeleteArgs} args - Arguments to delete one AssignedAttendanceTeacher.
+     * @example
+     * // Delete one AssignedAttendanceTeacher
+     * const AssignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.delete({
+     *   where: {
+     *     // ... filter to delete one AssignedAttendanceTeacher
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AssignedAttendanceTeacherDeleteArgs>(args: SelectSubset<T, AssignedAttendanceTeacherDeleteArgs<ExtArgs>>): Prisma__AssignedAttendanceTeacherClient<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AssignedAttendanceTeacher.
+     * @param {AssignedAttendanceTeacherUpdateArgs} args - Arguments to update one AssignedAttendanceTeacher.
+     * @example
+     * // Update one AssignedAttendanceTeacher
+     * const assignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AssignedAttendanceTeacherUpdateArgs>(args: SelectSubset<T, AssignedAttendanceTeacherUpdateArgs<ExtArgs>>): Prisma__AssignedAttendanceTeacherClient<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AssignedAttendanceTeachers.
+     * @param {AssignedAttendanceTeacherDeleteManyArgs} args - Arguments to filter AssignedAttendanceTeachers to delete.
+     * @example
+     * // Delete a few AssignedAttendanceTeachers
+     * const { count } = await prisma.assignedAttendanceTeacher.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AssignedAttendanceTeacherDeleteManyArgs>(args?: SelectSubset<T, AssignedAttendanceTeacherDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssignedAttendanceTeachers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedAttendanceTeacherUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AssignedAttendanceTeachers
+     * const assignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AssignedAttendanceTeacherUpdateManyArgs>(args: SelectSubset<T, AssignedAttendanceTeacherUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AssignedAttendanceTeachers and returns the data updated in the database.
+     * @param {AssignedAttendanceTeacherUpdateManyAndReturnArgs} args - Arguments to update many AssignedAttendanceTeachers.
+     * @example
+     * // Update many AssignedAttendanceTeachers
+     * const assignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AssignedAttendanceTeachers and only return the `id`
+     * const assignedAttendanceTeacherWithIdOnly = await prisma.assignedAttendanceTeacher.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AssignedAttendanceTeacherUpdateManyAndReturnArgs>(args: SelectSubset<T, AssignedAttendanceTeacherUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AssignedAttendanceTeacher.
+     * @param {AssignedAttendanceTeacherUpsertArgs} args - Arguments to update or create a AssignedAttendanceTeacher.
+     * @example
+     * // Update or create a AssignedAttendanceTeacher
+     * const assignedAttendanceTeacher = await prisma.assignedAttendanceTeacher.upsert({
+     *   create: {
+     *     // ... data to create a AssignedAttendanceTeacher
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AssignedAttendanceTeacher we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AssignedAttendanceTeacherUpsertArgs>(args: SelectSubset<T, AssignedAttendanceTeacherUpsertArgs<ExtArgs>>): Prisma__AssignedAttendanceTeacherClient<$Result.GetResult<Prisma.$AssignedAttendanceTeacherPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AssignedAttendanceTeachers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedAttendanceTeacherCountArgs} args - Arguments to filter AssignedAttendanceTeachers to count.
+     * @example
+     * // Count the number of AssignedAttendanceTeachers
+     * const count = await prisma.assignedAttendanceTeacher.count({
+     *   where: {
+     *     // ... the filter for the AssignedAttendanceTeachers we want to count
+     *   }
+     * })
+    **/
+    count<T extends AssignedAttendanceTeacherCountArgs>(
+      args?: Subset<T, AssignedAttendanceTeacherCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssignedAttendanceTeacherCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AssignedAttendanceTeacher.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedAttendanceTeacherAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssignedAttendanceTeacherAggregateArgs>(args: Subset<T, AssignedAttendanceTeacherAggregateArgs>): Prisma.PrismaPromise<GetAssignedAttendanceTeacherAggregateType<T>>
+
+    /**
+     * Group by AssignedAttendanceTeacher.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssignedAttendanceTeacherGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AssignedAttendanceTeacherGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AssignedAttendanceTeacherGroupByArgs['orderBy'] }
+        : { orderBy?: AssignedAttendanceTeacherGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AssignedAttendanceTeacherGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssignedAttendanceTeacherGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AssignedAttendanceTeacher model
+   */
+  readonly fields: AssignedAttendanceTeacherFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AssignedAttendanceTeacher.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AssignedAttendanceTeacherClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    teacher<T extends TeacherDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeacherDefaultArgs<ExtArgs>>): Prisma__TeacherClient<$Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    class<T extends ClassDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassDefaultArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AssignedAttendanceTeacher model
+   */
+  interface AssignedAttendanceTeacherFieldRefs {
+    readonly id: FieldRef<"AssignedAttendanceTeacher", 'String'>
+    readonly createdAt: FieldRef<"AssignedAttendanceTeacher", 'DateTime'>
+    readonly updatedAt: FieldRef<"AssignedAttendanceTeacher", 'DateTime'>
+    readonly teacherId: FieldRef<"AssignedAttendanceTeacher", 'Int'>
+    readonly classId: FieldRef<"AssignedAttendanceTeacher", 'String'>
+    readonly section: FieldRef<"AssignedAttendanceTeacher", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AssignedAttendanceTeacher findUnique
+   */
+  export type AssignedAttendanceTeacherFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignedAttendanceTeacher to fetch.
+     */
+    where: AssignedAttendanceTeacherWhereUniqueInput
+  }
+
+  /**
+   * AssignedAttendanceTeacher findUniqueOrThrow
+   */
+  export type AssignedAttendanceTeacherFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignedAttendanceTeacher to fetch.
+     */
+    where: AssignedAttendanceTeacherWhereUniqueInput
+  }
+
+  /**
+   * AssignedAttendanceTeacher findFirst
+   */
+  export type AssignedAttendanceTeacherFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignedAttendanceTeacher to fetch.
+     */
+    where?: AssignedAttendanceTeacherWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignedAttendanceTeachers to fetch.
+     */
+    orderBy?: AssignedAttendanceTeacherOrderByWithRelationInput | AssignedAttendanceTeacherOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssignedAttendanceTeachers.
+     */
+    cursor?: AssignedAttendanceTeacherWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignedAttendanceTeachers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignedAttendanceTeachers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssignedAttendanceTeachers.
+     */
+    distinct?: AssignedAttendanceTeacherScalarFieldEnum | AssignedAttendanceTeacherScalarFieldEnum[]
+  }
+
+  /**
+   * AssignedAttendanceTeacher findFirstOrThrow
+   */
+  export type AssignedAttendanceTeacherFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignedAttendanceTeacher to fetch.
+     */
+    where?: AssignedAttendanceTeacherWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignedAttendanceTeachers to fetch.
+     */
+    orderBy?: AssignedAttendanceTeacherOrderByWithRelationInput | AssignedAttendanceTeacherOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AssignedAttendanceTeachers.
+     */
+    cursor?: AssignedAttendanceTeacherWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignedAttendanceTeachers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignedAttendanceTeachers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AssignedAttendanceTeachers.
+     */
+    distinct?: AssignedAttendanceTeacherScalarFieldEnum | AssignedAttendanceTeacherScalarFieldEnum[]
+  }
+
+  /**
+   * AssignedAttendanceTeacher findMany
+   */
+  export type AssignedAttendanceTeacherFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    /**
+     * Filter, which AssignedAttendanceTeachers to fetch.
+     */
+    where?: AssignedAttendanceTeacherWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AssignedAttendanceTeachers to fetch.
+     */
+    orderBy?: AssignedAttendanceTeacherOrderByWithRelationInput | AssignedAttendanceTeacherOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AssignedAttendanceTeachers.
+     */
+    cursor?: AssignedAttendanceTeacherWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AssignedAttendanceTeachers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AssignedAttendanceTeachers.
+     */
+    skip?: number
+    distinct?: AssignedAttendanceTeacherScalarFieldEnum | AssignedAttendanceTeacherScalarFieldEnum[]
+  }
+
+  /**
+   * AssignedAttendanceTeacher create
+   */
+  export type AssignedAttendanceTeacherCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AssignedAttendanceTeacher.
+     */
+    data: XOR<AssignedAttendanceTeacherCreateInput, AssignedAttendanceTeacherUncheckedCreateInput>
+  }
+
+  /**
+   * AssignedAttendanceTeacher createMany
+   */
+  export type AssignedAttendanceTeacherCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AssignedAttendanceTeachers.
+     */
+    data: AssignedAttendanceTeacherCreateManyInput | AssignedAttendanceTeacherCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AssignedAttendanceTeacher createManyAndReturn
+   */
+  export type AssignedAttendanceTeacherCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * The data used to create many AssignedAttendanceTeachers.
+     */
+    data: AssignedAttendanceTeacherCreateManyInput | AssignedAttendanceTeacherCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssignedAttendanceTeacher update
+   */
+  export type AssignedAttendanceTeacherUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AssignedAttendanceTeacher.
+     */
+    data: XOR<AssignedAttendanceTeacherUpdateInput, AssignedAttendanceTeacherUncheckedUpdateInput>
+    /**
+     * Choose, which AssignedAttendanceTeacher to update.
+     */
+    where: AssignedAttendanceTeacherWhereUniqueInput
+  }
+
+  /**
+   * AssignedAttendanceTeacher updateMany
+   */
+  export type AssignedAttendanceTeacherUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AssignedAttendanceTeachers.
+     */
+    data: XOR<AssignedAttendanceTeacherUpdateManyMutationInput, AssignedAttendanceTeacherUncheckedUpdateManyInput>
+    /**
+     * Filter which AssignedAttendanceTeachers to update
+     */
+    where?: AssignedAttendanceTeacherWhereInput
+    /**
+     * Limit how many AssignedAttendanceTeachers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignedAttendanceTeacher updateManyAndReturn
+   */
+  export type AssignedAttendanceTeacherUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * The data used to update AssignedAttendanceTeachers.
+     */
+    data: XOR<AssignedAttendanceTeacherUpdateManyMutationInput, AssignedAttendanceTeacherUncheckedUpdateManyInput>
+    /**
+     * Filter which AssignedAttendanceTeachers to update
+     */
+    where?: AssignedAttendanceTeacherWhereInput
+    /**
+     * Limit how many AssignedAttendanceTeachers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AssignedAttendanceTeacher upsert
+   */
+  export type AssignedAttendanceTeacherUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AssignedAttendanceTeacher to update in case it exists.
+     */
+    where: AssignedAttendanceTeacherWhereUniqueInput
+    /**
+     * In case the AssignedAttendanceTeacher found by the `where` argument doesn't exist, create a new AssignedAttendanceTeacher with this data.
+     */
+    create: XOR<AssignedAttendanceTeacherCreateInput, AssignedAttendanceTeacherUncheckedCreateInput>
+    /**
+     * In case the AssignedAttendanceTeacher was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AssignedAttendanceTeacherUpdateInput, AssignedAttendanceTeacherUncheckedUpdateInput>
+  }
+
+  /**
+   * AssignedAttendanceTeacher delete
+   */
+  export type AssignedAttendanceTeacherDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+    /**
+     * Filter which AssignedAttendanceTeacher to delete.
+     */
+    where: AssignedAttendanceTeacherWhereUniqueInput
+  }
+
+  /**
+   * AssignedAttendanceTeacher deleteMany
+   */
+  export type AssignedAttendanceTeacherDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AssignedAttendanceTeachers to delete
+     */
+    where?: AssignedAttendanceTeacherWhereInput
+    /**
+     * Limit how many AssignedAttendanceTeachers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AssignedAttendanceTeacher without action
+   */
+  export type AssignedAttendanceTeacherDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AssignedAttendanceTeacher
+     */
+    select?: AssignedAttendanceTeacherSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AssignedAttendanceTeacher
+     */
+    omit?: AssignedAttendanceTeacherOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AssignedAttendanceTeacherInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AttendanceSession
+   */
+
+  export type AggregateAttendanceSession = {
+    _count: AttendanceSessionCountAggregateOutputType | null
+    _avg: AttendanceSessionAvgAggregateOutputType | null
+    _sum: AttendanceSessionSumAggregateOutputType | null
+    _min: AttendanceSessionMinAggregateOutputType | null
+    _max: AttendanceSessionMaxAggregateOutputType | null
+  }
+
+  export type AttendanceSessionAvgAggregateOutputType = {
+    teacherId: number | null
+  }
+
+  export type AttendanceSessionSumAggregateOutputType = {
+    teacherId: number | null
+  }
+
+  export type AttendanceSessionMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    date: Date | null
+    classId: string | null
+    section: string | null
+    teacherId: number | null
+  }
+
+  export type AttendanceSessionMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    date: Date | null
+    classId: string | null
+    section: string | null
+    teacherId: number | null
+  }
+
+  export type AttendanceSessionCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    updatedAt: number
+    date: number
+    classId: number
+    section: number
+    teacherId: number
+    _all: number
+  }
+
+
+  export type AttendanceSessionAvgAggregateInputType = {
+    teacherId?: true
+  }
+
+  export type AttendanceSessionSumAggregateInputType = {
+    teacherId?: true
+  }
+
+  export type AttendanceSessionMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    date?: true
+    classId?: true
+    section?: true
+    teacherId?: true
+  }
+
+  export type AttendanceSessionMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    date?: true
+    classId?: true
+    section?: true
+    teacherId?: true
+  }
+
+  export type AttendanceSessionCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    date?: true
+    classId?: true
+    section?: true
+    teacherId?: true
+    _all?: true
+  }
+
+  export type AttendanceSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceSession to aggregate.
+     */
+    where?: AttendanceSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceSessions to fetch.
+     */
+    orderBy?: AttendanceSessionOrderByWithRelationInput | AttendanceSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttendanceSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AttendanceSessions
+    **/
+    _count?: true | AttendanceSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AttendanceSessionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AttendanceSessionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttendanceSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttendanceSessionMaxAggregateInputType
+  }
+
+  export type GetAttendanceSessionAggregateType<T extends AttendanceSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttendanceSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttendanceSession[P]>
+      : GetScalarType<T[P], AggregateAttendanceSession[P]>
+  }
+
+
+
+
+  export type AttendanceSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceSessionWhereInput
+    orderBy?: AttendanceSessionOrderByWithAggregationInput | AttendanceSessionOrderByWithAggregationInput[]
+    by: AttendanceSessionScalarFieldEnum[] | AttendanceSessionScalarFieldEnum
+    having?: AttendanceSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttendanceSessionCountAggregateInputType | true
+    _avg?: AttendanceSessionAvgAggregateInputType
+    _sum?: AttendanceSessionSumAggregateInputType
+    _min?: AttendanceSessionMinAggregateInputType
+    _max?: AttendanceSessionMaxAggregateInputType
+  }
+
+  export type AttendanceSessionGroupByOutputType = {
+    id: string
+    createdAt: Date
+    updatedAt: Date
+    date: Date
+    classId: string
+    section: string
+    teacherId: number
+    _count: AttendanceSessionCountAggregateOutputType | null
+    _avg: AttendanceSessionAvgAggregateOutputType | null
+    _sum: AttendanceSessionSumAggregateOutputType | null
+    _min: AttendanceSessionMinAggregateOutputType | null
+    _max: AttendanceSessionMaxAggregateOutputType | null
+  }
+
+  type GetAttendanceSessionGroupByPayload<T extends AttendanceSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttendanceSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttendanceSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttendanceSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], AttendanceSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttendanceSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    date?: boolean
+    classId?: boolean
+    section?: boolean
+    teacherId?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    records?: boolean | AttendanceSession$recordsArgs<ExtArgs>
+    _count?: boolean | AttendanceSessionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceSession"]>
+
+  export type AttendanceSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    date?: boolean
+    classId?: boolean
+    section?: boolean
+    teacherId?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceSession"]>
+
+  export type AttendanceSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    date?: boolean
+    classId?: boolean
+    section?: boolean
+    teacherId?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceSession"]>
+
+  export type AttendanceSessionSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    date?: boolean
+    classId?: boolean
+    section?: boolean
+    teacherId?: boolean
+  }
+
+  export type AttendanceSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "date" | "classId" | "section" | "teacherId", ExtArgs["result"]["attendanceSession"]>
+  export type AttendanceSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+    records?: boolean | AttendanceSession$recordsArgs<ExtArgs>
+    _count?: boolean | AttendanceSessionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AttendanceSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+  }
+  export type AttendanceSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    teacher?: boolean | TeacherDefaultArgs<ExtArgs>
+  }
+
+  export type $AttendanceSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AttendanceSession"
+    objects: {
+      class: Prisma.$ClassPayload<ExtArgs>
+      teacher: Prisma.$TeacherPayload<ExtArgs>
+      records: Prisma.$AttendanceRecordPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      date: Date
+      classId: string
+      section: string
+      teacherId: number
+    }, ExtArgs["result"]["attendanceSession"]>
+    composites: {}
+  }
+
+  type AttendanceSessionGetPayload<S extends boolean | null | undefined | AttendanceSessionDefaultArgs> = $Result.GetResult<Prisma.$AttendanceSessionPayload, S>
+
+  type AttendanceSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttendanceSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttendanceSessionCountAggregateInputType | true
+    }
+
+  export interface AttendanceSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AttendanceSession'], meta: { name: 'AttendanceSession' } }
+    /**
+     * Find zero or one AttendanceSession that matches the filter.
+     * @param {AttendanceSessionFindUniqueArgs} args - Arguments to find a AttendanceSession
+     * @example
+     * // Get one AttendanceSession
+     * const attendanceSession = await prisma.attendanceSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttendanceSessionFindUniqueArgs>(args: SelectSubset<T, AttendanceSessionFindUniqueArgs<ExtArgs>>): Prisma__AttendanceSessionClient<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AttendanceSession that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttendanceSessionFindUniqueOrThrowArgs} args - Arguments to find a AttendanceSession
+     * @example
+     * // Get one AttendanceSession
+     * const attendanceSession = await prisma.attendanceSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttendanceSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, AttendanceSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttendanceSessionClient<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSessionFindFirstArgs} args - Arguments to find a AttendanceSession
+     * @example
+     * // Get one AttendanceSession
+     * const attendanceSession = await prisma.attendanceSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttendanceSessionFindFirstArgs>(args?: SelectSubset<T, AttendanceSessionFindFirstArgs<ExtArgs>>): Prisma__AttendanceSessionClient<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSessionFindFirstOrThrowArgs} args - Arguments to find a AttendanceSession
+     * @example
+     * // Get one AttendanceSession
+     * const attendanceSession = await prisma.attendanceSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttendanceSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, AttendanceSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttendanceSessionClient<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AttendanceSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AttendanceSessions
+     * const attendanceSessions = await prisma.attendanceSession.findMany()
+     * 
+     * // Get first 10 AttendanceSessions
+     * const attendanceSessions = await prisma.attendanceSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attendanceSessionWithIdOnly = await prisma.attendanceSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttendanceSessionFindManyArgs>(args?: SelectSubset<T, AttendanceSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AttendanceSession.
+     * @param {AttendanceSessionCreateArgs} args - Arguments to create a AttendanceSession.
+     * @example
+     * // Create one AttendanceSession
+     * const AttendanceSession = await prisma.attendanceSession.create({
+     *   data: {
+     *     // ... data to create a AttendanceSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttendanceSessionCreateArgs>(args: SelectSubset<T, AttendanceSessionCreateArgs<ExtArgs>>): Prisma__AttendanceSessionClient<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AttendanceSessions.
+     * @param {AttendanceSessionCreateManyArgs} args - Arguments to create many AttendanceSessions.
+     * @example
+     * // Create many AttendanceSessions
+     * const attendanceSession = await prisma.attendanceSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttendanceSessionCreateManyArgs>(args?: SelectSubset<T, AttendanceSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AttendanceSessions and returns the data saved in the database.
+     * @param {AttendanceSessionCreateManyAndReturnArgs} args - Arguments to create many AttendanceSessions.
+     * @example
+     * // Create many AttendanceSessions
+     * const attendanceSession = await prisma.attendanceSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AttendanceSessions and only return the `id`
+     * const attendanceSessionWithIdOnly = await prisma.attendanceSession.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttendanceSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, AttendanceSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AttendanceSession.
+     * @param {AttendanceSessionDeleteArgs} args - Arguments to delete one AttendanceSession.
+     * @example
+     * // Delete one AttendanceSession
+     * const AttendanceSession = await prisma.attendanceSession.delete({
+     *   where: {
+     *     // ... filter to delete one AttendanceSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttendanceSessionDeleteArgs>(args: SelectSubset<T, AttendanceSessionDeleteArgs<ExtArgs>>): Prisma__AttendanceSessionClient<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AttendanceSession.
+     * @param {AttendanceSessionUpdateArgs} args - Arguments to update one AttendanceSession.
+     * @example
+     * // Update one AttendanceSession
+     * const attendanceSession = await prisma.attendanceSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttendanceSessionUpdateArgs>(args: SelectSubset<T, AttendanceSessionUpdateArgs<ExtArgs>>): Prisma__AttendanceSessionClient<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AttendanceSessions.
+     * @param {AttendanceSessionDeleteManyArgs} args - Arguments to filter AttendanceSessions to delete.
+     * @example
+     * // Delete a few AttendanceSessions
+     * const { count } = await prisma.attendanceSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttendanceSessionDeleteManyArgs>(args?: SelectSubset<T, AttendanceSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AttendanceSessions
+     * const attendanceSession = await prisma.attendanceSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttendanceSessionUpdateManyArgs>(args: SelectSubset<T, AttendanceSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceSessions and returns the data updated in the database.
+     * @param {AttendanceSessionUpdateManyAndReturnArgs} args - Arguments to update many AttendanceSessions.
+     * @example
+     * // Update many AttendanceSessions
+     * const attendanceSession = await prisma.attendanceSession.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AttendanceSessions and only return the `id`
+     * const attendanceSessionWithIdOnly = await prisma.attendanceSession.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttendanceSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, AttendanceSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AttendanceSession.
+     * @param {AttendanceSessionUpsertArgs} args - Arguments to update or create a AttendanceSession.
+     * @example
+     * // Update or create a AttendanceSession
+     * const attendanceSession = await prisma.attendanceSession.upsert({
+     *   create: {
+     *     // ... data to create a AttendanceSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AttendanceSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttendanceSessionUpsertArgs>(args: SelectSubset<T, AttendanceSessionUpsertArgs<ExtArgs>>): Prisma__AttendanceSessionClient<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AttendanceSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSessionCountArgs} args - Arguments to filter AttendanceSessions to count.
+     * @example
+     * // Count the number of AttendanceSessions
+     * const count = await prisma.attendanceSession.count({
+     *   where: {
+     *     // ... the filter for the AttendanceSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttendanceSessionCountArgs>(
+      args?: Subset<T, AttendanceSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttendanceSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AttendanceSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttendanceSessionAggregateArgs>(args: Subset<T, AttendanceSessionAggregateArgs>): Prisma.PrismaPromise<GetAttendanceSessionAggregateType<T>>
+
+    /**
+     * Group by AttendanceSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttendanceSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttendanceSessionGroupByArgs['orderBy'] }
+        : { orderBy?: AttendanceSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttendanceSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttendanceSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AttendanceSession model
+   */
+  readonly fields: AttendanceSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AttendanceSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttendanceSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    class<T extends ClassDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassDefaultArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    teacher<T extends TeacherDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeacherDefaultArgs<ExtArgs>>): Prisma__TeacherClient<$Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    records<T extends AttendanceSession$recordsArgs<ExtArgs> = {}>(args?: Subset<T, AttendanceSession$recordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AttendanceSession model
+   */
+  interface AttendanceSessionFieldRefs {
+    readonly id: FieldRef<"AttendanceSession", 'String'>
+    readonly createdAt: FieldRef<"AttendanceSession", 'DateTime'>
+    readonly updatedAt: FieldRef<"AttendanceSession", 'DateTime'>
+    readonly date: FieldRef<"AttendanceSession", 'DateTime'>
+    readonly classId: FieldRef<"AttendanceSession", 'String'>
+    readonly section: FieldRef<"AttendanceSession", 'String'>
+    readonly teacherId: FieldRef<"AttendanceSession", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AttendanceSession findUnique
+   */
+  export type AttendanceSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceSession to fetch.
+     */
+    where: AttendanceSessionWhereUniqueInput
+  }
+
+  /**
+   * AttendanceSession findUniqueOrThrow
+   */
+  export type AttendanceSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceSession to fetch.
+     */
+    where: AttendanceSessionWhereUniqueInput
+  }
+
+  /**
+   * AttendanceSession findFirst
+   */
+  export type AttendanceSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceSession to fetch.
+     */
+    where?: AttendanceSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceSessions to fetch.
+     */
+    orderBy?: AttendanceSessionOrderByWithRelationInput | AttendanceSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceSessions.
+     */
+    cursor?: AttendanceSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceSessions.
+     */
+    distinct?: AttendanceSessionScalarFieldEnum | AttendanceSessionScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceSession findFirstOrThrow
+   */
+  export type AttendanceSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceSession to fetch.
+     */
+    where?: AttendanceSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceSessions to fetch.
+     */
+    orderBy?: AttendanceSessionOrderByWithRelationInput | AttendanceSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceSessions.
+     */
+    cursor?: AttendanceSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceSessions.
+     */
+    distinct?: AttendanceSessionScalarFieldEnum | AttendanceSessionScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceSession findMany
+   */
+  export type AttendanceSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceSessions to fetch.
+     */
+    where?: AttendanceSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceSessions to fetch.
+     */
+    orderBy?: AttendanceSessionOrderByWithRelationInput | AttendanceSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AttendanceSessions.
+     */
+    cursor?: AttendanceSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceSessions.
+     */
+    skip?: number
+    distinct?: AttendanceSessionScalarFieldEnum | AttendanceSessionScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceSession create
+   */
+  export type AttendanceSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AttendanceSession.
+     */
+    data: XOR<AttendanceSessionCreateInput, AttendanceSessionUncheckedCreateInput>
+  }
+
+  /**
+   * AttendanceSession createMany
+   */
+  export type AttendanceSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AttendanceSessions.
+     */
+    data: AttendanceSessionCreateManyInput | AttendanceSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AttendanceSession createManyAndReturn
+   */
+  export type AttendanceSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * The data used to create many AttendanceSessions.
+     */
+    data: AttendanceSessionCreateManyInput | AttendanceSessionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceSession update
+   */
+  export type AttendanceSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AttendanceSession.
+     */
+    data: XOR<AttendanceSessionUpdateInput, AttendanceSessionUncheckedUpdateInput>
+    /**
+     * Choose, which AttendanceSession to update.
+     */
+    where: AttendanceSessionWhereUniqueInput
+  }
+
+  /**
+   * AttendanceSession updateMany
+   */
+  export type AttendanceSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AttendanceSessions.
+     */
+    data: XOR<AttendanceSessionUpdateManyMutationInput, AttendanceSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceSessions to update
+     */
+    where?: AttendanceSessionWhereInput
+    /**
+     * Limit how many AttendanceSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceSession updateManyAndReturn
+   */
+  export type AttendanceSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * The data used to update AttendanceSessions.
+     */
+    data: XOR<AttendanceSessionUpdateManyMutationInput, AttendanceSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceSessions to update
+     */
+    where?: AttendanceSessionWhereInput
+    /**
+     * Limit how many AttendanceSessions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceSession upsert
+   */
+  export type AttendanceSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AttendanceSession to update in case it exists.
+     */
+    where: AttendanceSessionWhereUniqueInput
+    /**
+     * In case the AttendanceSession found by the `where` argument doesn't exist, create a new AttendanceSession with this data.
+     */
+    create: XOR<AttendanceSessionCreateInput, AttendanceSessionUncheckedCreateInput>
+    /**
+     * In case the AttendanceSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttendanceSessionUpdateInput, AttendanceSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * AttendanceSession delete
+   */
+  export type AttendanceSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+    /**
+     * Filter which AttendanceSession to delete.
+     */
+    where: AttendanceSessionWhereUniqueInput
+  }
+
+  /**
+   * AttendanceSession deleteMany
+   */
+  export type AttendanceSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceSessions to delete
+     */
+    where?: AttendanceSessionWhereInput
+    /**
+     * Limit how many AttendanceSessions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceSession.records
+   */
+  export type AttendanceSession$recordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    where?: AttendanceRecordWhereInput
+    orderBy?: AttendanceRecordOrderByWithRelationInput | AttendanceRecordOrderByWithRelationInput[]
+    cursor?: AttendanceRecordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendanceRecordScalarFieldEnum | AttendanceRecordScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceSession without action
+   */
+  export type AttendanceSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceSession
+     */
+    select?: AttendanceSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceSession
+     */
+    omit?: AttendanceSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceSessionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AttendanceRecord
+   */
+
+  export type AggregateAttendanceRecord = {
+    _count: AttendanceRecordCountAggregateOutputType | null
+    _avg: AttendanceRecordAvgAggregateOutputType | null
+    _sum: AttendanceRecordSumAggregateOutputType | null
+    _min: AttendanceRecordMinAggregateOutputType | null
+    _max: AttendanceRecordMaxAggregateOutputType | null
+  }
+
+  export type AttendanceRecordAvgAggregateOutputType = {
+    studentId: number | null
+  }
+
+  export type AttendanceRecordSumAggregateOutputType = {
+    studentId: number | null
+  }
+
+  export type AttendanceRecordMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    sessionId: string | null
+    studentId: number | null
+    status: $Enums.AttendanceStatus | null
+    note: string | null
+  }
+
+  export type AttendanceRecordMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    sessionId: string | null
+    studentId: number | null
+    status: $Enums.AttendanceStatus | null
+    note: string | null
+  }
+
+  export type AttendanceRecordCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    updatedAt: number
+    sessionId: number
+    studentId: number
+    status: number
+    note: number
+    _all: number
+  }
+
+
+  export type AttendanceRecordAvgAggregateInputType = {
+    studentId?: true
+  }
+
+  export type AttendanceRecordSumAggregateInputType = {
+    studentId?: true
+  }
+
+  export type AttendanceRecordMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    sessionId?: true
+    studentId?: true
+    status?: true
+    note?: true
+  }
+
+  export type AttendanceRecordMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    sessionId?: true
+    studentId?: true
+    status?: true
+    note?: true
+  }
+
+  export type AttendanceRecordCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    sessionId?: true
+    studentId?: true
+    status?: true
+    note?: true
+    _all?: true
+  }
+
+  export type AttendanceRecordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceRecord to aggregate.
+     */
+    where?: AttendanceRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceRecords to fetch.
+     */
+    orderBy?: AttendanceRecordOrderByWithRelationInput | AttendanceRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttendanceRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AttendanceRecords
+    **/
+    _count?: true | AttendanceRecordCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AttendanceRecordAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AttendanceRecordSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttendanceRecordMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttendanceRecordMaxAggregateInputType
+  }
+
+  export type GetAttendanceRecordAggregateType<T extends AttendanceRecordAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttendanceRecord]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttendanceRecord[P]>
+      : GetScalarType<T[P], AggregateAttendanceRecord[P]>
+  }
+
+
+
+
+  export type AttendanceRecordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendanceRecordWhereInput
+    orderBy?: AttendanceRecordOrderByWithAggregationInput | AttendanceRecordOrderByWithAggregationInput[]
+    by: AttendanceRecordScalarFieldEnum[] | AttendanceRecordScalarFieldEnum
+    having?: AttendanceRecordScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttendanceRecordCountAggregateInputType | true
+    _avg?: AttendanceRecordAvgAggregateInputType
+    _sum?: AttendanceRecordSumAggregateInputType
+    _min?: AttendanceRecordMinAggregateInputType
+    _max?: AttendanceRecordMaxAggregateInputType
+  }
+
+  export type AttendanceRecordGroupByOutputType = {
+    id: string
+    createdAt: Date
+    updatedAt: Date
+    sessionId: string
+    studentId: number
+    status: $Enums.AttendanceStatus
+    note: string | null
+    _count: AttendanceRecordCountAggregateOutputType | null
+    _avg: AttendanceRecordAvgAggregateOutputType | null
+    _sum: AttendanceRecordSumAggregateOutputType | null
+    _min: AttendanceRecordMinAggregateOutputType | null
+    _max: AttendanceRecordMaxAggregateOutputType | null
+  }
+
+  type GetAttendanceRecordGroupByPayload<T extends AttendanceRecordGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttendanceRecordGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttendanceRecordGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttendanceRecordGroupByOutputType[P]>
+            : GetScalarType<T[P], AttendanceRecordGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttendanceRecordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    sessionId?: boolean
+    studentId?: boolean
+    status?: boolean
+    note?: boolean
+    session?: boolean | AttendanceSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceRecord"]>
+
+  export type AttendanceRecordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    sessionId?: boolean
+    studentId?: boolean
+    status?: boolean
+    note?: boolean
+    session?: boolean | AttendanceSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceRecord"]>
+
+  export type AttendanceRecordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    sessionId?: boolean
+    studentId?: boolean
+    status?: boolean
+    note?: boolean
+    session?: boolean | AttendanceSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attendanceRecord"]>
+
+  export type AttendanceRecordSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    sessionId?: boolean
+    studentId?: boolean
+    status?: boolean
+    note?: boolean
+  }
+
+  export type AttendanceRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "sessionId" | "studentId" | "status" | "note", ExtArgs["result"]["attendanceRecord"]>
+  export type AttendanceRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    session?: boolean | AttendanceSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+  export type AttendanceRecordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    session?: boolean | AttendanceSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+  export type AttendanceRecordIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    session?: boolean | AttendanceSessionDefaultArgs<ExtArgs>
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+
+  export type $AttendanceRecordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AttendanceRecord"
+    objects: {
+      session: Prisma.$AttendanceSessionPayload<ExtArgs>
+      student: Prisma.$StudentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      sessionId: string
+      studentId: number
+      status: $Enums.AttendanceStatus
+      note: string | null
+    }, ExtArgs["result"]["attendanceRecord"]>
+    composites: {}
+  }
+
+  type AttendanceRecordGetPayload<S extends boolean | null | undefined | AttendanceRecordDefaultArgs> = $Result.GetResult<Prisma.$AttendanceRecordPayload, S>
+
+  type AttendanceRecordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttendanceRecordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttendanceRecordCountAggregateInputType | true
+    }
+
+  export interface AttendanceRecordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AttendanceRecord'], meta: { name: 'AttendanceRecord' } }
+    /**
+     * Find zero or one AttendanceRecord that matches the filter.
+     * @param {AttendanceRecordFindUniqueArgs} args - Arguments to find a AttendanceRecord
+     * @example
+     * // Get one AttendanceRecord
+     * const attendanceRecord = await prisma.attendanceRecord.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttendanceRecordFindUniqueArgs>(args: SelectSubset<T, AttendanceRecordFindUniqueArgs<ExtArgs>>): Prisma__AttendanceRecordClient<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AttendanceRecord that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttendanceRecordFindUniqueOrThrowArgs} args - Arguments to find a AttendanceRecord
+     * @example
+     * // Get one AttendanceRecord
+     * const attendanceRecord = await prisma.attendanceRecord.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttendanceRecordFindUniqueOrThrowArgs>(args: SelectSubset<T, AttendanceRecordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttendanceRecordClient<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceRecord that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceRecordFindFirstArgs} args - Arguments to find a AttendanceRecord
+     * @example
+     * // Get one AttendanceRecord
+     * const attendanceRecord = await prisma.attendanceRecord.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttendanceRecordFindFirstArgs>(args?: SelectSubset<T, AttendanceRecordFindFirstArgs<ExtArgs>>): Prisma__AttendanceRecordClient<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttendanceRecord that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceRecordFindFirstOrThrowArgs} args - Arguments to find a AttendanceRecord
+     * @example
+     * // Get one AttendanceRecord
+     * const attendanceRecord = await prisma.attendanceRecord.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttendanceRecordFindFirstOrThrowArgs>(args?: SelectSubset<T, AttendanceRecordFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttendanceRecordClient<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AttendanceRecords that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceRecordFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AttendanceRecords
+     * const attendanceRecords = await prisma.attendanceRecord.findMany()
+     * 
+     * // Get first 10 AttendanceRecords
+     * const attendanceRecords = await prisma.attendanceRecord.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attendanceRecordWithIdOnly = await prisma.attendanceRecord.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttendanceRecordFindManyArgs>(args?: SelectSubset<T, AttendanceRecordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AttendanceRecord.
+     * @param {AttendanceRecordCreateArgs} args - Arguments to create a AttendanceRecord.
+     * @example
+     * // Create one AttendanceRecord
+     * const AttendanceRecord = await prisma.attendanceRecord.create({
+     *   data: {
+     *     // ... data to create a AttendanceRecord
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttendanceRecordCreateArgs>(args: SelectSubset<T, AttendanceRecordCreateArgs<ExtArgs>>): Prisma__AttendanceRecordClient<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AttendanceRecords.
+     * @param {AttendanceRecordCreateManyArgs} args - Arguments to create many AttendanceRecords.
+     * @example
+     * // Create many AttendanceRecords
+     * const attendanceRecord = await prisma.attendanceRecord.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttendanceRecordCreateManyArgs>(args?: SelectSubset<T, AttendanceRecordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AttendanceRecords and returns the data saved in the database.
+     * @param {AttendanceRecordCreateManyAndReturnArgs} args - Arguments to create many AttendanceRecords.
+     * @example
+     * // Create many AttendanceRecords
+     * const attendanceRecord = await prisma.attendanceRecord.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AttendanceRecords and only return the `id`
+     * const attendanceRecordWithIdOnly = await prisma.attendanceRecord.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttendanceRecordCreateManyAndReturnArgs>(args?: SelectSubset<T, AttendanceRecordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AttendanceRecord.
+     * @param {AttendanceRecordDeleteArgs} args - Arguments to delete one AttendanceRecord.
+     * @example
+     * // Delete one AttendanceRecord
+     * const AttendanceRecord = await prisma.attendanceRecord.delete({
+     *   where: {
+     *     // ... filter to delete one AttendanceRecord
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttendanceRecordDeleteArgs>(args: SelectSubset<T, AttendanceRecordDeleteArgs<ExtArgs>>): Prisma__AttendanceRecordClient<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AttendanceRecord.
+     * @param {AttendanceRecordUpdateArgs} args - Arguments to update one AttendanceRecord.
+     * @example
+     * // Update one AttendanceRecord
+     * const attendanceRecord = await prisma.attendanceRecord.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttendanceRecordUpdateArgs>(args: SelectSubset<T, AttendanceRecordUpdateArgs<ExtArgs>>): Prisma__AttendanceRecordClient<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AttendanceRecords.
+     * @param {AttendanceRecordDeleteManyArgs} args - Arguments to filter AttendanceRecords to delete.
+     * @example
+     * // Delete a few AttendanceRecords
+     * const { count } = await prisma.attendanceRecord.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttendanceRecordDeleteManyArgs>(args?: SelectSubset<T, AttendanceRecordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceRecordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AttendanceRecords
+     * const attendanceRecord = await prisma.attendanceRecord.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttendanceRecordUpdateManyArgs>(args: SelectSubset<T, AttendanceRecordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttendanceRecords and returns the data updated in the database.
+     * @param {AttendanceRecordUpdateManyAndReturnArgs} args - Arguments to update many AttendanceRecords.
+     * @example
+     * // Update many AttendanceRecords
+     * const attendanceRecord = await prisma.attendanceRecord.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AttendanceRecords and only return the `id`
+     * const attendanceRecordWithIdOnly = await prisma.attendanceRecord.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttendanceRecordUpdateManyAndReturnArgs>(args: SelectSubset<T, AttendanceRecordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AttendanceRecord.
+     * @param {AttendanceRecordUpsertArgs} args - Arguments to update or create a AttendanceRecord.
+     * @example
+     * // Update or create a AttendanceRecord
+     * const attendanceRecord = await prisma.attendanceRecord.upsert({
+     *   create: {
+     *     // ... data to create a AttendanceRecord
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AttendanceRecord we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttendanceRecordUpsertArgs>(args: SelectSubset<T, AttendanceRecordUpsertArgs<ExtArgs>>): Prisma__AttendanceRecordClient<$Result.GetResult<Prisma.$AttendanceRecordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AttendanceRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceRecordCountArgs} args - Arguments to filter AttendanceRecords to count.
+     * @example
+     * // Count the number of AttendanceRecords
+     * const count = await prisma.attendanceRecord.count({
+     *   where: {
+     *     // ... the filter for the AttendanceRecords we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttendanceRecordCountArgs>(
+      args?: Subset<T, AttendanceRecordCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttendanceRecordCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AttendanceRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceRecordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttendanceRecordAggregateArgs>(args: Subset<T, AttendanceRecordAggregateArgs>): Prisma.PrismaPromise<GetAttendanceRecordAggregateType<T>>
+
+    /**
+     * Group by AttendanceRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttendanceRecordGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttendanceRecordGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttendanceRecordGroupByArgs['orderBy'] }
+        : { orderBy?: AttendanceRecordGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttendanceRecordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttendanceRecordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AttendanceRecord model
+   */
+  readonly fields: AttendanceRecordFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AttendanceRecord.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttendanceRecordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    session<T extends AttendanceSessionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AttendanceSessionDefaultArgs<ExtArgs>>): Prisma__AttendanceSessionClient<$Result.GetResult<Prisma.$AttendanceSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AttendanceRecord model
+   */
+  interface AttendanceRecordFieldRefs {
+    readonly id: FieldRef<"AttendanceRecord", 'String'>
+    readonly createdAt: FieldRef<"AttendanceRecord", 'DateTime'>
+    readonly updatedAt: FieldRef<"AttendanceRecord", 'DateTime'>
+    readonly sessionId: FieldRef<"AttendanceRecord", 'String'>
+    readonly studentId: FieldRef<"AttendanceRecord", 'Int'>
+    readonly status: FieldRef<"AttendanceRecord", 'AttendanceStatus'>
+    readonly note: FieldRef<"AttendanceRecord", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AttendanceRecord findUnique
+   */
+  export type AttendanceRecordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceRecord to fetch.
+     */
+    where: AttendanceRecordWhereUniqueInput
+  }
+
+  /**
+   * AttendanceRecord findUniqueOrThrow
+   */
+  export type AttendanceRecordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceRecord to fetch.
+     */
+    where: AttendanceRecordWhereUniqueInput
+  }
+
+  /**
+   * AttendanceRecord findFirst
+   */
+  export type AttendanceRecordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceRecord to fetch.
+     */
+    where?: AttendanceRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceRecords to fetch.
+     */
+    orderBy?: AttendanceRecordOrderByWithRelationInput | AttendanceRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceRecords.
+     */
+    cursor?: AttendanceRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceRecords.
+     */
+    distinct?: AttendanceRecordScalarFieldEnum | AttendanceRecordScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceRecord findFirstOrThrow
+   */
+  export type AttendanceRecordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceRecord to fetch.
+     */
+    where?: AttendanceRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceRecords to fetch.
+     */
+    orderBy?: AttendanceRecordOrderByWithRelationInput | AttendanceRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttendanceRecords.
+     */
+    cursor?: AttendanceRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttendanceRecords.
+     */
+    distinct?: AttendanceRecordScalarFieldEnum | AttendanceRecordScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceRecord findMany
+   */
+  export type AttendanceRecordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    /**
+     * Filter, which AttendanceRecords to fetch.
+     */
+    where?: AttendanceRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttendanceRecords to fetch.
+     */
+    orderBy?: AttendanceRecordOrderByWithRelationInput | AttendanceRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AttendanceRecords.
+     */
+    cursor?: AttendanceRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttendanceRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttendanceRecords.
+     */
+    skip?: number
+    distinct?: AttendanceRecordScalarFieldEnum | AttendanceRecordScalarFieldEnum[]
+  }
+
+  /**
+   * AttendanceRecord create
+   */
+  export type AttendanceRecordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AttendanceRecord.
+     */
+    data: XOR<AttendanceRecordCreateInput, AttendanceRecordUncheckedCreateInput>
+  }
+
+  /**
+   * AttendanceRecord createMany
+   */
+  export type AttendanceRecordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AttendanceRecords.
+     */
+    data: AttendanceRecordCreateManyInput | AttendanceRecordCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AttendanceRecord createManyAndReturn
+   */
+  export type AttendanceRecordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * The data used to create many AttendanceRecords.
+     */
+    data: AttendanceRecordCreateManyInput | AttendanceRecordCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceRecord update
+   */
+  export type AttendanceRecordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AttendanceRecord.
+     */
+    data: XOR<AttendanceRecordUpdateInput, AttendanceRecordUncheckedUpdateInput>
+    /**
+     * Choose, which AttendanceRecord to update.
+     */
+    where: AttendanceRecordWhereUniqueInput
+  }
+
+  /**
+   * AttendanceRecord updateMany
+   */
+  export type AttendanceRecordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AttendanceRecords.
+     */
+    data: XOR<AttendanceRecordUpdateManyMutationInput, AttendanceRecordUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceRecords to update
+     */
+    where?: AttendanceRecordWhereInput
+    /**
+     * Limit how many AttendanceRecords to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceRecord updateManyAndReturn
+   */
+  export type AttendanceRecordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * The data used to update AttendanceRecords.
+     */
+    data: XOR<AttendanceRecordUpdateManyMutationInput, AttendanceRecordUncheckedUpdateManyInput>
+    /**
+     * Filter which AttendanceRecords to update
+     */
+    where?: AttendanceRecordWhereInput
+    /**
+     * Limit how many AttendanceRecords to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttendanceRecord upsert
+   */
+  export type AttendanceRecordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AttendanceRecord to update in case it exists.
+     */
+    where: AttendanceRecordWhereUniqueInput
+    /**
+     * In case the AttendanceRecord found by the `where` argument doesn't exist, create a new AttendanceRecord with this data.
+     */
+    create: XOR<AttendanceRecordCreateInput, AttendanceRecordUncheckedCreateInput>
+    /**
+     * In case the AttendanceRecord was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttendanceRecordUpdateInput, AttendanceRecordUncheckedUpdateInput>
+  }
+
+  /**
+   * AttendanceRecord delete
+   */
+  export type AttendanceRecordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+    /**
+     * Filter which AttendanceRecord to delete.
+     */
+    where: AttendanceRecordWhereUniqueInput
+  }
+
+  /**
+   * AttendanceRecord deleteMany
+   */
+  export type AttendanceRecordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttendanceRecords to delete
+     */
+    where?: AttendanceRecordWhereInput
+    /**
+     * Limit how many AttendanceRecords to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttendanceRecord without action
+   */
+  export type AttendanceRecordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttendanceRecord
+     */
+    select?: AttendanceRecordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttendanceRecord
+     */
+    omit?: AttendanceRecordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttendanceRecordInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Subject
    */
 
@@ -8336,16 +12261,22 @@ export namespace Prisma {
 
   export type SubjectMinAggregateOutputType = {
     id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     name: string | null
   }
 
   export type SubjectMaxAggregateOutputType = {
     id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     name: string | null
   }
 
   export type SubjectCountAggregateOutputType = {
     id: number
+    createdAt: number
+    updatedAt: number
     name: number
     _all: number
   }
@@ -8353,16 +12284,22 @@ export namespace Prisma {
 
   export type SubjectMinAggregateInputType = {
     id?: true
+    createdAt?: true
+    updatedAt?: true
     name?: true
   }
 
   export type SubjectMaxAggregateInputType = {
     id?: true
+    createdAt?: true
+    updatedAt?: true
     name?: true
   }
 
   export type SubjectCountAggregateInputType = {
     id?: true
+    createdAt?: true
+    updatedAt?: true
     name?: true
     _all?: true
   }
@@ -8441,6 +12378,8 @@ export namespace Prisma {
 
   export type SubjectGroupByOutputType = {
     id: string
+    createdAt: Date
+    updatedAt: Date
     name: string
     _count: SubjectCountAggregateOutputType | null
     _min: SubjectMinAggregateOutputType | null
@@ -8463,6 +12402,8 @@ export namespace Prisma {
 
   export type SubjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     name?: boolean
     teachers?: boolean | Subject$teachersArgs<ExtArgs>
     schedules?: boolean | Subject$schedulesArgs<ExtArgs>
@@ -8472,20 +12413,26 @@ export namespace Prisma {
 
   export type SubjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     name?: boolean
   }, ExtArgs["result"]["subject"]>
 
   export type SubjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     name?: boolean
   }, ExtArgs["result"]["subject"]>
 
   export type SubjectSelectScalar = {
     id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     name?: boolean
   }
 
-  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["subject"]>
+  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "name", ExtArgs["result"]["subject"]>
   export type SubjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teachers?: boolean | Subject$teachersArgs<ExtArgs>
     schedules?: boolean | Subject$schedulesArgs<ExtArgs>
@@ -8504,6 +12451,8 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      createdAt: Date
+      updatedAt: Date
       name: string
     }, ExtArgs["result"]["subject"]>
     composites: {}
@@ -8932,6 +12881,8 @@ export namespace Prisma {
    */
   interface SubjectFieldRefs {
     readonly id: FieldRef<"Subject", 'String'>
+    readonly createdAt: FieldRef<"Subject", 'DateTime'>
+    readonly updatedAt: FieldRef<"Subject", 'DateTime'>
     readonly name: FieldRef<"Subject", 'String'>
   }
     
@@ -16193,6 +20144,8 @@ export namespace Prisma {
 
   export const TeacherScalarFieldEnum: {
     teacherId: 'teacherId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     name: 'name',
     phone: 'phone',
     email: 'email',
@@ -16257,8 +20210,48 @@ export namespace Prisma {
   export type ClassScalarFieldEnum = (typeof ClassScalarFieldEnum)[keyof typeof ClassScalarFieldEnum]
 
 
+  export const AssignedAttendanceTeacherScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    teacherId: 'teacherId',
+    classId: 'classId',
+    section: 'section'
+  };
+
+  export type AssignedAttendanceTeacherScalarFieldEnum = (typeof AssignedAttendanceTeacherScalarFieldEnum)[keyof typeof AssignedAttendanceTeacherScalarFieldEnum]
+
+
+  export const AttendanceSessionScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    date: 'date',
+    classId: 'classId',
+    section: 'section',
+    teacherId: 'teacherId'
+  };
+
+  export type AttendanceSessionScalarFieldEnum = (typeof AttendanceSessionScalarFieldEnum)[keyof typeof AttendanceSessionScalarFieldEnum]
+
+
+  export const AttendanceRecordScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    sessionId: 'sessionId',
+    studentId: 'studentId',
+    status: 'status',
+    note: 'note'
+  };
+
+  export type AttendanceRecordScalarFieldEnum = (typeof AttendanceRecordScalarFieldEnum)[keyof typeof AttendanceRecordScalarFieldEnum]
+
+
   export const SubjectScalarFieldEnum: {
     id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     name: 'name'
   };
 
@@ -16444,6 +20437,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AttendanceStatus'
+   */
+  export type EnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttendanceStatus[]'
+   */
+  export type ListEnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'EnrollmentStatus'
    */
   export type EnumEnrollmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrollmentStatus'>
@@ -16611,6 +20618,8 @@ export namespace Prisma {
     OR?: TeacherWhereInput[]
     NOT?: TeacherWhereInput | TeacherWhereInput[]
     teacherId?: IntFilter<"Teacher"> | number
+    createdAt?: DateTimeFilter<"Teacher"> | Date | string
+    updatedAt?: DateTimeFilter<"Teacher"> | Date | string
     name?: StringFilter<"Teacher"> | string
     phone?: StringFilter<"Teacher"> | string
     email?: StringFilter<"Teacher"> | string
@@ -16627,10 +20636,14 @@ export namespace Prisma {
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     schedules?: WeeklyScheduleListRelationFilter
     Subject?: XOR<SubjectNullableScalarRelationFilter, SubjectWhereInput> | null
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherListRelationFilter
+    AttendanceSession?: AttendanceSessionListRelationFilter
   }
 
   export type TeacherOrderByWithRelationInput = {
     teacherId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     name?: SortOrder
     phone?: SortOrder
     email?: SortOrder
@@ -16647,6 +20660,8 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     schedules?: WeeklyScheduleOrderByRelationAggregateInput
     Subject?: SubjectOrderByWithRelationInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherOrderByRelationAggregateInput
+    AttendanceSession?: AttendanceSessionOrderByRelationAggregateInput
   }
 
   export type TeacherWhereUniqueInput = Prisma.AtLeast<{
@@ -16656,6 +20671,8 @@ export namespace Prisma {
     AND?: TeacherWhereInput | TeacherWhereInput[]
     OR?: TeacherWhereInput[]
     NOT?: TeacherWhereInput | TeacherWhereInput[]
+    createdAt?: DateTimeFilter<"Teacher"> | Date | string
+    updatedAt?: DateTimeFilter<"Teacher"> | Date | string
     name?: StringFilter<"Teacher"> | string
     subject?: StringNullableFilter<"Teacher"> | string | null
     designation?: StringNullableFilter<"Teacher"> | string | null
@@ -16670,10 +20687,14 @@ export namespace Prisma {
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     schedules?: WeeklyScheduleListRelationFilter
     Subject?: XOR<SubjectNullableScalarRelationFilter, SubjectWhereInput> | null
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherListRelationFilter
+    AttendanceSession?: AttendanceSessionListRelationFilter
   }, "teacherId" | "phone" | "email">
 
   export type TeacherOrderByWithAggregationInput = {
     teacherId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     name?: SortOrder
     phone?: SortOrder
     email?: SortOrder
@@ -16699,6 +20720,8 @@ export namespace Prisma {
     OR?: TeacherScalarWhereWithAggregatesInput[]
     NOT?: TeacherScalarWhereWithAggregatesInput | TeacherScalarWhereWithAggregatesInput[]
     teacherId?: IntWithAggregatesFilter<"Teacher"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Teacher"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Teacher"> | Date | string
     name?: StringWithAggregatesFilter<"Teacher"> | string
     phone?: StringWithAggregatesFilter<"Teacher"> | string
     email?: StringWithAggregatesFilter<"Teacher"> | string
@@ -16739,6 +20762,7 @@ export namespace Prisma {
     enrollments?: EnrollmentListRelationFilter
     results?: ResultListRelationFilter
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    AttendanceRecord?: AttendanceRecordListRelationFilter
   }
 
   export type StudentOrderByWithRelationInput = {
@@ -16763,6 +20787,7 @@ export namespace Prisma {
     enrollments?: EnrollmentOrderByRelationAggregateInput
     results?: ResultOrderByRelationAggregateInput
     User?: UserOrderByWithRelationInput
+    AttendanceRecord?: AttendanceRecordOrderByRelationAggregateInput
   }
 
   export type StudentWhereUniqueInput = Prisma.AtLeast<{
@@ -16790,6 +20815,7 @@ export namespace Prisma {
     enrollments?: EnrollmentListRelationFilter
     results?: ResultListRelationFilter
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    AttendanceRecord?: AttendanceRecordListRelationFilter
   }, "studentId" | "studentId">
 
   export type StudentOrderByWithAggregationInput = {
@@ -16917,6 +20943,8 @@ export namespace Prisma {
     Announcement?: AnnouncementListRelationFilter
     schedules?: WeeklyScheduleListRelationFilter
     subjects?: SubjectListRelationFilter
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherListRelationFilter
+    AttendanceSession?: AttendanceSessionListRelationFilter
   }
 
   export type ClassOrderByWithRelationInput = {
@@ -16931,6 +20959,8 @@ export namespace Prisma {
     Announcement?: AnnouncementOrderByRelationAggregateInput
     schedules?: WeeklyScheduleOrderByRelationAggregateInput
     subjects?: SubjectOrderByRelationAggregateInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherOrderByRelationAggregateInput
+    AttendanceSession?: AttendanceSessionOrderByRelationAggregateInput
   }
 
   export type ClassWhereUniqueInput = Prisma.AtLeast<{
@@ -16948,6 +20978,8 @@ export namespace Prisma {
     Announcement?: AnnouncementListRelationFilter
     schedules?: WeeklyScheduleListRelationFilter
     subjects?: SubjectListRelationFilter
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherListRelationFilter
+    AttendanceSession?: AttendanceSessionListRelationFilter
   }, "id" | "className">
 
   export type ClassOrderByWithAggregationInput = {
@@ -16972,11 +21004,223 @@ export namespace Prisma {
     sectionName?: StringNullableListFilter<"Class">
   }
 
+  export type AssignedAttendanceTeacherWhereInput = {
+    AND?: AssignedAttendanceTeacherWhereInput | AssignedAttendanceTeacherWhereInput[]
+    OR?: AssignedAttendanceTeacherWhereInput[]
+    NOT?: AssignedAttendanceTeacherWhereInput | AssignedAttendanceTeacherWhereInput[]
+    id?: StringFilter<"AssignedAttendanceTeacher"> | string
+    createdAt?: DateTimeFilter<"AssignedAttendanceTeacher"> | Date | string
+    updatedAt?: DateTimeFilter<"AssignedAttendanceTeacher"> | Date | string
+    teacherId?: IntFilter<"AssignedAttendanceTeacher"> | number
+    classId?: StringFilter<"AssignedAttendanceTeacher"> | string
+    section?: StringFilter<"AssignedAttendanceTeacher"> | string
+    teacher?: XOR<TeacherScalarRelationFilter, TeacherWhereInput>
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+  }
+
+  export type AssignedAttendanceTeacherOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    teacherId?: SortOrder
+    classId?: SortOrder
+    section?: SortOrder
+    teacher?: TeacherOrderByWithRelationInput
+    class?: ClassOrderByWithRelationInput
+  }
+
+  export type AssignedAttendanceTeacherWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    teacherId_classId_section?: AssignedAttendanceTeacherTeacherIdClassIdSectionCompoundUniqueInput
+    AND?: AssignedAttendanceTeacherWhereInput | AssignedAttendanceTeacherWhereInput[]
+    OR?: AssignedAttendanceTeacherWhereInput[]
+    NOT?: AssignedAttendanceTeacherWhereInput | AssignedAttendanceTeacherWhereInput[]
+    createdAt?: DateTimeFilter<"AssignedAttendanceTeacher"> | Date | string
+    updatedAt?: DateTimeFilter<"AssignedAttendanceTeacher"> | Date | string
+    teacherId?: IntFilter<"AssignedAttendanceTeacher"> | number
+    classId?: StringFilter<"AssignedAttendanceTeacher"> | string
+    section?: StringFilter<"AssignedAttendanceTeacher"> | string
+    teacher?: XOR<TeacherScalarRelationFilter, TeacherWhereInput>
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+  }, "id" | "teacherId_classId_section">
+
+  export type AssignedAttendanceTeacherOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    teacherId?: SortOrder
+    classId?: SortOrder
+    section?: SortOrder
+    _count?: AssignedAttendanceTeacherCountOrderByAggregateInput
+    _avg?: AssignedAttendanceTeacherAvgOrderByAggregateInput
+    _max?: AssignedAttendanceTeacherMaxOrderByAggregateInput
+    _min?: AssignedAttendanceTeacherMinOrderByAggregateInput
+    _sum?: AssignedAttendanceTeacherSumOrderByAggregateInput
+  }
+
+  export type AssignedAttendanceTeacherScalarWhereWithAggregatesInput = {
+    AND?: AssignedAttendanceTeacherScalarWhereWithAggregatesInput | AssignedAttendanceTeacherScalarWhereWithAggregatesInput[]
+    OR?: AssignedAttendanceTeacherScalarWhereWithAggregatesInput[]
+    NOT?: AssignedAttendanceTeacherScalarWhereWithAggregatesInput | AssignedAttendanceTeacherScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AssignedAttendanceTeacher"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AssignedAttendanceTeacher"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AssignedAttendanceTeacher"> | Date | string
+    teacherId?: IntWithAggregatesFilter<"AssignedAttendanceTeacher"> | number
+    classId?: StringWithAggregatesFilter<"AssignedAttendanceTeacher"> | string
+    section?: StringWithAggregatesFilter<"AssignedAttendanceTeacher"> | string
+  }
+
+  export type AttendanceSessionWhereInput = {
+    AND?: AttendanceSessionWhereInput | AttendanceSessionWhereInput[]
+    OR?: AttendanceSessionWhereInput[]
+    NOT?: AttendanceSessionWhereInput | AttendanceSessionWhereInput[]
+    id?: StringFilter<"AttendanceSession"> | string
+    createdAt?: DateTimeFilter<"AttendanceSession"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceSession"> | Date | string
+    date?: DateTimeFilter<"AttendanceSession"> | Date | string
+    classId?: StringFilter<"AttendanceSession"> | string
+    section?: StringFilter<"AttendanceSession"> | string
+    teacherId?: IntFilter<"AttendanceSession"> | number
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+    teacher?: XOR<TeacherScalarRelationFilter, TeacherWhereInput>
+    records?: AttendanceRecordListRelationFilter
+  }
+
+  export type AttendanceSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    date?: SortOrder
+    classId?: SortOrder
+    section?: SortOrder
+    teacherId?: SortOrder
+    class?: ClassOrderByWithRelationInput
+    teacher?: TeacherOrderByWithRelationInput
+    records?: AttendanceRecordOrderByRelationAggregateInput
+  }
+
+  export type AttendanceSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AttendanceSessionWhereInput | AttendanceSessionWhereInput[]
+    OR?: AttendanceSessionWhereInput[]
+    NOT?: AttendanceSessionWhereInput | AttendanceSessionWhereInput[]
+    createdAt?: DateTimeFilter<"AttendanceSession"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceSession"> | Date | string
+    date?: DateTimeFilter<"AttendanceSession"> | Date | string
+    classId?: StringFilter<"AttendanceSession"> | string
+    section?: StringFilter<"AttendanceSession"> | string
+    teacherId?: IntFilter<"AttendanceSession"> | number
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+    teacher?: XOR<TeacherScalarRelationFilter, TeacherWhereInput>
+    records?: AttendanceRecordListRelationFilter
+  }, "id">
+
+  export type AttendanceSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    date?: SortOrder
+    classId?: SortOrder
+    section?: SortOrder
+    teacherId?: SortOrder
+    _count?: AttendanceSessionCountOrderByAggregateInput
+    _avg?: AttendanceSessionAvgOrderByAggregateInput
+    _max?: AttendanceSessionMaxOrderByAggregateInput
+    _min?: AttendanceSessionMinOrderByAggregateInput
+    _sum?: AttendanceSessionSumOrderByAggregateInput
+  }
+
+  export type AttendanceSessionScalarWhereWithAggregatesInput = {
+    AND?: AttendanceSessionScalarWhereWithAggregatesInput | AttendanceSessionScalarWhereWithAggregatesInput[]
+    OR?: AttendanceSessionScalarWhereWithAggregatesInput[]
+    NOT?: AttendanceSessionScalarWhereWithAggregatesInput | AttendanceSessionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AttendanceSession"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AttendanceSession"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AttendanceSession"> | Date | string
+    date?: DateTimeWithAggregatesFilter<"AttendanceSession"> | Date | string
+    classId?: StringWithAggregatesFilter<"AttendanceSession"> | string
+    section?: StringWithAggregatesFilter<"AttendanceSession"> | string
+    teacherId?: IntWithAggregatesFilter<"AttendanceSession"> | number
+  }
+
+  export type AttendanceRecordWhereInput = {
+    AND?: AttendanceRecordWhereInput | AttendanceRecordWhereInput[]
+    OR?: AttendanceRecordWhereInput[]
+    NOT?: AttendanceRecordWhereInput | AttendanceRecordWhereInput[]
+    id?: StringFilter<"AttendanceRecord"> | string
+    createdAt?: DateTimeFilter<"AttendanceRecord"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceRecord"> | Date | string
+    sessionId?: StringFilter<"AttendanceRecord"> | string
+    studentId?: IntFilter<"AttendanceRecord"> | number
+    status?: EnumAttendanceStatusFilter<"AttendanceRecord"> | $Enums.AttendanceStatus
+    note?: StringNullableFilter<"AttendanceRecord"> | string | null
+    session?: XOR<AttendanceSessionScalarRelationFilter, AttendanceSessionWhereInput>
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }
+
+  export type AttendanceRecordOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    sessionId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    session?: AttendanceSessionOrderByWithRelationInput
+    student?: StudentOrderByWithRelationInput
+  }
+
+  export type AttendanceRecordWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    sessionId_studentId?: AttendanceRecordSessionIdStudentIdCompoundUniqueInput
+    AND?: AttendanceRecordWhereInput | AttendanceRecordWhereInput[]
+    OR?: AttendanceRecordWhereInput[]
+    NOT?: AttendanceRecordWhereInput | AttendanceRecordWhereInput[]
+    createdAt?: DateTimeFilter<"AttendanceRecord"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceRecord"> | Date | string
+    sessionId?: StringFilter<"AttendanceRecord"> | string
+    studentId?: IntFilter<"AttendanceRecord"> | number
+    status?: EnumAttendanceStatusFilter<"AttendanceRecord"> | $Enums.AttendanceStatus
+    note?: StringNullableFilter<"AttendanceRecord"> | string | null
+    session?: XOR<AttendanceSessionScalarRelationFilter, AttendanceSessionWhereInput>
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }, "id" | "sessionId_studentId">
+
+  export type AttendanceRecordOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    sessionId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    note?: SortOrderInput | SortOrder
+    _count?: AttendanceRecordCountOrderByAggregateInput
+    _avg?: AttendanceRecordAvgOrderByAggregateInput
+    _max?: AttendanceRecordMaxOrderByAggregateInput
+    _min?: AttendanceRecordMinOrderByAggregateInput
+    _sum?: AttendanceRecordSumOrderByAggregateInput
+  }
+
+  export type AttendanceRecordScalarWhereWithAggregatesInput = {
+    AND?: AttendanceRecordScalarWhereWithAggregatesInput | AttendanceRecordScalarWhereWithAggregatesInput[]
+    OR?: AttendanceRecordScalarWhereWithAggregatesInput[]
+    NOT?: AttendanceRecordScalarWhereWithAggregatesInput | AttendanceRecordScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AttendanceRecord"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AttendanceRecord"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AttendanceRecord"> | Date | string
+    sessionId?: StringWithAggregatesFilter<"AttendanceRecord"> | string
+    studentId?: IntWithAggregatesFilter<"AttendanceRecord"> | number
+    status?: EnumAttendanceStatusWithAggregatesFilter<"AttendanceRecord"> | $Enums.AttendanceStatus
+    note?: StringNullableWithAggregatesFilter<"AttendanceRecord"> | string | null
+  }
+
   export type SubjectWhereInput = {
     AND?: SubjectWhereInput | SubjectWhereInput[]
     OR?: SubjectWhereInput[]
     NOT?: SubjectWhereInput | SubjectWhereInput[]
     id?: StringFilter<"Subject"> | string
+    createdAt?: DateTimeFilter<"Subject"> | Date | string
+    updatedAt?: DateTimeFilter<"Subject"> | Date | string
     name?: StringFilter<"Subject"> | string
     teachers?: TeacherListRelationFilter
     schedules?: WeeklyScheduleListRelationFilter
@@ -16985,6 +21229,8 @@ export namespace Prisma {
 
   export type SubjectOrderByWithRelationInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     name?: SortOrder
     teachers?: TeacherOrderByRelationAggregateInput
     schedules?: WeeklyScheduleOrderByRelationAggregateInput
@@ -16996,6 +21242,8 @@ export namespace Prisma {
     AND?: SubjectWhereInput | SubjectWhereInput[]
     OR?: SubjectWhereInput[]
     NOT?: SubjectWhereInput | SubjectWhereInput[]
+    createdAt?: DateTimeFilter<"Subject"> | Date | string
+    updatedAt?: DateTimeFilter<"Subject"> | Date | string
     name?: StringFilter<"Subject"> | string
     teachers?: TeacherListRelationFilter
     schedules?: WeeklyScheduleListRelationFilter
@@ -17004,6 +21252,8 @@ export namespace Prisma {
 
   export type SubjectOrderByWithAggregationInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     name?: SortOrder
     _count?: SubjectCountOrderByAggregateInput
     _max?: SubjectMaxOrderByAggregateInput
@@ -17015,6 +21265,8 @@ export namespace Prisma {
     OR?: SubjectScalarWhereWithAggregatesInput[]
     NOT?: SubjectScalarWhereWithAggregatesInput | SubjectScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Subject"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Subject"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Subject"> | Date | string
     name?: StringWithAggregatesFilter<"Subject"> | string
   }
 
@@ -17566,6 +21818,8 @@ export namespace Prisma {
   }
 
   export type TeacherCreateInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     phone: string
     email: string
@@ -17581,10 +21835,14 @@ export namespace Prisma {
     user?: UserCreateNestedOneWithoutTeacherInput
     schedules?: WeeklyScheduleCreateNestedManyWithoutTeacherInput
     Subject?: SubjectCreateNestedOneWithoutTeachersInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutTeacherInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateInput = {
     teacherId?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     phone: string
     email: string
@@ -17600,9 +21858,13 @@ export namespace Prisma {
     subjectId?: string | null
     user?: UserUncheckedCreateNestedOneWithoutTeacherInput
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutTeacherInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutTeacherInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUpdateInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -17618,10 +21880,14 @@ export namespace Prisma {
     user?: UserUpdateOneWithoutTeacherNestedInput
     schedules?: WeeklyScheduleUpdateManyWithoutTeacherNestedInput
     Subject?: SubjectUpdateOneWithoutTeachersNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutTeacherNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateInput = {
     teacherId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -17637,10 +21903,14 @@ export namespace Prisma {
     subjectId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUncheckedUpdateOneWithoutTeacherNestedInput
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutTeacherNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherCreateManyInput = {
     teacherId?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     phone: string
     email: string
@@ -17657,6 +21927,8 @@ export namespace Prisma {
   }
 
   export type TeacherUpdateManyMutationInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -17673,6 +21945,8 @@ export namespace Prisma {
 
   export type TeacherUncheckedUpdateManyInput = {
     teacherId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -17709,6 +21983,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     results?: ResultCreateNestedManyWithoutStudentInput
     User?: UserCreateNestedOneWithoutStudentInput
+    AttendanceRecord?: AttendanceRecordCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateInput = {
@@ -17733,6 +22008,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     results?: ResultUncheckedCreateNestedManyWithoutStudentInput
     User?: UserUncheckedCreateNestedOneWithoutStudentInput
+    AttendanceRecord?: AttendanceRecordUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUpdateInput = {
@@ -17756,6 +22032,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     results?: ResultUpdateManyWithoutStudentNestedInput
     User?: UserUpdateOneWithoutStudentNestedInput
+    AttendanceRecord?: AttendanceRecordUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateInput = {
@@ -17780,6 +22057,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     results?: ResultUncheckedUpdateManyWithoutStudentNestedInput
     User?: UserUncheckedUpdateOneWithoutStudentNestedInput
+    AttendanceRecord?: AttendanceRecordUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateManyInput = {
@@ -17920,6 +22198,8 @@ export namespace Prisma {
     Announcement?: AnnouncementCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleCreateNestedManyWithoutClassInput
     subjects?: SubjectCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateInput = {
@@ -17934,6 +22214,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutClassInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassUpdateInput = {
@@ -17948,6 +22230,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUpdateManyWithoutClassNestedInput
     subjects?: SubjectUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateInput = {
@@ -17962,6 +22246,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUncheckedUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutClassNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassCreateManyInput = {
@@ -17988,8 +22274,211 @@ export namespace Prisma {
     sectionName?: ClassUpdatesectionNameInput | string[]
   }
 
+  export type AssignedAttendanceTeacherCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    section: string
+    teacher: TeacherCreateNestedOneWithoutAssignedAttendanceTeacherInput
+    class: ClassCreateNestedOneWithoutAssignedAttendanceTeacherInput
+  }
+
+  export type AssignedAttendanceTeacherUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teacherId: number
+    classId: string
+    section: string
+  }
+
+  export type AssignedAttendanceTeacherUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+    teacher?: TeacherUpdateOneRequiredWithoutAssignedAttendanceTeacherNestedInput
+    class?: ClassUpdateOneRequiredWithoutAssignedAttendanceTeacherNestedInput
+  }
+
+  export type AssignedAttendanceTeacherUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacherId?: IntFieldUpdateOperationsInput | number
+    classId?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AssignedAttendanceTeacherCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teacherId: number
+    classId: string
+    section: string
+  }
+
+  export type AssignedAttendanceTeacherUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AssignedAttendanceTeacherUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacherId?: IntFieldUpdateOperationsInput | number
+    classId?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AttendanceSessionCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    section: string
+    class: ClassCreateNestedOneWithoutAttendanceSessionInput
+    teacher: TeacherCreateNestedOneWithoutAttendanceSessionInput
+    records?: AttendanceRecordCreateNestedManyWithoutSessionInput
+  }
+
+  export type AttendanceSessionUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    classId: string
+    section: string
+    teacherId: number
+    records?: AttendanceRecordUncheckedCreateNestedManyWithoutSessionInput
+  }
+
+  export type AttendanceSessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+    class?: ClassUpdateOneRequiredWithoutAttendanceSessionNestedInput
+    teacher?: TeacherUpdateOneRequiredWithoutAttendanceSessionNestedInput
+    records?: AttendanceRecordUpdateManyWithoutSessionNestedInput
+  }
+
+  export type AttendanceSessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+    teacherId?: IntFieldUpdateOperationsInput | number
+    records?: AttendanceRecordUncheckedUpdateManyWithoutSessionNestedInput
+  }
+
+  export type AttendanceSessionCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    classId: string
+    section: string
+    teacherId: number
+  }
+
+  export type AttendanceSessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AttendanceSessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+    teacherId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AttendanceRecordCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status: $Enums.AttendanceStatus
+    note?: string | null
+    session: AttendanceSessionCreateNestedOneWithoutRecordsInput
+    student: StudentCreateNestedOneWithoutAttendanceRecordInput
+  }
+
+  export type AttendanceRecordUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessionId: string
+    studentId: number
+    status: $Enums.AttendanceStatus
+    note?: string | null
+  }
+
+  export type AttendanceRecordUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    session?: AttendanceSessionUpdateOneRequiredWithoutRecordsNestedInput
+    student?: StudentUpdateOneRequiredWithoutAttendanceRecordNestedInput
+  }
+
+  export type AttendanceRecordUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AttendanceRecordCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessionId: string
+    studentId: number
+    status: $Enums.AttendanceStatus
+    note?: string | null
+  }
+
+  export type AttendanceRecordUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AttendanceRecordUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type SubjectCreateInput = {
     id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     teachers?: TeacherCreateNestedManyWithoutSubjectInput
     schedules?: WeeklyScheduleCreateNestedManyWithoutSubjectInput
@@ -17998,6 +22487,8 @@ export namespace Prisma {
 
   export type SubjectUncheckedCreateInput = {
     id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     teachers?: TeacherUncheckedCreateNestedManyWithoutSubjectInput
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutSubjectInput
@@ -18006,6 +22497,8 @@ export namespace Prisma {
 
   export type SubjectUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     teachers?: TeacherUpdateManyWithoutSubjectNestedInput
     schedules?: WeeklyScheduleUpdateManyWithoutSubjectNestedInput
@@ -18014,6 +22507,8 @@ export namespace Prisma {
 
   export type SubjectUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     teachers?: TeacherUncheckedUpdateManyWithoutSubjectNestedInput
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutSubjectNestedInput
@@ -18022,16 +22517,22 @@ export namespace Prisma {
 
   export type SubjectCreateManyInput = {
     id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
   }
 
   export type SubjectUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
   }
 
   export type SubjectUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
   }
 
@@ -18742,12 +23243,34 @@ export namespace Prisma {
     isNot?: SubjectWhereInput | null
   }
 
+  export type AssignedAttendanceTeacherListRelationFilter = {
+    every?: AssignedAttendanceTeacherWhereInput
+    some?: AssignedAttendanceTeacherWhereInput
+    none?: AssignedAttendanceTeacherWhereInput
+  }
+
+  export type AttendanceSessionListRelationFilter = {
+    every?: AttendanceSessionWhereInput
+    some?: AttendanceSessionWhereInput
+    none?: AttendanceSessionWhereInput
+  }
+
   export type WeeklyScheduleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AssignedAttendanceTeacherOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttendanceSessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type TeacherCountOrderByAggregateInput = {
     teacherId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     name?: SortOrder
     phone?: SortOrder
     email?: SortOrder
@@ -18769,6 +23292,8 @@ export namespace Prisma {
 
   export type TeacherMaxOrderByAggregateInput = {
     teacherId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     name?: SortOrder
     phone?: SortOrder
     email?: SortOrder
@@ -18786,6 +23311,8 @@ export namespace Prisma {
 
   export type TeacherMinOrderByAggregateInput = {
     teacherId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     name?: SortOrder
     phone?: SortOrder
     email?: SortOrder
@@ -18833,11 +23360,21 @@ export namespace Prisma {
     none?: ResultWhereInput
   }
 
+  export type AttendanceRecordListRelationFilter = {
+    every?: AttendanceRecordWhereInput
+    some?: AttendanceRecordWhereInput
+    none?: AttendanceRecordWhereInput
+  }
+
   export type EnrollmentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type ResultOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttendanceRecordOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -19004,6 +23541,165 @@ export namespace Prisma {
     className?: SortOrder
   }
 
+  export type TeacherScalarRelationFilter = {
+    is?: TeacherWhereInput
+    isNot?: TeacherWhereInput
+  }
+
+  export type ClassScalarRelationFilter = {
+    is?: ClassWhereInput
+    isNot?: ClassWhereInput
+  }
+
+  export type AssignedAttendanceTeacherTeacherIdClassIdSectionCompoundUniqueInput = {
+    teacherId: number
+    classId: string
+    section: string
+  }
+
+  export type AssignedAttendanceTeacherCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    teacherId?: SortOrder
+    classId?: SortOrder
+    section?: SortOrder
+  }
+
+  export type AssignedAttendanceTeacherAvgOrderByAggregateInput = {
+    teacherId?: SortOrder
+  }
+
+  export type AssignedAttendanceTeacherMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    teacherId?: SortOrder
+    classId?: SortOrder
+    section?: SortOrder
+  }
+
+  export type AssignedAttendanceTeacherMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    teacherId?: SortOrder
+    classId?: SortOrder
+    section?: SortOrder
+  }
+
+  export type AssignedAttendanceTeacherSumOrderByAggregateInput = {
+    teacherId?: SortOrder
+  }
+
+  export type AttendanceSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    date?: SortOrder
+    classId?: SortOrder
+    section?: SortOrder
+    teacherId?: SortOrder
+  }
+
+  export type AttendanceSessionAvgOrderByAggregateInput = {
+    teacherId?: SortOrder
+  }
+
+  export type AttendanceSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    date?: SortOrder
+    classId?: SortOrder
+    section?: SortOrder
+    teacherId?: SortOrder
+  }
+
+  export type AttendanceSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    date?: SortOrder
+    classId?: SortOrder
+    section?: SortOrder
+    teacherId?: SortOrder
+  }
+
+  export type AttendanceSessionSumOrderByAggregateInput = {
+    teacherId?: SortOrder
+  }
+
+  export type EnumAttendanceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusFilter<$PrismaModel> | $Enums.AttendanceStatus
+  }
+
+  export type AttendanceSessionScalarRelationFilter = {
+    is?: AttendanceSessionWhereInput
+    isNot?: AttendanceSessionWhereInput
+  }
+
+  export type StudentScalarRelationFilter = {
+    is?: StudentWhereInput
+    isNot?: StudentWhereInput
+  }
+
+  export type AttendanceRecordSessionIdStudentIdCompoundUniqueInput = {
+    sessionId: string
+    studentId: number
+  }
+
+  export type AttendanceRecordCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    sessionId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+  }
+
+  export type AttendanceRecordAvgOrderByAggregateInput = {
+    studentId?: SortOrder
+  }
+
+  export type AttendanceRecordMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    sessionId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+  }
+
+  export type AttendanceRecordMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    sessionId?: SortOrder
+    studentId?: SortOrder
+    status?: SortOrder
+    note?: SortOrder
+  }
+
+  export type AttendanceRecordSumOrderByAggregateInput = {
+    studentId?: SortOrder
+  }
+
+  export type EnumAttendanceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+  }
+
   export type TeacherListRelationFilter = {
     every?: TeacherWhereInput
     some?: TeacherWhereInput
@@ -19026,16 +23722,22 @@ export namespace Prisma {
 
   export type SubjectCountOrderByAggregateInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     name?: SortOrder
   }
 
   export type SubjectMaxOrderByAggregateInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     name?: SortOrder
   }
 
   export type SubjectMinOrderByAggregateInput = {
     id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     name?: SortOrder
   }
 
@@ -19046,19 +23748,9 @@ export namespace Prisma {
     not?: NestedEnumEnrollmentStatusFilter<$PrismaModel> | $Enums.EnrollmentStatus
   }
 
-  export type StudentScalarRelationFilter = {
-    is?: StudentWhereInput
-    isNot?: StudentWhereInput
-  }
-
   export type AcademicYearScalarRelationFilter = {
     is?: AcademicYearWhereInput
     isNot?: AcademicYearWhereInput
-  }
-
-  export type ClassScalarRelationFilter = {
-    is?: ClassWhereInput
-    isNot?: ClassWhereInput
   }
 
   export type EnrollmentCountOrderByAggregateInput = {
@@ -19320,11 +24012,6 @@ export namespace Prisma {
     classId?: SortOrder
   }
 
-  export type TeacherScalarRelationFilter = {
-    is?: TeacherWhereInput
-    isNot?: TeacherWhereInput
-  }
-
   export type SubjectScalarRelationFilter = {
     is?: SubjectWhereInput
     isNot?: SubjectWhereInput
@@ -19476,6 +24163,20 @@ export namespace Prisma {
     connect?: SubjectWhereUniqueInput
   }
 
+  export type AssignedAttendanceTeacherCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<AssignedAttendanceTeacherCreateWithoutTeacherInput, AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput> | AssignedAttendanceTeacherCreateWithoutTeacherInput[] | AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: AssignedAttendanceTeacherCreateOrConnectWithoutTeacherInput | AssignedAttendanceTeacherCreateOrConnectWithoutTeacherInput[]
+    createMany?: AssignedAttendanceTeacherCreateManyTeacherInputEnvelope
+    connect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+  }
+
+  export type AttendanceSessionCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<AttendanceSessionCreateWithoutTeacherInput, AttendanceSessionUncheckedCreateWithoutTeacherInput> | AttendanceSessionCreateWithoutTeacherInput[] | AttendanceSessionUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: AttendanceSessionCreateOrConnectWithoutTeacherInput | AttendanceSessionCreateOrConnectWithoutTeacherInput[]
+    createMany?: AttendanceSessionCreateManyTeacherInputEnvelope
+    connect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedOneWithoutTeacherInput = {
     create?: XOR<UserCreateWithoutTeacherInput, UserUncheckedCreateWithoutTeacherInput>
     connectOrCreate?: UserCreateOrConnectWithoutTeacherInput
@@ -19487,6 +24188,20 @@ export namespace Prisma {
     connectOrCreate?: WeeklyScheduleCreateOrConnectWithoutTeacherInput | WeeklyScheduleCreateOrConnectWithoutTeacherInput[]
     createMany?: WeeklyScheduleCreateManyTeacherInputEnvelope
     connect?: WeeklyScheduleWhereUniqueInput | WeeklyScheduleWhereUniqueInput[]
+  }
+
+  export type AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<AssignedAttendanceTeacherCreateWithoutTeacherInput, AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput> | AssignedAttendanceTeacherCreateWithoutTeacherInput[] | AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: AssignedAttendanceTeacherCreateOrConnectWithoutTeacherInput | AssignedAttendanceTeacherCreateOrConnectWithoutTeacherInput[]
+    createMany?: AssignedAttendanceTeacherCreateManyTeacherInputEnvelope
+    connect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+  }
+
+  export type AttendanceSessionUncheckedCreateNestedManyWithoutTeacherInput = {
+    create?: XOR<AttendanceSessionCreateWithoutTeacherInput, AttendanceSessionUncheckedCreateWithoutTeacherInput> | AttendanceSessionCreateWithoutTeacherInput[] | AttendanceSessionUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: AttendanceSessionCreateOrConnectWithoutTeacherInput | AttendanceSessionCreateOrConnectWithoutTeacherInput[]
+    createMany?: AttendanceSessionCreateManyTeacherInputEnvelope
+    connect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
   }
 
   export type UserUpdateOneWithoutTeacherNestedInput = {
@@ -19523,6 +24238,34 @@ export namespace Prisma {
     update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutTeachersInput, SubjectUpdateWithoutTeachersInput>, SubjectUncheckedUpdateWithoutTeachersInput>
   }
 
+  export type AssignedAttendanceTeacherUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<AssignedAttendanceTeacherCreateWithoutTeacherInput, AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput> | AssignedAttendanceTeacherCreateWithoutTeacherInput[] | AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: AssignedAttendanceTeacherCreateOrConnectWithoutTeacherInput | AssignedAttendanceTeacherCreateOrConnectWithoutTeacherInput[]
+    upsert?: AssignedAttendanceTeacherUpsertWithWhereUniqueWithoutTeacherInput | AssignedAttendanceTeacherUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: AssignedAttendanceTeacherCreateManyTeacherInputEnvelope
+    set?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    disconnect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    delete?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    connect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    update?: AssignedAttendanceTeacherUpdateWithWhereUniqueWithoutTeacherInput | AssignedAttendanceTeacherUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: AssignedAttendanceTeacherUpdateManyWithWhereWithoutTeacherInput | AssignedAttendanceTeacherUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: AssignedAttendanceTeacherScalarWhereInput | AssignedAttendanceTeacherScalarWhereInput[]
+  }
+
+  export type AttendanceSessionUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<AttendanceSessionCreateWithoutTeacherInput, AttendanceSessionUncheckedCreateWithoutTeacherInput> | AttendanceSessionCreateWithoutTeacherInput[] | AttendanceSessionUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: AttendanceSessionCreateOrConnectWithoutTeacherInput | AttendanceSessionCreateOrConnectWithoutTeacherInput[]
+    upsert?: AttendanceSessionUpsertWithWhereUniqueWithoutTeacherInput | AttendanceSessionUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: AttendanceSessionCreateManyTeacherInputEnvelope
+    set?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    disconnect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    delete?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    connect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    update?: AttendanceSessionUpdateWithWhereUniqueWithoutTeacherInput | AttendanceSessionUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: AttendanceSessionUpdateManyWithWhereWithoutTeacherInput | AttendanceSessionUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: AttendanceSessionScalarWhereInput | AttendanceSessionScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -19555,6 +24298,34 @@ export namespace Prisma {
     deleteMany?: WeeklyScheduleScalarWhereInput | WeeklyScheduleScalarWhereInput[]
   }
 
+  export type AssignedAttendanceTeacherUncheckedUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<AssignedAttendanceTeacherCreateWithoutTeacherInput, AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput> | AssignedAttendanceTeacherCreateWithoutTeacherInput[] | AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: AssignedAttendanceTeacherCreateOrConnectWithoutTeacherInput | AssignedAttendanceTeacherCreateOrConnectWithoutTeacherInput[]
+    upsert?: AssignedAttendanceTeacherUpsertWithWhereUniqueWithoutTeacherInput | AssignedAttendanceTeacherUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: AssignedAttendanceTeacherCreateManyTeacherInputEnvelope
+    set?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    disconnect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    delete?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    connect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    update?: AssignedAttendanceTeacherUpdateWithWhereUniqueWithoutTeacherInput | AssignedAttendanceTeacherUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: AssignedAttendanceTeacherUpdateManyWithWhereWithoutTeacherInput | AssignedAttendanceTeacherUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: AssignedAttendanceTeacherScalarWhereInput | AssignedAttendanceTeacherScalarWhereInput[]
+  }
+
+  export type AttendanceSessionUncheckedUpdateManyWithoutTeacherNestedInput = {
+    create?: XOR<AttendanceSessionCreateWithoutTeacherInput, AttendanceSessionUncheckedCreateWithoutTeacherInput> | AttendanceSessionCreateWithoutTeacherInput[] | AttendanceSessionUncheckedCreateWithoutTeacherInput[]
+    connectOrCreate?: AttendanceSessionCreateOrConnectWithoutTeacherInput | AttendanceSessionCreateOrConnectWithoutTeacherInput[]
+    upsert?: AttendanceSessionUpsertWithWhereUniqueWithoutTeacherInput | AttendanceSessionUpsertWithWhereUniqueWithoutTeacherInput[]
+    createMany?: AttendanceSessionCreateManyTeacherInputEnvelope
+    set?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    disconnect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    delete?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    connect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    update?: AttendanceSessionUpdateWithWhereUniqueWithoutTeacherInput | AttendanceSessionUpdateWithWhereUniqueWithoutTeacherInput[]
+    updateMany?: AttendanceSessionUpdateManyWithWhereWithoutTeacherInput | AttendanceSessionUpdateManyWithWhereWithoutTeacherInput[]
+    deleteMany?: AttendanceSessionScalarWhereInput | AttendanceSessionScalarWhereInput[]
+  }
+
   export type EnrollmentCreateNestedManyWithoutStudentInput = {
     create?: XOR<EnrollmentCreateWithoutStudentInput, EnrollmentUncheckedCreateWithoutStudentInput> | EnrollmentCreateWithoutStudentInput[] | EnrollmentUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: EnrollmentCreateOrConnectWithoutStudentInput | EnrollmentCreateOrConnectWithoutStudentInput[]
@@ -19575,6 +24346,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type AttendanceRecordCreateNestedManyWithoutStudentInput = {
+    create?: XOR<AttendanceRecordCreateWithoutStudentInput, AttendanceRecordUncheckedCreateWithoutStudentInput> | AttendanceRecordCreateWithoutStudentInput[] | AttendanceRecordUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AttendanceRecordCreateOrConnectWithoutStudentInput | AttendanceRecordCreateOrConnectWithoutStudentInput[]
+    createMany?: AttendanceRecordCreateManyStudentInputEnvelope
+    connect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+  }
+
   export type EnrollmentUncheckedCreateNestedManyWithoutStudentInput = {
     create?: XOR<EnrollmentCreateWithoutStudentInput, EnrollmentUncheckedCreateWithoutStudentInput> | EnrollmentCreateWithoutStudentInput[] | EnrollmentUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: EnrollmentCreateOrConnectWithoutStudentInput | EnrollmentCreateOrConnectWithoutStudentInput[]
@@ -19593,6 +24371,13 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutStudentInput, UserUncheckedCreateWithoutStudentInput>
     connectOrCreate?: UserCreateOrConnectWithoutStudentInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type AttendanceRecordUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<AttendanceRecordCreateWithoutStudentInput, AttendanceRecordUncheckedCreateWithoutStudentInput> | AttendanceRecordCreateWithoutStudentInput[] | AttendanceRecordUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AttendanceRecordCreateOrConnectWithoutStudentInput | AttendanceRecordCreateOrConnectWithoutStudentInput[]
+    createMany?: AttendanceRecordCreateManyStudentInputEnvelope
+    connect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
   }
 
   export type EnrollmentUpdateManyWithoutStudentNestedInput = {
@@ -19633,6 +24418,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStudentInput, UserUpdateWithoutStudentInput>, UserUncheckedUpdateWithoutStudentInput>
   }
 
+  export type AttendanceRecordUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<AttendanceRecordCreateWithoutStudentInput, AttendanceRecordUncheckedCreateWithoutStudentInput> | AttendanceRecordCreateWithoutStudentInput[] | AttendanceRecordUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AttendanceRecordCreateOrConnectWithoutStudentInput | AttendanceRecordCreateOrConnectWithoutStudentInput[]
+    upsert?: AttendanceRecordUpsertWithWhereUniqueWithoutStudentInput | AttendanceRecordUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: AttendanceRecordCreateManyStudentInputEnvelope
+    set?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    disconnect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    delete?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    connect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    update?: AttendanceRecordUpdateWithWhereUniqueWithoutStudentInput | AttendanceRecordUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: AttendanceRecordUpdateManyWithWhereWithoutStudentInput | AttendanceRecordUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: AttendanceRecordScalarWhereInput | AttendanceRecordScalarWhereInput[]
+  }
+
   export type EnrollmentUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<EnrollmentCreateWithoutStudentInput, EnrollmentUncheckedCreateWithoutStudentInput> | EnrollmentCreateWithoutStudentInput[] | EnrollmentUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: EnrollmentCreateOrConnectWithoutStudentInput | EnrollmentCreateOrConnectWithoutStudentInput[]
@@ -19669,6 +24468,20 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStudentInput, UserUpdateWithoutStudentInput>, UserUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type AttendanceRecordUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<AttendanceRecordCreateWithoutStudentInput, AttendanceRecordUncheckedCreateWithoutStudentInput> | AttendanceRecordCreateWithoutStudentInput[] | AttendanceRecordUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: AttendanceRecordCreateOrConnectWithoutStudentInput | AttendanceRecordCreateOrConnectWithoutStudentInput[]
+    upsert?: AttendanceRecordUpsertWithWhereUniqueWithoutStudentInput | AttendanceRecordUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: AttendanceRecordCreateManyStudentInputEnvelope
+    set?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    disconnect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    delete?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    connect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    update?: AttendanceRecordUpdateWithWhereUniqueWithoutStudentInput | AttendanceRecordUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: AttendanceRecordUpdateManyWithWhereWithoutStudentInput | AttendanceRecordUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: AttendanceRecordScalarWhereInput | AttendanceRecordScalarWhereInput[]
   }
 
   export type EnrollmentCreateNestedManyWithoutAcademicYearInput = {
@@ -19800,6 +24613,20 @@ export namespace Prisma {
     connect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
   }
 
+  export type AssignedAttendanceTeacherCreateNestedManyWithoutClassInput = {
+    create?: XOR<AssignedAttendanceTeacherCreateWithoutClassInput, AssignedAttendanceTeacherUncheckedCreateWithoutClassInput> | AssignedAttendanceTeacherCreateWithoutClassInput[] | AssignedAttendanceTeacherUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: AssignedAttendanceTeacherCreateOrConnectWithoutClassInput | AssignedAttendanceTeacherCreateOrConnectWithoutClassInput[]
+    createMany?: AssignedAttendanceTeacherCreateManyClassInputEnvelope
+    connect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+  }
+
+  export type AttendanceSessionCreateNestedManyWithoutClassInput = {
+    create?: XOR<AttendanceSessionCreateWithoutClassInput, AttendanceSessionUncheckedCreateWithoutClassInput> | AttendanceSessionCreateWithoutClassInput[] | AttendanceSessionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: AttendanceSessionCreateOrConnectWithoutClassInput | AttendanceSessionCreateOrConnectWithoutClassInput[]
+    createMany?: AttendanceSessionCreateManyClassInputEnvelope
+    connect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+  }
+
   export type EnrollmentUncheckedCreateNestedManyWithoutClassInput = {
     create?: XOR<EnrollmentCreateWithoutClassInput, EnrollmentUncheckedCreateWithoutClassInput> | EnrollmentCreateWithoutClassInput[] | EnrollmentUncheckedCreateWithoutClassInput[]
     connectOrCreate?: EnrollmentCreateOrConnectWithoutClassInput | EnrollmentCreateOrConnectWithoutClassInput[]
@@ -19839,6 +24666,20 @@ export namespace Prisma {
     create?: XOR<SubjectCreateWithoutClassInput, SubjectUncheckedCreateWithoutClassInput> | SubjectCreateWithoutClassInput[] | SubjectUncheckedCreateWithoutClassInput[]
     connectOrCreate?: SubjectCreateOrConnectWithoutClassInput | SubjectCreateOrConnectWithoutClassInput[]
     connect?: SubjectWhereUniqueInput | SubjectWhereUniqueInput[]
+  }
+
+  export type AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutClassInput = {
+    create?: XOR<AssignedAttendanceTeacherCreateWithoutClassInput, AssignedAttendanceTeacherUncheckedCreateWithoutClassInput> | AssignedAttendanceTeacherCreateWithoutClassInput[] | AssignedAttendanceTeacherUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: AssignedAttendanceTeacherCreateOrConnectWithoutClassInput | AssignedAttendanceTeacherCreateOrConnectWithoutClassInput[]
+    createMany?: AssignedAttendanceTeacherCreateManyClassInputEnvelope
+    connect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+  }
+
+  export type AttendanceSessionUncheckedCreateNestedManyWithoutClassInput = {
+    create?: XOR<AttendanceSessionCreateWithoutClassInput, AttendanceSessionUncheckedCreateWithoutClassInput> | AttendanceSessionCreateWithoutClassInput[] | AttendanceSessionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: AttendanceSessionCreateOrConnectWithoutClassInput | AttendanceSessionCreateOrConnectWithoutClassInput[]
+    createMany?: AttendanceSessionCreateManyClassInputEnvelope
+    connect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
   }
 
   export type ClassUpdatesectionNameInput = {
@@ -19929,6 +24770,34 @@ export namespace Prisma {
     deleteMany?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
   }
 
+  export type AssignedAttendanceTeacherUpdateManyWithoutClassNestedInput = {
+    create?: XOR<AssignedAttendanceTeacherCreateWithoutClassInput, AssignedAttendanceTeacherUncheckedCreateWithoutClassInput> | AssignedAttendanceTeacherCreateWithoutClassInput[] | AssignedAttendanceTeacherUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: AssignedAttendanceTeacherCreateOrConnectWithoutClassInput | AssignedAttendanceTeacherCreateOrConnectWithoutClassInput[]
+    upsert?: AssignedAttendanceTeacherUpsertWithWhereUniqueWithoutClassInput | AssignedAttendanceTeacherUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: AssignedAttendanceTeacherCreateManyClassInputEnvelope
+    set?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    disconnect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    delete?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    connect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    update?: AssignedAttendanceTeacherUpdateWithWhereUniqueWithoutClassInput | AssignedAttendanceTeacherUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: AssignedAttendanceTeacherUpdateManyWithWhereWithoutClassInput | AssignedAttendanceTeacherUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: AssignedAttendanceTeacherScalarWhereInput | AssignedAttendanceTeacherScalarWhereInput[]
+  }
+
+  export type AttendanceSessionUpdateManyWithoutClassNestedInput = {
+    create?: XOR<AttendanceSessionCreateWithoutClassInput, AttendanceSessionUncheckedCreateWithoutClassInput> | AttendanceSessionCreateWithoutClassInput[] | AttendanceSessionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: AttendanceSessionCreateOrConnectWithoutClassInput | AttendanceSessionCreateOrConnectWithoutClassInput[]
+    upsert?: AttendanceSessionUpsertWithWhereUniqueWithoutClassInput | AttendanceSessionUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: AttendanceSessionCreateManyClassInputEnvelope
+    set?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    disconnect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    delete?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    connect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    update?: AttendanceSessionUpdateWithWhereUniqueWithoutClassInput | AttendanceSessionUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: AttendanceSessionUpdateManyWithWhereWithoutClassInput | AttendanceSessionUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: AttendanceSessionScalarWhereInput | AttendanceSessionScalarWhereInput[]
+  }
+
   export type EnrollmentUncheckedUpdateManyWithoutClassNestedInput = {
     create?: XOR<EnrollmentCreateWithoutClassInput, EnrollmentUncheckedCreateWithoutClassInput> | EnrollmentCreateWithoutClassInput[] | EnrollmentUncheckedCreateWithoutClassInput[]
     connectOrCreate?: EnrollmentCreateOrConnectWithoutClassInput | EnrollmentCreateOrConnectWithoutClassInput[]
@@ -20010,6 +24879,164 @@ export namespace Prisma {
     update?: SubjectUpdateWithWhereUniqueWithoutClassInput | SubjectUpdateWithWhereUniqueWithoutClassInput[]
     updateMany?: SubjectUpdateManyWithWhereWithoutClassInput | SubjectUpdateManyWithWhereWithoutClassInput[]
     deleteMany?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
+  }
+
+  export type AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassNestedInput = {
+    create?: XOR<AssignedAttendanceTeacherCreateWithoutClassInput, AssignedAttendanceTeacherUncheckedCreateWithoutClassInput> | AssignedAttendanceTeacherCreateWithoutClassInput[] | AssignedAttendanceTeacherUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: AssignedAttendanceTeacherCreateOrConnectWithoutClassInput | AssignedAttendanceTeacherCreateOrConnectWithoutClassInput[]
+    upsert?: AssignedAttendanceTeacherUpsertWithWhereUniqueWithoutClassInput | AssignedAttendanceTeacherUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: AssignedAttendanceTeacherCreateManyClassInputEnvelope
+    set?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    disconnect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    delete?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    connect?: AssignedAttendanceTeacherWhereUniqueInput | AssignedAttendanceTeacherWhereUniqueInput[]
+    update?: AssignedAttendanceTeacherUpdateWithWhereUniqueWithoutClassInput | AssignedAttendanceTeacherUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: AssignedAttendanceTeacherUpdateManyWithWhereWithoutClassInput | AssignedAttendanceTeacherUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: AssignedAttendanceTeacherScalarWhereInput | AssignedAttendanceTeacherScalarWhereInput[]
+  }
+
+  export type AttendanceSessionUncheckedUpdateManyWithoutClassNestedInput = {
+    create?: XOR<AttendanceSessionCreateWithoutClassInput, AttendanceSessionUncheckedCreateWithoutClassInput> | AttendanceSessionCreateWithoutClassInput[] | AttendanceSessionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: AttendanceSessionCreateOrConnectWithoutClassInput | AttendanceSessionCreateOrConnectWithoutClassInput[]
+    upsert?: AttendanceSessionUpsertWithWhereUniqueWithoutClassInput | AttendanceSessionUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: AttendanceSessionCreateManyClassInputEnvelope
+    set?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    disconnect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    delete?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    connect?: AttendanceSessionWhereUniqueInput | AttendanceSessionWhereUniqueInput[]
+    update?: AttendanceSessionUpdateWithWhereUniqueWithoutClassInput | AttendanceSessionUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: AttendanceSessionUpdateManyWithWhereWithoutClassInput | AttendanceSessionUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: AttendanceSessionScalarWhereInput | AttendanceSessionScalarWhereInput[]
+  }
+
+  export type TeacherCreateNestedOneWithoutAssignedAttendanceTeacherInput = {
+    create?: XOR<TeacherCreateWithoutAssignedAttendanceTeacherInput, TeacherUncheckedCreateWithoutAssignedAttendanceTeacherInput>
+    connectOrCreate?: TeacherCreateOrConnectWithoutAssignedAttendanceTeacherInput
+    connect?: TeacherWhereUniqueInput
+  }
+
+  export type ClassCreateNestedOneWithoutAssignedAttendanceTeacherInput = {
+    create?: XOR<ClassCreateWithoutAssignedAttendanceTeacherInput, ClassUncheckedCreateWithoutAssignedAttendanceTeacherInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutAssignedAttendanceTeacherInput
+    connect?: ClassWhereUniqueInput
+  }
+
+  export type TeacherUpdateOneRequiredWithoutAssignedAttendanceTeacherNestedInput = {
+    create?: XOR<TeacherCreateWithoutAssignedAttendanceTeacherInput, TeacherUncheckedCreateWithoutAssignedAttendanceTeacherInput>
+    connectOrCreate?: TeacherCreateOrConnectWithoutAssignedAttendanceTeacherInput
+    upsert?: TeacherUpsertWithoutAssignedAttendanceTeacherInput
+    connect?: TeacherWhereUniqueInput
+    update?: XOR<XOR<TeacherUpdateToOneWithWhereWithoutAssignedAttendanceTeacherInput, TeacherUpdateWithoutAssignedAttendanceTeacherInput>, TeacherUncheckedUpdateWithoutAssignedAttendanceTeacherInput>
+  }
+
+  export type ClassUpdateOneRequiredWithoutAssignedAttendanceTeacherNestedInput = {
+    create?: XOR<ClassCreateWithoutAssignedAttendanceTeacherInput, ClassUncheckedCreateWithoutAssignedAttendanceTeacherInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutAssignedAttendanceTeacherInput
+    upsert?: ClassUpsertWithoutAssignedAttendanceTeacherInput
+    connect?: ClassWhereUniqueInput
+    update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutAssignedAttendanceTeacherInput, ClassUpdateWithoutAssignedAttendanceTeacherInput>, ClassUncheckedUpdateWithoutAssignedAttendanceTeacherInput>
+  }
+
+  export type ClassCreateNestedOneWithoutAttendanceSessionInput = {
+    create?: XOR<ClassCreateWithoutAttendanceSessionInput, ClassUncheckedCreateWithoutAttendanceSessionInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutAttendanceSessionInput
+    connect?: ClassWhereUniqueInput
+  }
+
+  export type TeacherCreateNestedOneWithoutAttendanceSessionInput = {
+    create?: XOR<TeacherCreateWithoutAttendanceSessionInput, TeacherUncheckedCreateWithoutAttendanceSessionInput>
+    connectOrCreate?: TeacherCreateOrConnectWithoutAttendanceSessionInput
+    connect?: TeacherWhereUniqueInput
+  }
+
+  export type AttendanceRecordCreateNestedManyWithoutSessionInput = {
+    create?: XOR<AttendanceRecordCreateWithoutSessionInput, AttendanceRecordUncheckedCreateWithoutSessionInput> | AttendanceRecordCreateWithoutSessionInput[] | AttendanceRecordUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: AttendanceRecordCreateOrConnectWithoutSessionInput | AttendanceRecordCreateOrConnectWithoutSessionInput[]
+    createMany?: AttendanceRecordCreateManySessionInputEnvelope
+    connect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+  }
+
+  export type AttendanceRecordUncheckedCreateNestedManyWithoutSessionInput = {
+    create?: XOR<AttendanceRecordCreateWithoutSessionInput, AttendanceRecordUncheckedCreateWithoutSessionInput> | AttendanceRecordCreateWithoutSessionInput[] | AttendanceRecordUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: AttendanceRecordCreateOrConnectWithoutSessionInput | AttendanceRecordCreateOrConnectWithoutSessionInput[]
+    createMany?: AttendanceRecordCreateManySessionInputEnvelope
+    connect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+  }
+
+  export type ClassUpdateOneRequiredWithoutAttendanceSessionNestedInput = {
+    create?: XOR<ClassCreateWithoutAttendanceSessionInput, ClassUncheckedCreateWithoutAttendanceSessionInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutAttendanceSessionInput
+    upsert?: ClassUpsertWithoutAttendanceSessionInput
+    connect?: ClassWhereUniqueInput
+    update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutAttendanceSessionInput, ClassUpdateWithoutAttendanceSessionInput>, ClassUncheckedUpdateWithoutAttendanceSessionInput>
+  }
+
+  export type TeacherUpdateOneRequiredWithoutAttendanceSessionNestedInput = {
+    create?: XOR<TeacherCreateWithoutAttendanceSessionInput, TeacherUncheckedCreateWithoutAttendanceSessionInput>
+    connectOrCreate?: TeacherCreateOrConnectWithoutAttendanceSessionInput
+    upsert?: TeacherUpsertWithoutAttendanceSessionInput
+    connect?: TeacherWhereUniqueInput
+    update?: XOR<XOR<TeacherUpdateToOneWithWhereWithoutAttendanceSessionInput, TeacherUpdateWithoutAttendanceSessionInput>, TeacherUncheckedUpdateWithoutAttendanceSessionInput>
+  }
+
+  export type AttendanceRecordUpdateManyWithoutSessionNestedInput = {
+    create?: XOR<AttendanceRecordCreateWithoutSessionInput, AttendanceRecordUncheckedCreateWithoutSessionInput> | AttendanceRecordCreateWithoutSessionInput[] | AttendanceRecordUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: AttendanceRecordCreateOrConnectWithoutSessionInput | AttendanceRecordCreateOrConnectWithoutSessionInput[]
+    upsert?: AttendanceRecordUpsertWithWhereUniqueWithoutSessionInput | AttendanceRecordUpsertWithWhereUniqueWithoutSessionInput[]
+    createMany?: AttendanceRecordCreateManySessionInputEnvelope
+    set?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    disconnect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    delete?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    connect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    update?: AttendanceRecordUpdateWithWhereUniqueWithoutSessionInput | AttendanceRecordUpdateWithWhereUniqueWithoutSessionInput[]
+    updateMany?: AttendanceRecordUpdateManyWithWhereWithoutSessionInput | AttendanceRecordUpdateManyWithWhereWithoutSessionInput[]
+    deleteMany?: AttendanceRecordScalarWhereInput | AttendanceRecordScalarWhereInput[]
+  }
+
+  export type AttendanceRecordUncheckedUpdateManyWithoutSessionNestedInput = {
+    create?: XOR<AttendanceRecordCreateWithoutSessionInput, AttendanceRecordUncheckedCreateWithoutSessionInput> | AttendanceRecordCreateWithoutSessionInput[] | AttendanceRecordUncheckedCreateWithoutSessionInput[]
+    connectOrCreate?: AttendanceRecordCreateOrConnectWithoutSessionInput | AttendanceRecordCreateOrConnectWithoutSessionInput[]
+    upsert?: AttendanceRecordUpsertWithWhereUniqueWithoutSessionInput | AttendanceRecordUpsertWithWhereUniqueWithoutSessionInput[]
+    createMany?: AttendanceRecordCreateManySessionInputEnvelope
+    set?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    disconnect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    delete?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    connect?: AttendanceRecordWhereUniqueInput | AttendanceRecordWhereUniqueInput[]
+    update?: AttendanceRecordUpdateWithWhereUniqueWithoutSessionInput | AttendanceRecordUpdateWithWhereUniqueWithoutSessionInput[]
+    updateMany?: AttendanceRecordUpdateManyWithWhereWithoutSessionInput | AttendanceRecordUpdateManyWithWhereWithoutSessionInput[]
+    deleteMany?: AttendanceRecordScalarWhereInput | AttendanceRecordScalarWhereInput[]
+  }
+
+  export type AttendanceSessionCreateNestedOneWithoutRecordsInput = {
+    create?: XOR<AttendanceSessionCreateWithoutRecordsInput, AttendanceSessionUncheckedCreateWithoutRecordsInput>
+    connectOrCreate?: AttendanceSessionCreateOrConnectWithoutRecordsInput
+    connect?: AttendanceSessionWhereUniqueInput
+  }
+
+  export type StudentCreateNestedOneWithoutAttendanceRecordInput = {
+    create?: XOR<StudentCreateWithoutAttendanceRecordInput, StudentUncheckedCreateWithoutAttendanceRecordInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutAttendanceRecordInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type EnumAttendanceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.AttendanceStatus
+  }
+
+  export type AttendanceSessionUpdateOneRequiredWithoutRecordsNestedInput = {
+    create?: XOR<AttendanceSessionCreateWithoutRecordsInput, AttendanceSessionUncheckedCreateWithoutRecordsInput>
+    connectOrCreate?: AttendanceSessionCreateOrConnectWithoutRecordsInput
+    upsert?: AttendanceSessionUpsertWithoutRecordsInput
+    connect?: AttendanceSessionWhereUniqueInput
+    update?: XOR<XOR<AttendanceSessionUpdateToOneWithWhereWithoutRecordsInput, AttendanceSessionUpdateWithoutRecordsInput>, AttendanceSessionUncheckedUpdateWithoutRecordsInput>
+  }
+
+  export type StudentUpdateOneRequiredWithoutAttendanceRecordNestedInput = {
+    create?: XOR<StudentCreateWithoutAttendanceRecordInput, StudentUncheckedCreateWithoutAttendanceRecordInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutAttendanceRecordInput
+    upsert?: StudentUpsertWithoutAttendanceRecordInput
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutAttendanceRecordInput, StudentUpdateWithoutAttendanceRecordInput>, StudentUncheckedUpdateWithoutAttendanceRecordInput>
   }
 
   export type TeacherCreateNestedManyWithoutSubjectInput = {
@@ -20514,6 +25541,23 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumAttendanceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusFilter<$PrismaModel> | $Enums.AttendanceStatus
+  }
+
+  export type NestedEnumAttendanceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttendanceStatus | EnumAttendanceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttendanceStatus[] | ListEnumAttendanceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttendanceStatusWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+    _max?: NestedEnumAttendanceStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumEnrollmentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.EnrollmentStatus | EnumEnrollmentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.EnrollmentStatus[] | ListEnumEnrollmentStatusFieldRefInput<$PrismaModel>
@@ -20582,6 +25626,8 @@ export namespace Prisma {
   }
 
   export type TeacherCreateWithoutUserInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     phone: string
     email: string
@@ -20596,10 +25642,14 @@ export namespace Prisma {
     profileImg?: string | null
     schedules?: WeeklyScheduleCreateNestedManyWithoutTeacherInput
     Subject?: SubjectCreateNestedOneWithoutTeachersInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutTeacherInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateWithoutUserInput = {
     teacherId?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     phone: string
     email: string
@@ -20614,6 +25664,8 @@ export namespace Prisma {
     profileImg?: string | null
     subjectId?: string | null
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutTeacherInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutTeacherInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherCreateOrConnectWithoutUserInput = {
@@ -20641,6 +25693,7 @@ export namespace Prisma {
     gurdianPhone: string
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     results?: ResultCreateNestedManyWithoutStudentInput
+    AttendanceRecord?: AttendanceRecordCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutUserInput = {
@@ -20664,6 +25717,7 @@ export namespace Prisma {
     gurdianPhone: string
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     results?: ResultUncheckedCreateNestedManyWithoutStudentInput
+    AttendanceRecord?: AttendanceRecordUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutUserInput = {
@@ -20683,6 +25737,8 @@ export namespace Prisma {
   }
 
   export type TeacherUpdateWithoutUserInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -20697,10 +25753,14 @@ export namespace Prisma {
     profileImg?: NullableStringFieldUpdateOperationsInput | string | null
     schedules?: WeeklyScheduleUpdateManyWithoutTeacherNestedInput
     Subject?: SubjectUpdateOneWithoutTeachersNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutTeacherNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateWithoutUserInput = {
     teacherId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -20715,6 +25775,8 @@ export namespace Prisma {
     profileImg?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: NullableStringFieldUpdateOperationsInput | string | null
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutTeacherNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type StudentUpsertWithoutUserInput = {
@@ -20748,6 +25810,7 @@ export namespace Prisma {
     gurdianPhone?: StringFieldUpdateOperationsInput | string
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     results?: ResultUpdateManyWithoutStudentNestedInput
+    AttendanceRecord?: AttendanceRecordUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutUserInput = {
@@ -20771,6 +25834,7 @@ export namespace Prisma {
     gurdianPhone?: StringFieldUpdateOperationsInput | string
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     results?: ResultUncheckedUpdateManyWithoutStudentNestedInput
+    AttendanceRecord?: AttendanceRecordUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateWithoutTeacherInput = {
@@ -20836,6 +25900,8 @@ export namespace Prisma {
 
   export type SubjectCreateWithoutTeachersInput = {
     id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     schedules?: WeeklyScheduleCreateNestedManyWithoutSubjectInput
     Class?: ClassCreateNestedManyWithoutSubjectsInput
@@ -20843,6 +25909,8 @@ export namespace Prisma {
 
   export type SubjectUncheckedCreateWithoutTeachersInput = {
     id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutSubjectInput
     Class?: ClassUncheckedCreateNestedManyWithoutSubjectsInput
@@ -20851,6 +25919,62 @@ export namespace Prisma {
   export type SubjectCreateOrConnectWithoutTeachersInput = {
     where: SubjectWhereUniqueInput
     create: XOR<SubjectCreateWithoutTeachersInput, SubjectUncheckedCreateWithoutTeachersInput>
+  }
+
+  export type AssignedAttendanceTeacherCreateWithoutTeacherInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    section: string
+    class: ClassCreateNestedOneWithoutAssignedAttendanceTeacherInput
+  }
+
+  export type AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    classId: string
+    section: string
+  }
+
+  export type AssignedAttendanceTeacherCreateOrConnectWithoutTeacherInput = {
+    where: AssignedAttendanceTeacherWhereUniqueInput
+    create: XOR<AssignedAttendanceTeacherCreateWithoutTeacherInput, AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type AssignedAttendanceTeacherCreateManyTeacherInputEnvelope = {
+    data: AssignedAttendanceTeacherCreateManyTeacherInput | AssignedAttendanceTeacherCreateManyTeacherInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttendanceSessionCreateWithoutTeacherInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    section: string
+    class: ClassCreateNestedOneWithoutAttendanceSessionInput
+    records?: AttendanceRecordCreateNestedManyWithoutSessionInput
+  }
+
+  export type AttendanceSessionUncheckedCreateWithoutTeacherInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    classId: string
+    section: string
+    records?: AttendanceRecordUncheckedCreateNestedManyWithoutSessionInput
+  }
+
+  export type AttendanceSessionCreateOrConnectWithoutTeacherInput = {
+    where: AttendanceSessionWhereUniqueInput
+    create: XOR<AttendanceSessionCreateWithoutTeacherInput, AttendanceSessionUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type AttendanceSessionCreateManyTeacherInputEnvelope = {
+    data: AttendanceSessionCreateManyTeacherInput | AttendanceSessionCreateManyTeacherInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutTeacherInput = {
@@ -20933,6 +26057,8 @@ export namespace Prisma {
 
   export type SubjectUpdateWithoutTeachersInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     schedules?: WeeklyScheduleUpdateManyWithoutSubjectNestedInput
     Class?: ClassUpdateManyWithoutSubjectsNestedInput
@@ -20940,9 +26066,68 @@ export namespace Prisma {
 
   export type SubjectUncheckedUpdateWithoutTeachersInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutSubjectNestedInput
     Class?: ClassUncheckedUpdateManyWithoutSubjectsNestedInput
+  }
+
+  export type AssignedAttendanceTeacherUpsertWithWhereUniqueWithoutTeacherInput = {
+    where: AssignedAttendanceTeacherWhereUniqueInput
+    update: XOR<AssignedAttendanceTeacherUpdateWithoutTeacherInput, AssignedAttendanceTeacherUncheckedUpdateWithoutTeacherInput>
+    create: XOR<AssignedAttendanceTeacherCreateWithoutTeacherInput, AssignedAttendanceTeacherUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type AssignedAttendanceTeacherUpdateWithWhereUniqueWithoutTeacherInput = {
+    where: AssignedAttendanceTeacherWhereUniqueInput
+    data: XOR<AssignedAttendanceTeacherUpdateWithoutTeacherInput, AssignedAttendanceTeacherUncheckedUpdateWithoutTeacherInput>
+  }
+
+  export type AssignedAttendanceTeacherUpdateManyWithWhereWithoutTeacherInput = {
+    where: AssignedAttendanceTeacherScalarWhereInput
+    data: XOR<AssignedAttendanceTeacherUpdateManyMutationInput, AssignedAttendanceTeacherUncheckedUpdateManyWithoutTeacherInput>
+  }
+
+  export type AssignedAttendanceTeacherScalarWhereInput = {
+    AND?: AssignedAttendanceTeacherScalarWhereInput | AssignedAttendanceTeacherScalarWhereInput[]
+    OR?: AssignedAttendanceTeacherScalarWhereInput[]
+    NOT?: AssignedAttendanceTeacherScalarWhereInput | AssignedAttendanceTeacherScalarWhereInput[]
+    id?: StringFilter<"AssignedAttendanceTeacher"> | string
+    createdAt?: DateTimeFilter<"AssignedAttendanceTeacher"> | Date | string
+    updatedAt?: DateTimeFilter<"AssignedAttendanceTeacher"> | Date | string
+    teacherId?: IntFilter<"AssignedAttendanceTeacher"> | number
+    classId?: StringFilter<"AssignedAttendanceTeacher"> | string
+    section?: StringFilter<"AssignedAttendanceTeacher"> | string
+  }
+
+  export type AttendanceSessionUpsertWithWhereUniqueWithoutTeacherInput = {
+    where: AttendanceSessionWhereUniqueInput
+    update: XOR<AttendanceSessionUpdateWithoutTeacherInput, AttendanceSessionUncheckedUpdateWithoutTeacherInput>
+    create: XOR<AttendanceSessionCreateWithoutTeacherInput, AttendanceSessionUncheckedCreateWithoutTeacherInput>
+  }
+
+  export type AttendanceSessionUpdateWithWhereUniqueWithoutTeacherInput = {
+    where: AttendanceSessionWhereUniqueInput
+    data: XOR<AttendanceSessionUpdateWithoutTeacherInput, AttendanceSessionUncheckedUpdateWithoutTeacherInput>
+  }
+
+  export type AttendanceSessionUpdateManyWithWhereWithoutTeacherInput = {
+    where: AttendanceSessionScalarWhereInput
+    data: XOR<AttendanceSessionUpdateManyMutationInput, AttendanceSessionUncheckedUpdateManyWithoutTeacherInput>
+  }
+
+  export type AttendanceSessionScalarWhereInput = {
+    AND?: AttendanceSessionScalarWhereInput | AttendanceSessionScalarWhereInput[]
+    OR?: AttendanceSessionScalarWhereInput[]
+    NOT?: AttendanceSessionScalarWhereInput | AttendanceSessionScalarWhereInput[]
+    id?: StringFilter<"AttendanceSession"> | string
+    createdAt?: DateTimeFilter<"AttendanceSession"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceSession"> | Date | string
+    date?: DateTimeFilter<"AttendanceSession"> | Date | string
+    classId?: StringFilter<"AttendanceSession"> | string
+    section?: StringFilter<"AttendanceSession"> | string
+    teacherId?: IntFilter<"AttendanceSession"> | number
   }
 
   export type EnrollmentCreateWithoutStudentInput = {
@@ -21048,6 +26233,34 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutStudentInput, UserUncheckedCreateWithoutStudentInput>
   }
 
+  export type AttendanceRecordCreateWithoutStudentInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status: $Enums.AttendanceStatus
+    note?: string | null
+    session: AttendanceSessionCreateNestedOneWithoutRecordsInput
+  }
+
+  export type AttendanceRecordUncheckedCreateWithoutStudentInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessionId: string
+    status: $Enums.AttendanceStatus
+    note?: string | null
+  }
+
+  export type AttendanceRecordCreateOrConnectWithoutStudentInput = {
+    where: AttendanceRecordWhereUniqueInput
+    create: XOR<AttendanceRecordCreateWithoutStudentInput, AttendanceRecordUncheckedCreateWithoutStudentInput>
+  }
+
+  export type AttendanceRecordCreateManyStudentInputEnvelope = {
+    data: AttendanceRecordCreateManyStudentInput | AttendanceRecordCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type EnrollmentUpsertWithWhereUniqueWithoutStudentInput = {
     where: EnrollmentWhereUniqueInput
     update: XOR<EnrollmentUpdateWithoutStudentInput, EnrollmentUncheckedUpdateWithoutStudentInput>
@@ -21149,6 +26362,35 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     isDisabled?: BoolFieldUpdateOperationsInput | boolean
     teacherId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AttendanceRecordUpsertWithWhereUniqueWithoutStudentInput = {
+    where: AttendanceRecordWhereUniqueInput
+    update: XOR<AttendanceRecordUpdateWithoutStudentInput, AttendanceRecordUncheckedUpdateWithoutStudentInput>
+    create: XOR<AttendanceRecordCreateWithoutStudentInput, AttendanceRecordUncheckedCreateWithoutStudentInput>
+  }
+
+  export type AttendanceRecordUpdateWithWhereUniqueWithoutStudentInput = {
+    where: AttendanceRecordWhereUniqueInput
+    data: XOR<AttendanceRecordUpdateWithoutStudentInput, AttendanceRecordUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type AttendanceRecordUpdateManyWithWhereWithoutStudentInput = {
+    where: AttendanceRecordScalarWhereInput
+    data: XOR<AttendanceRecordUpdateManyMutationInput, AttendanceRecordUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type AttendanceRecordScalarWhereInput = {
+    AND?: AttendanceRecordScalarWhereInput | AttendanceRecordScalarWhereInput[]
+    OR?: AttendanceRecordScalarWhereInput[]
+    NOT?: AttendanceRecordScalarWhereInput | AttendanceRecordScalarWhereInput[]
+    id?: StringFilter<"AttendanceRecord"> | string
+    createdAt?: DateTimeFilter<"AttendanceRecord"> | Date | string
+    updatedAt?: DateTimeFilter<"AttendanceRecord"> | Date | string
+    sessionId?: StringFilter<"AttendanceRecord"> | string
+    studentId?: IntFilter<"AttendanceRecord"> | number
+    status?: EnumAttendanceStatusFilter<"AttendanceRecord"> | $Enums.AttendanceStatus
+    note?: StringNullableFilter<"AttendanceRecord"> | string | null
   }
 
   export type EnrollmentCreateWithoutAcademicYearInput = {
@@ -21417,6 +26659,8 @@ export namespace Prisma {
 
   export type SubjectCreateWithoutClassInput = {
     id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     teachers?: TeacherCreateNestedManyWithoutSubjectInput
     schedules?: WeeklyScheduleCreateNestedManyWithoutSubjectInput
@@ -21424,6 +26668,8 @@ export namespace Prisma {
 
   export type SubjectUncheckedCreateWithoutClassInput = {
     id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     teachers?: TeacherUncheckedCreateNestedManyWithoutSubjectInput
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutSubjectInput
@@ -21432,6 +26678,62 @@ export namespace Prisma {
   export type SubjectCreateOrConnectWithoutClassInput = {
     where: SubjectWhereUniqueInput
     create: XOR<SubjectCreateWithoutClassInput, SubjectUncheckedCreateWithoutClassInput>
+  }
+
+  export type AssignedAttendanceTeacherCreateWithoutClassInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    section: string
+    teacher: TeacherCreateNestedOneWithoutAssignedAttendanceTeacherInput
+  }
+
+  export type AssignedAttendanceTeacherUncheckedCreateWithoutClassInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teacherId: number
+    section: string
+  }
+
+  export type AssignedAttendanceTeacherCreateOrConnectWithoutClassInput = {
+    where: AssignedAttendanceTeacherWhereUniqueInput
+    create: XOR<AssignedAttendanceTeacherCreateWithoutClassInput, AssignedAttendanceTeacherUncheckedCreateWithoutClassInput>
+  }
+
+  export type AssignedAttendanceTeacherCreateManyClassInputEnvelope = {
+    data: AssignedAttendanceTeacherCreateManyClassInput | AssignedAttendanceTeacherCreateManyClassInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttendanceSessionCreateWithoutClassInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    section: string
+    teacher: TeacherCreateNestedOneWithoutAttendanceSessionInput
+    records?: AttendanceRecordCreateNestedManyWithoutSessionInput
+  }
+
+  export type AttendanceSessionUncheckedCreateWithoutClassInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    section: string
+    teacherId: number
+    records?: AttendanceRecordUncheckedCreateNestedManyWithoutSessionInput
+  }
+
+  export type AttendanceSessionCreateOrConnectWithoutClassInput = {
+    where: AttendanceSessionWhereUniqueInput
+    create: XOR<AttendanceSessionCreateWithoutClassInput, AttendanceSessionUncheckedCreateWithoutClassInput>
+  }
+
+  export type AttendanceSessionCreateManyClassInputEnvelope = {
+    data: AttendanceSessionCreateManyClassInput | AttendanceSessionCreateManyClassInput[]
+    skipDuplicates?: boolean
   }
 
   export type EnrollmentUpsertWithWhereUniqueWithoutClassInput = {
@@ -21562,10 +26864,46 @@ export namespace Prisma {
     OR?: SubjectScalarWhereInput[]
     NOT?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
     id?: StringFilter<"Subject"> | string
+    createdAt?: DateTimeFilter<"Subject"> | Date | string
+    updatedAt?: DateTimeFilter<"Subject"> | Date | string
     name?: StringFilter<"Subject"> | string
   }
 
-  export type TeacherCreateWithoutSubjectInput = {
+  export type AssignedAttendanceTeacherUpsertWithWhereUniqueWithoutClassInput = {
+    where: AssignedAttendanceTeacherWhereUniqueInput
+    update: XOR<AssignedAttendanceTeacherUpdateWithoutClassInput, AssignedAttendanceTeacherUncheckedUpdateWithoutClassInput>
+    create: XOR<AssignedAttendanceTeacherCreateWithoutClassInput, AssignedAttendanceTeacherUncheckedCreateWithoutClassInput>
+  }
+
+  export type AssignedAttendanceTeacherUpdateWithWhereUniqueWithoutClassInput = {
+    where: AssignedAttendanceTeacherWhereUniqueInput
+    data: XOR<AssignedAttendanceTeacherUpdateWithoutClassInput, AssignedAttendanceTeacherUncheckedUpdateWithoutClassInput>
+  }
+
+  export type AssignedAttendanceTeacherUpdateManyWithWhereWithoutClassInput = {
+    where: AssignedAttendanceTeacherScalarWhereInput
+    data: XOR<AssignedAttendanceTeacherUpdateManyMutationInput, AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassInput>
+  }
+
+  export type AttendanceSessionUpsertWithWhereUniqueWithoutClassInput = {
+    where: AttendanceSessionWhereUniqueInput
+    update: XOR<AttendanceSessionUpdateWithoutClassInput, AttendanceSessionUncheckedUpdateWithoutClassInput>
+    create: XOR<AttendanceSessionCreateWithoutClassInput, AttendanceSessionUncheckedCreateWithoutClassInput>
+  }
+
+  export type AttendanceSessionUpdateWithWhereUniqueWithoutClassInput = {
+    where: AttendanceSessionWhereUniqueInput
+    data: XOR<AttendanceSessionUpdateWithoutClassInput, AttendanceSessionUncheckedUpdateWithoutClassInput>
+  }
+
+  export type AttendanceSessionUpdateManyWithWhereWithoutClassInput = {
+    where: AttendanceSessionScalarWhereInput
+    data: XOR<AttendanceSessionUpdateManyMutationInput, AttendanceSessionUncheckedUpdateManyWithoutClassInput>
+  }
+
+  export type TeacherCreateWithoutAssignedAttendanceTeacherInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     phone: string
     email: string
@@ -21580,10 +26918,580 @@ export namespace Prisma {
     profileImg?: string | null
     user?: UserCreateNestedOneWithoutTeacherInput
     schedules?: WeeklyScheduleCreateNestedManyWithoutTeacherInput
+    Subject?: SubjectCreateNestedOneWithoutTeachersInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutTeacherInput
+  }
+
+  export type TeacherUncheckedCreateWithoutAssignedAttendanceTeacherInput = {
+    teacherId?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    name: string
+    phone: string
+    email: string
+    subject?: string | null
+    designation?: string | null
+    department?: string | null
+    joinedAt?: Date | string
+    dob: Date | string
+    gender: string
+    address?: string | null
+    bloodGroup?: string | null
+    profileImg?: string | null
+    subjectId?: string | null
+    user?: UserUncheckedCreateNestedOneWithoutTeacherInput
+    schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutTeacherInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutTeacherInput
+  }
+
+  export type TeacherCreateOrConnectWithoutAssignedAttendanceTeacherInput = {
+    where: TeacherWhereUniqueInput
+    create: XOR<TeacherCreateWithoutAssignedAttendanceTeacherInput, TeacherUncheckedCreateWithoutAssignedAttendanceTeacherInput>
+  }
+
+  export type ClassCreateWithoutAssignedAttendanceTeacherInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    className: string
+    sectionName?: ClassCreatesectionNameInput | string[]
+    enrollments?: EnrollmentCreateNestedManyWithoutClassInput
+    results?: ResultCreateNestedManyWithoutClassInput
+    Event?: EventCreateNestedManyWithoutClassInput
+    Announcement?: AnnouncementCreateNestedManyWithoutClassInput
+    schedules?: WeeklyScheduleCreateNestedManyWithoutClassInput
+    subjects?: SubjectCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassUncheckedCreateWithoutAssignedAttendanceTeacherInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    className: string
+    sectionName?: ClassCreatesectionNameInput | string[]
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutClassInput
+    results?: ResultUncheckedCreateNestedManyWithoutClassInput
+    Event?: EventUncheckedCreateNestedManyWithoutClassInput
+    Announcement?: AnnouncementUncheckedCreateNestedManyWithoutClassInput
+    schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutClassInput
+    subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassCreateOrConnectWithoutAssignedAttendanceTeacherInput = {
+    where: ClassWhereUniqueInput
+    create: XOR<ClassCreateWithoutAssignedAttendanceTeacherInput, ClassUncheckedCreateWithoutAssignedAttendanceTeacherInput>
+  }
+
+  export type TeacherUpsertWithoutAssignedAttendanceTeacherInput = {
+    update: XOR<TeacherUpdateWithoutAssignedAttendanceTeacherInput, TeacherUncheckedUpdateWithoutAssignedAttendanceTeacherInput>
+    create: XOR<TeacherCreateWithoutAssignedAttendanceTeacherInput, TeacherUncheckedCreateWithoutAssignedAttendanceTeacherInput>
+    where?: TeacherWhereInput
+  }
+
+  export type TeacherUpdateToOneWithWhereWithoutAssignedAttendanceTeacherInput = {
+    where?: TeacherWhereInput
+    data: XOR<TeacherUpdateWithoutAssignedAttendanceTeacherInput, TeacherUncheckedUpdateWithoutAssignedAttendanceTeacherInput>
+  }
+
+  export type TeacherUpdateWithoutAssignedAttendanceTeacherInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImg?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneWithoutTeacherNestedInput
+    schedules?: WeeklyScheduleUpdateManyWithoutTeacherNestedInput
+    Subject?: SubjectUpdateOneWithoutTeachersNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type TeacherUncheckedUpdateWithoutAssignedAttendanceTeacherInput = {
+    teacherId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImg?: NullableStringFieldUpdateOperationsInput | string | null
+    subjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUncheckedUpdateOneWithoutTeacherNestedInput
+    schedules?: WeeklyScheduleUncheckedUpdateManyWithoutTeacherNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type ClassUpsertWithoutAssignedAttendanceTeacherInput = {
+    update: XOR<ClassUpdateWithoutAssignedAttendanceTeacherInput, ClassUncheckedUpdateWithoutAssignedAttendanceTeacherInput>
+    create: XOR<ClassCreateWithoutAssignedAttendanceTeacherInput, ClassUncheckedCreateWithoutAssignedAttendanceTeacherInput>
+    where?: ClassWhereInput
+  }
+
+  export type ClassUpdateToOneWithWhereWithoutAssignedAttendanceTeacherInput = {
+    where?: ClassWhereInput
+    data: XOR<ClassUpdateWithoutAssignedAttendanceTeacherInput, ClassUncheckedUpdateWithoutAssignedAttendanceTeacherInput>
+  }
+
+  export type ClassUpdateWithoutAssignedAttendanceTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    className?: StringFieldUpdateOperationsInput | string
+    sectionName?: ClassUpdatesectionNameInput | string[]
+    enrollments?: EnrollmentUpdateManyWithoutClassNestedInput
+    results?: ResultUpdateManyWithoutClassNestedInput
+    Event?: EventUpdateManyWithoutClassNestedInput
+    Announcement?: AnnouncementUpdateManyWithoutClassNestedInput
+    schedules?: WeeklyScheduleUpdateManyWithoutClassNestedInput
+    subjects?: SubjectUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassUncheckedUpdateWithoutAssignedAttendanceTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    className?: StringFieldUpdateOperationsInput | string
+    sectionName?: ClassUpdatesectionNameInput | string[]
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutClassNestedInput
+    results?: ResultUncheckedUpdateManyWithoutClassNestedInput
+    Event?: EventUncheckedUpdateManyWithoutClassNestedInput
+    Announcement?: AnnouncementUncheckedUpdateManyWithoutClassNestedInput
+    schedules?: WeeklyScheduleUncheckedUpdateManyWithoutClassNestedInput
+    subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassCreateWithoutAttendanceSessionInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    className: string
+    sectionName?: ClassCreatesectionNameInput | string[]
+    enrollments?: EnrollmentCreateNestedManyWithoutClassInput
+    results?: ResultCreateNestedManyWithoutClassInput
+    Event?: EventCreateNestedManyWithoutClassInput
+    Announcement?: AnnouncementCreateNestedManyWithoutClassInput
+    schedules?: WeeklyScheduleCreateNestedManyWithoutClassInput
+    subjects?: SubjectCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassUncheckedCreateWithoutAttendanceSessionInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    className: string
+    sectionName?: ClassCreatesectionNameInput | string[]
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutClassInput
+    results?: ResultUncheckedCreateNestedManyWithoutClassInput
+    Event?: EventUncheckedCreateNestedManyWithoutClassInput
+    Announcement?: AnnouncementUncheckedCreateNestedManyWithoutClassInput
+    schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutClassInput
+    subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassCreateOrConnectWithoutAttendanceSessionInput = {
+    where: ClassWhereUniqueInput
+    create: XOR<ClassCreateWithoutAttendanceSessionInput, ClassUncheckedCreateWithoutAttendanceSessionInput>
+  }
+
+  export type TeacherCreateWithoutAttendanceSessionInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    name: string
+    phone: string
+    email: string
+    subject?: string | null
+    designation?: string | null
+    department?: string | null
+    joinedAt?: Date | string
+    dob: Date | string
+    gender: string
+    address?: string | null
+    bloodGroup?: string | null
+    profileImg?: string | null
+    user?: UserCreateNestedOneWithoutTeacherInput
+    schedules?: WeeklyScheduleCreateNestedManyWithoutTeacherInput
+    Subject?: SubjectCreateNestedOneWithoutTeachersInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutTeacherInput
+  }
+
+  export type TeacherUncheckedCreateWithoutAttendanceSessionInput = {
+    teacherId?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    name: string
+    phone: string
+    email: string
+    subject?: string | null
+    designation?: string | null
+    department?: string | null
+    joinedAt?: Date | string
+    dob: Date | string
+    gender: string
+    address?: string | null
+    bloodGroup?: string | null
+    profileImg?: string | null
+    subjectId?: string | null
+    user?: UserUncheckedCreateNestedOneWithoutTeacherInput
+    schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutTeacherInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutTeacherInput
+  }
+
+  export type TeacherCreateOrConnectWithoutAttendanceSessionInput = {
+    where: TeacherWhereUniqueInput
+    create: XOR<TeacherCreateWithoutAttendanceSessionInput, TeacherUncheckedCreateWithoutAttendanceSessionInput>
+  }
+
+  export type AttendanceRecordCreateWithoutSessionInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status: $Enums.AttendanceStatus
+    note?: string | null
+    student: StudentCreateNestedOneWithoutAttendanceRecordInput
+  }
+
+  export type AttendanceRecordUncheckedCreateWithoutSessionInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    studentId: number
+    status: $Enums.AttendanceStatus
+    note?: string | null
+  }
+
+  export type AttendanceRecordCreateOrConnectWithoutSessionInput = {
+    where: AttendanceRecordWhereUniqueInput
+    create: XOR<AttendanceRecordCreateWithoutSessionInput, AttendanceRecordUncheckedCreateWithoutSessionInput>
+  }
+
+  export type AttendanceRecordCreateManySessionInputEnvelope = {
+    data: AttendanceRecordCreateManySessionInput | AttendanceRecordCreateManySessionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClassUpsertWithoutAttendanceSessionInput = {
+    update: XOR<ClassUpdateWithoutAttendanceSessionInput, ClassUncheckedUpdateWithoutAttendanceSessionInput>
+    create: XOR<ClassCreateWithoutAttendanceSessionInput, ClassUncheckedCreateWithoutAttendanceSessionInput>
+    where?: ClassWhereInput
+  }
+
+  export type ClassUpdateToOneWithWhereWithoutAttendanceSessionInput = {
+    where?: ClassWhereInput
+    data: XOR<ClassUpdateWithoutAttendanceSessionInput, ClassUncheckedUpdateWithoutAttendanceSessionInput>
+  }
+
+  export type ClassUpdateWithoutAttendanceSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    className?: StringFieldUpdateOperationsInput | string
+    sectionName?: ClassUpdatesectionNameInput | string[]
+    enrollments?: EnrollmentUpdateManyWithoutClassNestedInput
+    results?: ResultUpdateManyWithoutClassNestedInput
+    Event?: EventUpdateManyWithoutClassNestedInput
+    Announcement?: AnnouncementUpdateManyWithoutClassNestedInput
+    schedules?: WeeklyScheduleUpdateManyWithoutClassNestedInput
+    subjects?: SubjectUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassUncheckedUpdateWithoutAttendanceSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    className?: StringFieldUpdateOperationsInput | string
+    sectionName?: ClassUpdatesectionNameInput | string[]
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutClassNestedInput
+    results?: ResultUncheckedUpdateManyWithoutClassNestedInput
+    Event?: EventUncheckedUpdateManyWithoutClassNestedInput
+    Announcement?: AnnouncementUncheckedUpdateManyWithoutClassNestedInput
+    schedules?: WeeklyScheduleUncheckedUpdateManyWithoutClassNestedInput
+    subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassNestedInput
+  }
+
+  export type TeacherUpsertWithoutAttendanceSessionInput = {
+    update: XOR<TeacherUpdateWithoutAttendanceSessionInput, TeacherUncheckedUpdateWithoutAttendanceSessionInput>
+    create: XOR<TeacherCreateWithoutAttendanceSessionInput, TeacherUncheckedCreateWithoutAttendanceSessionInput>
+    where?: TeacherWhereInput
+  }
+
+  export type TeacherUpdateToOneWithWhereWithoutAttendanceSessionInput = {
+    where?: TeacherWhereInput
+    data: XOR<TeacherUpdateWithoutAttendanceSessionInput, TeacherUncheckedUpdateWithoutAttendanceSessionInput>
+  }
+
+  export type TeacherUpdateWithoutAttendanceSessionInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImg?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneWithoutTeacherNestedInput
+    schedules?: WeeklyScheduleUpdateManyWithoutTeacherNestedInput
+    Subject?: SubjectUpdateOneWithoutTeachersNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type TeacherUncheckedUpdateWithoutAttendanceSessionInput = {
+    teacherId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    profileImg?: NullableStringFieldUpdateOperationsInput | string | null
+    subjectId?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUncheckedUpdateOneWithoutTeacherNestedInput
+    schedules?: WeeklyScheduleUncheckedUpdateManyWithoutTeacherNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+  }
+
+  export type AttendanceRecordUpsertWithWhereUniqueWithoutSessionInput = {
+    where: AttendanceRecordWhereUniqueInput
+    update: XOR<AttendanceRecordUpdateWithoutSessionInput, AttendanceRecordUncheckedUpdateWithoutSessionInput>
+    create: XOR<AttendanceRecordCreateWithoutSessionInput, AttendanceRecordUncheckedCreateWithoutSessionInput>
+  }
+
+  export type AttendanceRecordUpdateWithWhereUniqueWithoutSessionInput = {
+    where: AttendanceRecordWhereUniqueInput
+    data: XOR<AttendanceRecordUpdateWithoutSessionInput, AttendanceRecordUncheckedUpdateWithoutSessionInput>
+  }
+
+  export type AttendanceRecordUpdateManyWithWhereWithoutSessionInput = {
+    where: AttendanceRecordScalarWhereInput
+    data: XOR<AttendanceRecordUpdateManyMutationInput, AttendanceRecordUncheckedUpdateManyWithoutSessionInput>
+  }
+
+  export type AttendanceSessionCreateWithoutRecordsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    section: string
+    class: ClassCreateNestedOneWithoutAttendanceSessionInput
+    teacher: TeacherCreateNestedOneWithoutAttendanceSessionInput
+  }
+
+  export type AttendanceSessionUncheckedCreateWithoutRecordsInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    classId: string
+    section: string
+    teacherId: number
+  }
+
+  export type AttendanceSessionCreateOrConnectWithoutRecordsInput = {
+    where: AttendanceSessionWhereUniqueInput
+    create: XOR<AttendanceSessionCreateWithoutRecordsInput, AttendanceSessionUncheckedCreateWithoutRecordsInput>
+  }
+
+  export type StudentCreateWithoutAttendanceRecordInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fullName: string
+    gender: string
+    dob: Date | string
+    doa: Date | string
+    mobile: string
+    bloodGroup?: string | null
+    studentImg?: string | null
+    address?: string | null
+    others?: string | null
+    fatherName: string
+    motherName: string
+    fatherPhone: string
+    gurdianName: string
+    relation: string
+    gurdianPhone: string
+    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
+    results?: ResultCreateNestedManyWithoutStudentInput
+    User?: UserCreateNestedOneWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutAttendanceRecordInput = {
+    studentId?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fullName: string
+    gender: string
+    dob: Date | string
+    doa: Date | string
+    mobile: string
+    bloodGroup?: string | null
+    studentImg?: string | null
+    address?: string | null
+    others?: string | null
+    fatherName: string
+    motherName: string
+    fatherPhone: string
+    gurdianName: string
+    relation: string
+    gurdianPhone: string
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
+    results?: ResultUncheckedCreateNestedManyWithoutStudentInput
+    User?: UserUncheckedCreateNestedOneWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutAttendanceRecordInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutAttendanceRecordInput, StudentUncheckedCreateWithoutAttendanceRecordInput>
+  }
+
+  export type AttendanceSessionUpsertWithoutRecordsInput = {
+    update: XOR<AttendanceSessionUpdateWithoutRecordsInput, AttendanceSessionUncheckedUpdateWithoutRecordsInput>
+    create: XOR<AttendanceSessionCreateWithoutRecordsInput, AttendanceSessionUncheckedCreateWithoutRecordsInput>
+    where?: AttendanceSessionWhereInput
+  }
+
+  export type AttendanceSessionUpdateToOneWithWhereWithoutRecordsInput = {
+    where?: AttendanceSessionWhereInput
+    data: XOR<AttendanceSessionUpdateWithoutRecordsInput, AttendanceSessionUncheckedUpdateWithoutRecordsInput>
+  }
+
+  export type AttendanceSessionUpdateWithoutRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+    class?: ClassUpdateOneRequiredWithoutAttendanceSessionNestedInput
+    teacher?: TeacherUpdateOneRequiredWithoutAttendanceSessionNestedInput
+  }
+
+  export type AttendanceSessionUncheckedUpdateWithoutRecordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+    teacherId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type StudentUpsertWithoutAttendanceRecordInput = {
+    update: XOR<StudentUpdateWithoutAttendanceRecordInput, StudentUncheckedUpdateWithoutAttendanceRecordInput>
+    create: XOR<StudentCreateWithoutAttendanceRecordInput, StudentUncheckedCreateWithoutAttendanceRecordInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutAttendanceRecordInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutAttendanceRecordInput, StudentUncheckedUpdateWithoutAttendanceRecordInput>
+  }
+
+  export type StudentUpdateWithoutAttendanceRecordInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    gender?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    doa?: DateTimeFieldUpdateOperationsInput | Date | string
+    mobile?: StringFieldUpdateOperationsInput | string
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    studentImg?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    others?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherName?: StringFieldUpdateOperationsInput | string
+    motherName?: StringFieldUpdateOperationsInput | string
+    fatherPhone?: StringFieldUpdateOperationsInput | string
+    gurdianName?: StringFieldUpdateOperationsInput | string
+    relation?: StringFieldUpdateOperationsInput | string
+    gurdianPhone?: StringFieldUpdateOperationsInput | string
+    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
+    results?: ResultUpdateManyWithoutStudentNestedInput
+    User?: UserUpdateOneWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutAttendanceRecordInput = {
+    studentId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    gender?: StringFieldUpdateOperationsInput | string
+    dob?: DateTimeFieldUpdateOperationsInput | Date | string
+    doa?: DateTimeFieldUpdateOperationsInput | Date | string
+    mobile?: StringFieldUpdateOperationsInput | string
+    bloodGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    studentImg?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    others?: NullableStringFieldUpdateOperationsInput | string | null
+    fatherName?: StringFieldUpdateOperationsInput | string
+    motherName?: StringFieldUpdateOperationsInput | string
+    fatherPhone?: StringFieldUpdateOperationsInput | string
+    gurdianName?: StringFieldUpdateOperationsInput | string
+    relation?: StringFieldUpdateOperationsInput | string
+    gurdianPhone?: StringFieldUpdateOperationsInput | string
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
+    results?: ResultUncheckedUpdateManyWithoutStudentNestedInput
+    User?: UserUncheckedUpdateOneWithoutStudentNestedInput
+  }
+
+  export type TeacherCreateWithoutSubjectInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    name: string
+    phone: string
+    email: string
+    subject?: string | null
+    designation?: string | null
+    department?: string | null
+    joinedAt?: Date | string
+    dob: Date | string
+    gender: string
+    address?: string | null
+    bloodGroup?: string | null
+    profileImg?: string | null
+    user?: UserCreateNestedOneWithoutTeacherInput
+    schedules?: WeeklyScheduleCreateNestedManyWithoutTeacherInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutTeacherInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateWithoutSubjectInput = {
     teacherId?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     phone: string
     email: string
@@ -21598,6 +27506,8 @@ export namespace Prisma {
     profileImg?: string | null
     user?: UserUncheckedCreateNestedOneWithoutTeacherInput
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutTeacherInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutTeacherInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherCreateOrConnectWithoutSubjectInput = {
@@ -21651,6 +27561,8 @@ export namespace Prisma {
     Event?: EventCreateNestedManyWithoutClassInput
     Announcement?: AnnouncementCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutSubjectsInput = {
@@ -21664,6 +27576,8 @@ export namespace Prisma {
     Event?: EventUncheckedCreateNestedManyWithoutClassInput
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutSubjectsInput = {
@@ -21692,6 +27606,8 @@ export namespace Prisma {
     OR?: TeacherScalarWhereInput[]
     NOT?: TeacherScalarWhereInput | TeacherScalarWhereInput[]
     teacherId?: IntFilter<"Teacher"> | number
+    createdAt?: DateTimeFilter<"Teacher"> | Date | string
+    updatedAt?: DateTimeFilter<"Teacher"> | Date | string
     name?: StringFilter<"Teacher"> | string
     phone?: StringFilter<"Teacher"> | string
     email?: StringFilter<"Teacher"> | string
@@ -21770,6 +27686,7 @@ export namespace Prisma {
     gurdianPhone: string
     results?: ResultCreateNestedManyWithoutStudentInput
     User?: UserCreateNestedOneWithoutStudentInput
+    AttendanceRecord?: AttendanceRecordCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutEnrollmentsInput = {
@@ -21793,6 +27710,7 @@ export namespace Prisma {
     gurdianPhone: string
     results?: ResultUncheckedCreateNestedManyWithoutStudentInput
     User?: UserUncheckedCreateNestedOneWithoutStudentInput
+    AttendanceRecord?: AttendanceRecordUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutEnrollmentsInput = {
@@ -21834,6 +27752,8 @@ export namespace Prisma {
     Announcement?: AnnouncementCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleCreateNestedManyWithoutClassInput
     subjects?: SubjectCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutEnrollmentsInput = {
@@ -21847,6 +27767,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutClassInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutEnrollmentsInput = {
@@ -21885,6 +27807,7 @@ export namespace Prisma {
     gurdianPhone?: StringFieldUpdateOperationsInput | string
     results?: ResultUpdateManyWithoutStudentNestedInput
     User?: UserUpdateOneWithoutStudentNestedInput
+    AttendanceRecord?: AttendanceRecordUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutEnrollmentsInput = {
@@ -21908,6 +27831,7 @@ export namespace Prisma {
     gurdianPhone?: StringFieldUpdateOperationsInput | string
     results?: ResultUncheckedUpdateManyWithoutStudentNestedInput
     User?: UserUncheckedUpdateOneWithoutStudentNestedInput
+    AttendanceRecord?: AttendanceRecordUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type AcademicYearUpsertWithoutEnrollmentsInput = {
@@ -21961,6 +27885,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUpdateManyWithoutClassNestedInput
     subjects?: SubjectUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutEnrollmentsInput = {
@@ -21974,6 +27900,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUncheckedUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutClassNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type AcademicYearCreateWithoutResultsInput = {
@@ -22010,6 +27938,8 @@ export namespace Prisma {
     Announcement?: AnnouncementCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleCreateNestedManyWithoutClassInput
     subjects?: SubjectCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutResultsInput = {
@@ -22023,6 +27953,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutClassInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutResultsInput = {
@@ -22050,6 +27982,7 @@ export namespace Prisma {
     gurdianPhone: string
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     User?: UserCreateNestedOneWithoutStudentInput
+    AttendanceRecord?: AttendanceRecordCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutResultsInput = {
@@ -22073,6 +28006,7 @@ export namespace Prisma {
     gurdianPhone: string
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     User?: UserUncheckedCreateNestedOneWithoutStudentInput
+    AttendanceRecord?: AttendanceRecordUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutResultsInput = {
@@ -22131,6 +28065,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUpdateManyWithoutClassNestedInput
     subjects?: SubjectUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutResultsInput = {
@@ -22144,6 +28080,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUncheckedUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutClassNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type StudentUpsertWithoutResultsInput = {
@@ -22177,6 +28115,7 @@ export namespace Prisma {
     gurdianPhone?: StringFieldUpdateOperationsInput | string
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     User?: UserUpdateOneWithoutStudentNestedInput
+    AttendanceRecord?: AttendanceRecordUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutResultsInput = {
@@ -22200,6 +28139,7 @@ export namespace Prisma {
     gurdianPhone?: StringFieldUpdateOperationsInput | string
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     User?: UserUncheckedUpdateOneWithoutStudentNestedInput
+    AttendanceRecord?: AttendanceRecordUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type ClassCreateWithoutEventInput = {
@@ -22213,6 +28153,8 @@ export namespace Prisma {
     Announcement?: AnnouncementCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleCreateNestedManyWithoutClassInput
     subjects?: SubjectCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutEventInput = {
@@ -22226,6 +28168,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutClassInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutEventInput = {
@@ -22255,6 +28199,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUpdateManyWithoutClassNestedInput
     subjects?: SubjectUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutEventInput = {
@@ -22268,6 +28214,8 @@ export namespace Prisma {
     Announcement?: AnnouncementUncheckedUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutClassNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassCreateWithoutAnnouncementInput = {
@@ -22281,6 +28229,8 @@ export namespace Prisma {
     Event?: EventCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleCreateNestedManyWithoutClassInput
     subjects?: SubjectCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutAnnouncementInput = {
@@ -22294,6 +28244,8 @@ export namespace Prisma {
     Event?: EventUncheckedCreateNestedManyWithoutClassInput
     schedules?: WeeklyScheduleUncheckedCreateNestedManyWithoutClassInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutAnnouncementInput = {
@@ -22323,6 +28275,8 @@ export namespace Prisma {
     Event?: EventUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUpdateManyWithoutClassNestedInput
     subjects?: SubjectUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutAnnouncementInput = {
@@ -22336,6 +28290,8 @@ export namespace Prisma {
     Event?: EventUncheckedUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutClassNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassCreateWithoutSchedulesInput = {
@@ -22349,6 +28305,8 @@ export namespace Prisma {
     Event?: EventCreateNestedManyWithoutClassInput
     Announcement?: AnnouncementCreateNestedManyWithoutClassInput
     subjects?: SubjectCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutSchedulesInput = {
@@ -22362,6 +28320,8 @@ export namespace Prisma {
     Event?: EventUncheckedCreateNestedManyWithoutClassInput
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutClassInput
     subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutClassInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutSchedulesInput = {
@@ -22370,6 +28330,8 @@ export namespace Prisma {
   }
 
   export type TeacherCreateWithoutSchedulesInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     phone: string
     email: string
@@ -22384,10 +28346,14 @@ export namespace Prisma {
     profileImg?: string | null
     user?: UserCreateNestedOneWithoutTeacherInput
     Subject?: SubjectCreateNestedOneWithoutTeachersInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherCreateNestedManyWithoutTeacherInput
+    AttendanceSession?: AttendanceSessionCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherUncheckedCreateWithoutSchedulesInput = {
     teacherId?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     phone: string
     email: string
@@ -22402,6 +28368,8 @@ export namespace Prisma {
     profileImg?: string | null
     subjectId?: string | null
     user?: UserUncheckedCreateNestedOneWithoutTeacherInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedCreateNestedManyWithoutTeacherInput
+    AttendanceSession?: AttendanceSessionUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type TeacherCreateOrConnectWithoutSchedulesInput = {
@@ -22411,6 +28379,8 @@ export namespace Prisma {
 
   export type SubjectCreateWithoutSchedulesInput = {
     id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     teachers?: TeacherCreateNestedManyWithoutSubjectInput
     Class?: ClassCreateNestedManyWithoutSubjectsInput
@@ -22418,6 +28388,8 @@ export namespace Prisma {
 
   export type SubjectUncheckedCreateWithoutSchedulesInput = {
     id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     teachers?: TeacherUncheckedCreateNestedManyWithoutSubjectInput
     Class?: ClassUncheckedCreateNestedManyWithoutSubjectsInput
@@ -22450,6 +28422,8 @@ export namespace Prisma {
     Event?: EventUpdateManyWithoutClassNestedInput
     Announcement?: AnnouncementUpdateManyWithoutClassNestedInput
     subjects?: SubjectUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutSchedulesInput = {
@@ -22463,6 +28437,8 @@ export namespace Prisma {
     Event?: EventUncheckedUpdateManyWithoutClassNestedInput
     Announcement?: AnnouncementUncheckedUpdateManyWithoutClassNestedInput
     subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type TeacherUpsertWithoutSchedulesInput = {
@@ -22477,6 +28453,8 @@ export namespace Prisma {
   }
 
   export type TeacherUpdateWithoutSchedulesInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -22491,10 +28469,14 @@ export namespace Prisma {
     profileImg?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneWithoutTeacherNestedInput
     Subject?: SubjectUpdateOneWithoutTeachersNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutTeacherNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateWithoutSchedulesInput = {
     teacherId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -22509,6 +28491,8 @@ export namespace Prisma {
     profileImg?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUncheckedUpdateOneWithoutTeacherNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type SubjectUpsertWithoutSchedulesInput = {
@@ -22524,6 +28508,8 @@ export namespace Prisma {
 
   export type SubjectUpdateWithoutSchedulesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     teachers?: TeacherUpdateManyWithoutSubjectNestedInput
     Class?: ClassUpdateManyWithoutSubjectsNestedInput
@@ -22531,6 +28517,8 @@ export namespace Prisma {
 
   export type SubjectUncheckedUpdateWithoutSchedulesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     teachers?: TeacherUncheckedUpdateManyWithoutSubjectNestedInput
     Class?: ClassUncheckedUpdateManyWithoutSubjectsNestedInput
@@ -22544,6 +28532,23 @@ export namespace Prisma {
     dayOfWeek: number
     startTime: string
     endTime: string
+  }
+
+  export type AssignedAttendanceTeacherCreateManyTeacherInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    classId: string
+    section: string
+  }
+
+  export type AttendanceSessionCreateManyTeacherInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    classId: string
+    section: string
   }
 
   export type WeeklyScheduleUpdateWithoutTeacherInput = {
@@ -22576,6 +28581,59 @@ export namespace Prisma {
     endTime?: StringFieldUpdateOperationsInput | string
   }
 
+  export type AssignedAttendanceTeacherUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+    class?: ClassUpdateOneRequiredWithoutAssignedAttendanceTeacherNestedInput
+  }
+
+  export type AssignedAttendanceTeacherUncheckedUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AssignedAttendanceTeacherUncheckedUpdateManyWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AttendanceSessionUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+    class?: ClassUpdateOneRequiredWithoutAttendanceSessionNestedInput
+    records?: AttendanceRecordUpdateManyWithoutSessionNestedInput
+  }
+
+  export type AttendanceSessionUncheckedUpdateWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+    records?: AttendanceRecordUncheckedUpdateManyWithoutSessionNestedInput
+  }
+
+  export type AttendanceSessionUncheckedUpdateManyWithoutTeacherInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    classId?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+  }
+
   export type EnrollmentCreateManyStudentInput = {
     id?: string
     createdAt?: Date | string
@@ -22600,6 +28658,15 @@ export namespace Prisma {
     classId: string
     section: string
     subjects?: ResultCreatesubjectsInput | InputJsonValue[]
+  }
+
+  export type AttendanceRecordCreateManyStudentInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessionId: string
+    status: $Enums.AttendanceStatus
+    note?: string | null
   }
 
   export type EnrollmentUpdateWithoutStudentInput = {
@@ -22678,6 +28745,33 @@ export namespace Prisma {
     classId?: StringFieldUpdateOperationsInput | string
     section?: StringFieldUpdateOperationsInput | string
     subjects?: ResultUpdatesubjectsInput | InputJsonValue[]
+  }
+
+  export type AttendanceRecordUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    session?: AttendanceSessionUpdateOneRequiredWithoutRecordsNestedInput
+  }
+
+  export type AttendanceRecordUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AttendanceRecordUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionId?: StringFieldUpdateOperationsInput | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EnrollmentCreateManyAcademicYearInput = {
@@ -22837,6 +28931,23 @@ export namespace Prisma {
     dayOfWeek: number
     startTime: string
     endTime: string
+  }
+
+  export type AssignedAttendanceTeacherCreateManyClassInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teacherId: number
+    section: string
+  }
+
+  export type AttendanceSessionCreateManyClassInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    date: Date | string
+    section: string
+    teacherId: number
   }
 
   export type EnrollmentUpdateWithoutClassInput = {
@@ -23006,6 +29117,8 @@ export namespace Prisma {
 
   export type SubjectUpdateWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     teachers?: TeacherUpdateManyWithoutSubjectNestedInput
     schedules?: WeeklyScheduleUpdateManyWithoutSubjectNestedInput
@@ -23013,6 +29126,8 @@ export namespace Prisma {
 
   export type SubjectUncheckedUpdateWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     teachers?: TeacherUncheckedUpdateManyWithoutSubjectNestedInput
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutSubjectNestedInput
@@ -23020,11 +29135,104 @@ export namespace Prisma {
 
   export type SubjectUncheckedUpdateManyWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AssignedAttendanceTeacherUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+    teacher?: TeacherUpdateOneRequiredWithoutAssignedAttendanceTeacherNestedInput
+  }
+
+  export type AssignedAttendanceTeacherUncheckedUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacherId?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teacherId?: IntFieldUpdateOperationsInput | number
+    section?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AttendanceSessionUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+    teacher?: TeacherUpdateOneRequiredWithoutAttendanceSessionNestedInput
+    records?: AttendanceRecordUpdateManyWithoutSessionNestedInput
+  }
+
+  export type AttendanceSessionUncheckedUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+    teacherId?: IntFieldUpdateOperationsInput | number
+    records?: AttendanceRecordUncheckedUpdateManyWithoutSessionNestedInput
+  }
+
+  export type AttendanceSessionUncheckedUpdateManyWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: StringFieldUpdateOperationsInput | string
+    teacherId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AttendanceRecordCreateManySessionInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    studentId: number
+    status: $Enums.AttendanceStatus
+    note?: string | null
+  }
+
+  export type AttendanceRecordUpdateWithoutSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    student?: StudentUpdateOneRequiredWithoutAttendanceRecordNestedInput
+  }
+
+  export type AttendanceRecordUncheckedUpdateWithoutSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AttendanceRecordUncheckedUpdateManyWithoutSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    status?: EnumAttendanceStatusFieldUpdateOperationsInput | $Enums.AttendanceStatus
+    note?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TeacherCreateManySubjectInput = {
     teacherId?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     name: string
     phone: string
     email: string
@@ -23050,6 +29258,8 @@ export namespace Prisma {
   }
 
   export type TeacherUpdateWithoutSubjectInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -23064,10 +29274,14 @@ export namespace Prisma {
     profileImg?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneWithoutTeacherNestedInput
     schedules?: WeeklyScheduleUpdateManyWithoutTeacherNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutTeacherNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateWithoutSubjectInput = {
     teacherId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -23082,10 +29296,14 @@ export namespace Prisma {
     profileImg?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUncheckedUpdateOneWithoutTeacherNestedInput
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutTeacherNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type TeacherUncheckedUpdateManyWithoutSubjectInput = {
     teacherId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -23141,6 +29359,8 @@ export namespace Prisma {
     Event?: EventUpdateManyWithoutClassNestedInput
     Announcement?: AnnouncementUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutSubjectsInput = {
@@ -23154,6 +29374,8 @@ export namespace Prisma {
     Event?: EventUncheckedUpdateManyWithoutClassNestedInput
     Announcement?: AnnouncementUncheckedUpdateManyWithoutClassNestedInput
     schedules?: WeeklyScheduleUncheckedUpdateManyWithoutClassNestedInput
+    AssignedAttendanceTeacher?: AssignedAttendanceTeacherUncheckedUpdateManyWithoutClassNestedInput
+    AttendanceSession?: AttendanceSessionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateManyWithoutSubjectsInput = {

@@ -535,12 +535,16 @@ export const sidebarItems = [
     icon: BarChartHorizontalBig,
     submenu: [
       {
-        title: "Take Attendence",
-        path: "/dashboard/attendence",
+        title: "Take Attendance",
+        path: "/dashboard/attendance",
       },
       {
-        title: "Asign Attendence",
-        path: "/dashboard/attendence/asign",
+        title: "Asign Teacher",
+        path: "/dashboard/attendance/asign",
+      },
+      {
+        title: "View Attendance",
+        path: "/dashboard/attendance/view",
       },
     ],
   },

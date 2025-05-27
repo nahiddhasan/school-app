@@ -19,23 +19,20 @@ export const GET = async (req: NextRequest) => {
       return NextResponse.json({ message: "Unauthenticated" }, { status: 401 });
     }
 
-    if (!selectedYearId) {
-      return NextResponse.json(
-        { message: "Academic Year ID is required" },
-        { status: 400 }
-      );
-    }
+    const currentYear = await prisma.academicYear.findFirst({
+      where: {
+        current: true,
+      },
+    });
 
-    // 👉 Check if both className
     if (!className) {
       return NextResponse.json({ students: [], totalStudents: 0 });
     }
 
-    // Filters only apply when className available
     const filters: Prisma.StudentWhereInput = {
       enrollments: {
         some: {
-          academicYearId: selectedYearId,
+          academicYearId: selectedYearId ?? currentYear?.id,
           class: { className: className },
           ...(section && { section }),
           ...(search && {
@@ -53,12 +50,10 @@ export const GET = async (req: NextRequest) => {
       }),
     };
 
-    // Total students
     const totalStudents = await prisma.student.count({
       where: filters,
     });
 
-    // Students paginated
     const students = await prisma.student.findMany({
       where: filters,
       take: pageSizes,
@@ -76,12 +71,12 @@ export const GET = async (req: NextRequest) => {
       },
     });
 
-    //sort by classroll
     students.sort((a, b) => {
       const aRoll = a.enrollments[0]?.classRoll ?? 0;
       const bRoll = b.enrollments[0]?.classRoll ?? 0;
-      return aRoll - bRoll; // Use aRoll - bRoll for ascending
+      return aRoll - bRoll;
     });
+
     return NextResponse.json({ students, totalStudents });
   } catch (error) {
     console.error("Failed to fetch students:", error);

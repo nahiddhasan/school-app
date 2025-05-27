@@ -46,13 +46,14 @@ model Teacher {
   bloodGroup  String?
   profileImg  String?
 
-  user      User?
-  schedules WeeklySchedule[]
-  Subject   Subject?         @relation(fields: [subjectId], references: [id])
-  subjectId String?
+  user                      User?
+  schedules                 WeeklySchedule[]
+  Subject                   Subject?                    @relation(fields: [subjectId], references: [id])
+  subjectId                 String?
+  AssignedAttendanceTeacher AssignedAttendanceTeacher[]
+  AttendanceSession         AttendanceSession[]
 }
 
-//TODO: need to change phone number type to number latter on
 model Student {
   studentId    Int      @id @unique @default(autoincrement())
   createdAt    DateTime @default(now())
@@ -76,7 +77,8 @@ model Student {
   enrollments Enrollment[]
   results     Result[]
 
-  User User?
+  User             User?
+  AttendanceRecord AttendanceRecord[]
 }
 
 model AcademicYear {
@@ -97,18 +99,75 @@ model Class {
   className   String   @unique
   sectionName String[]
 
-  enrollments  Enrollment[]
-  results      Result[]
-  Event        Event[]
-  Announcement Announcement[]
-  schedules    WeeklySchedule[]
-  subjects     Subject[]
+  enrollments               Enrollment[]
+  results                   Result[]
+  Event                     Event[]
+  Announcement              Announcement[]
+  schedules                 WeeklySchedule[]
+  subjects                  Subject[]
+  AssignedAttendanceTeacher AssignedAttendanceTeacher[]
+  AttendanceSession         AttendanceSession[]
 }
 
-//TODO:need to add createdAt and updatedAt latter
+model AssignedAttendanceTeacher {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  teacher   Teacher @relation(fields: [teacherId], references: [teacherId])
+  teacherId Int
+
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+
+  section String
+
+  @@unique([teacherId, classId, section])
+}
+
+model AttendanceSession {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  date DateTime
+
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+
+  section String
+
+  teacher   Teacher @relation(fields: [teacherId], references: [teacherId])
+  teacherId Int
+
+  records AttendanceRecord[]
+
+  @@index([classId, section, date])
+}
+
+model AttendanceRecord {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  session   AttendanceSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionId String
+
+  student   Student @relation(fields: [studentId], references: [studentId])
+  studentId Int
+
+  status AttendanceStatus
+
+  note String?
+
+  @@unique([sessionId, studentId])
+}
+
 model Subject {
-  id   String @id @default(cuid())
-  name String
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
 
   teachers  Teacher[]
   schedules WeeklySchedule[]
@@ -190,7 +249,7 @@ model WeeklySchedule {
   class   Class  @relation(fields: [classId], references: [id])
   classId String
 
-  section String // NEW: Add this field to link to a specific section
+  section String
 
   teacher   Teacher @relation(fields: [teacherId], references: [teacherId])
   teacherId Int
@@ -198,9 +257,9 @@ model WeeklySchedule {
   subject   Subject @relation(fields: [subjectId], references: [id])
   subjectId String
 
-  dayOfWeek Int // 0 = Sunday, ..., 6 = Saturday
-  startTime String // e.g., "08:00"
-  endTime   String // e.g., "08:45"
+  dayOfWeek Int
+  startTime String
+  endTime   String
 }
 
 model Notice {
@@ -232,4 +291,12 @@ enum EnrollmentStatus {
   PROMOTED
   REPEATED
   LEFT
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+  ONLEAVE
 }

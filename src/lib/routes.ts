@@ -39,7 +39,12 @@ export const routeAccessMap: { [pattern: string]: Role[] } = {
   "/dashboard/reports(.*)": [Role.ADMIN],
 
   "/dashboard/notices/add(.*)": [Role.ADMIN],
-  "/dashboard/notices": [Role.ADMIN],
+  "/dashboard/notices(.*)": [Role.ADMIN],
+
+  "/dashboard/attendance/view(.*)": [Role.ADMIN, Role.TEACHER],
+  "/dashboard/attendance/take(.*)": [Role.TEACHER],
+  "/dashboard/attendance/asign(.*)": [Role.ADMIN],
+  "/dashboard/attendance(.*)": [Role.TEACHER],
 
   "/dashboard/classes/add-class(.*)": [Role.ADMIN],
   "/dashboard/classes/all-classes(.*)": [Role.ADMIN],

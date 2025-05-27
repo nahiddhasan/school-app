@@ -1,4 +1,4 @@
-import { ExamType, Role } from "@/app/generated/prisma";
+import { AttendanceStatus, ExamType, Role } from "@/app/generated/prisma";
 import { z } from "zod";
 
 const MAX_FILE_SIZE = 2000000;
@@ -211,7 +211,7 @@ export const uploadResultSchema = z.object({
   section: z
     .string({ required_error: "Select Section! " })
     .min(1, { message: "Select Class!" }),
-  examType: z.enum([ExamType.MIDTERM, ExamType.FINAL], {
+  examType: z.nativeEnum(ExamType, {
     required_error: "Select Exam Type",
   }),
   file: csvValidate,
@@ -365,4 +365,24 @@ export const addTeacherSchema = z.object({
   bloodGroup: z.string().optional(),
   profileImg: imageValidateOptional,
   password: z.string().optional(),
+});
+
+export const asignTeacherSchema = z.object({
+  teacher: z.string().min(1, { message: "Teacher is required!" }),
+  className: z.string().min(1, { message: "ClassName is required!" }),
+  section: z.string().min(1, { message: "Section is required!" }),
+});
+
+export const attendanceSchema = z.object({
+  attendanceDate: z.string(),
+  className: z.string(),
+  section: z.string(),
+  teacherId: z.string(),
+  students: z.record(
+    z.string(),
+    z.object({
+      status: z.nativeEnum(AttendanceStatus),
+      note: z.string().optional(),
+    })
+  ),
 });

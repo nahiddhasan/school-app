@@ -133,6 +133,8 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.TeacherScalarFieldEnum = {
   teacherId: 'teacherId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   name: 'name',
   phone: 'phone',
   email: 'email',
@@ -185,8 +187,39 @@ exports.Prisma.ClassScalarFieldEnum = {
   sectionName: 'sectionName'
 };
 
+exports.Prisma.AssignedAttendanceTeacherScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  teacherId: 'teacherId',
+  classId: 'classId',
+  section: 'section'
+};
+
+exports.Prisma.AttendanceSessionScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  date: 'date',
+  classId: 'classId',
+  section: 'section',
+  teacherId: 'teacherId'
+};
+
+exports.Prisma.AttendanceRecordScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  sessionId: 'sessionId',
+  studentId: 'studentId',
+  status: 'status',
+  note: 'note'
+};
+
 exports.Prisma.SubjectScalarFieldEnum = {
   id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   name: 'name'
 };
 
@@ -278,6 +311,14 @@ exports.Role = exports.$Enums.Role = {
   TEACHER: 'TEACHER'
 };
 
+exports.AttendanceStatus = exports.$Enums.AttendanceStatus = {
+  PRESENT: 'PRESENT',
+  ABSENT: 'ABSENT',
+  LATE: 'LATE',
+  EXCUSED: 'EXCUSED',
+  ONLEAVE: 'ONLEAVE'
+};
+
 exports.EnrollmentStatus = exports.$Enums.EnrollmentStatus = {
   ADMITTED: 'ADMITTED',
   PROMOTED: 'PROMOTED',
@@ -301,6 +342,9 @@ exports.Prisma.ModelName = {
   Student: 'Student',
   AcademicYear: 'AcademicYear',
   Class: 'Class',
+  AssignedAttendanceTeacher: 'AssignedAttendanceTeacher',
+  AttendanceSession: 'AttendanceSession',
+  AttendanceRecord: 'AttendanceRecord',
   Subject: 'Subject',
   Enrollment: 'Enrollment',
   Result: 'Result',

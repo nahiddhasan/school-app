@@ -496,3 +496,27 @@ export const createUsersFromStudents = async () => {
     return { error: "An error occurred." };
   }
 };
+
+//delete assign teacher
+export const deleteAsignTeacher = async (id: string) => {
+  const session = await auth();
+
+  try {
+    if (!session) {
+      return { error: "You are not authenticated" };
+    }
+    if (session?.user.role !== "ADMIN") {
+      return { error: "You are not allowed to remove asigned teacher" };
+    }
+    await prisma.assignedAttendanceTeacher.delete({
+      where: {
+        id: id,
+      },
+    });
+    revalidatePath("/dashboard/attendance/asign");
+    return { messege: "Assigned teacher has been deleted" };
+  } catch (error) {
+    console.log(error);
+    return { error: "Delete Failed!" };
+  }
+};
