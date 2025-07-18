@@ -17,15 +17,20 @@ export const GET = async (req: NextRequest) => {
 
     if (!session) {
       return NextResponse.json(
-        { message: "You are not authenticated" },
+        { error: "You are not authenticated" },
         { status: 401 }
       );
     }
 
-    if (session.user.role === "ADMIN" || session.user.role === "TEACHER") {
+    if (
+      session.user.role === "SUPERADMIN" ||
+      session.user.role === "ADMIN" ||
+      session.user.role === "TEACHER"
+    ) {
       const filters: Prisma.EventWhereInput = {
         ...(search && {
           title: { contains: search, mode: "insensitive" },
+          schoolId: session.user.schoolId,
         }),
       };
 
@@ -44,7 +49,7 @@ export const GET = async (req: NextRequest) => {
   } catch (error) {
     console.error("Failed to fetch events:", error);
     return NextResponse.json(
-      { message: "Failed to fetch events" },
+      { error: "Failed to fetch events" },
       { status: 500 }
     );
   }

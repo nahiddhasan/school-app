@@ -7,10 +7,13 @@ export const GET = async () => {
     const session = await auth();
 
     if (!session) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const years = await prisma.academicYear.findMany({
+      where: {
+        schoolId: session.user.schoolId,
+      },
       orderBy: {
         year: "desc",
       },
@@ -20,7 +23,7 @@ export const GET = async () => {
   } catch (error) {
     console.error("Failed to fetch academic years:", error);
     return NextResponse.json(
-      { message: "Internal server error" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

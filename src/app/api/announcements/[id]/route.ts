@@ -18,7 +18,7 @@ export const PUT = async (
       );
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "You are not authorized" },
         { status: 403 }
@@ -41,6 +41,7 @@ export const PUT = async (
     await prisma.announcement.update({
       where: {
         id,
+        schoolId: session.user.schoolId,
       },
       data: {
         classId,
@@ -76,7 +77,7 @@ export const DELETE = async (
       );
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "You are not authorized" },
         { status: 403 }
@@ -86,6 +87,7 @@ export const DELETE = async (
     await prisma.announcement.delete({
       where: {
         id,
+        schoolId: session.user.schoolId,
       },
     });
 

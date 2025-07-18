@@ -28,7 +28,7 @@ const AddNotice = () => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const [file, setFile] = useState<File>();
+  const [files, setFiles] = useState<File[]>([]);
   const [errorMessege, setErrorMessege] = useState("");
 
   const form = useForm<z.infer<typeof addNoticeSchema>>({
@@ -36,15 +36,15 @@ const AddNotice = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof addNoticeSchema>) => {
-    if (!file) {
+    if (files.length === 0) {
       setErrorMessege("File not selected");
       return;
     }
     let url: any;
 
-    if (file) {
+    if (files.length > 0) {
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", files[0]);
 
       const res = await uploadImage(formData);
       url = res.url;
@@ -88,7 +88,12 @@ const AddNotice = () => {
             )}
           />
 
-          <Dropzone onChange={setFile} className="w-full" fileExtension="pdf" />
+          <Dropzone
+            onChange={setFiles}
+            maxFiles={1}
+            className="w-full"
+            fileExtension="pdf"
+          />
           <div className="">
             {errorMessege && (
               <span className="text-destructive">{errorMessege}</span>

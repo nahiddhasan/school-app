@@ -161,10 +161,7 @@ const UpdateScheduleForm = ({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full space-y-4 relative"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
         <h1 className="text-2xl font-semibold pb-2">Update Schedule</h1>
 
         <CustomFormField
@@ -284,7 +281,7 @@ const UpdateScheduleForm = ({
           isLoadingTeacher ||
           isLoadingSubject ||
           (isLoadingSchedule && (
-            <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center">
+            <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center bg-black/65 backdrop:blur-lg">
               <Loader className="animate-spin" />
             </div>
           ))}

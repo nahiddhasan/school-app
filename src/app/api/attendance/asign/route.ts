@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "You are not authorized" },
         { status: 403 }
@@ -38,6 +38,7 @@ export const POST = async (req: NextRequest) => {
       where: {
         classId,
         section,
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -53,6 +54,7 @@ export const POST = async (req: NextRequest) => {
         teacherId: Number(teacherId),
         classId,
         section,
+        schoolId: session.user.schoolId,
       },
     });
     return NextResponse.json({

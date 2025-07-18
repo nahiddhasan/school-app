@@ -128,7 +128,8 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   isDisabled: 'isDisabled',
   teacherId: 'teacherId',
-  studentId: 'studentId'
+  studentId: 'studentId',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.TeacherScalarFieldEnum = {
@@ -147,7 +148,8 @@ exports.Prisma.TeacherScalarFieldEnum = {
   address: 'address',
   bloodGroup: 'bloodGroup',
   profileImg: 'profileImg',
-  subjectId: 'subjectId'
+  subjectId: 'subjectId',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.StudentScalarFieldEnum = {
@@ -168,7 +170,8 @@ exports.Prisma.StudentScalarFieldEnum = {
   fatherPhone: 'fatherPhone',
   gurdianName: 'gurdianName',
   relation: 'relation',
-  gurdianPhone: 'gurdianPhone'
+  gurdianPhone: 'gurdianPhone',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.AcademicYearScalarFieldEnum = {
@@ -176,7 +179,8 @@ exports.Prisma.AcademicYearScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   year: 'year',
-  current: 'current'
+  current: 'current',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.ClassScalarFieldEnum = {
@@ -184,7 +188,8 @@ exports.Prisma.ClassScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   className: 'className',
-  sectionName: 'sectionName'
+  sectionName: 'sectionName',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.AssignedAttendanceTeacherScalarFieldEnum = {
@@ -193,7 +198,8 @@ exports.Prisma.AssignedAttendanceTeacherScalarFieldEnum = {
   updatedAt: 'updatedAt',
   teacherId: 'teacherId',
   classId: 'classId',
-  section: 'section'
+  section: 'section',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.AttendanceSessionScalarFieldEnum = {
@@ -203,7 +209,8 @@ exports.Prisma.AttendanceSessionScalarFieldEnum = {
   date: 'date',
   classId: 'classId',
   section: 'section',
-  teacherId: 'teacherId'
+  teacherId: 'teacherId',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.AttendanceRecordScalarFieldEnum = {
@@ -213,14 +220,16 @@ exports.Prisma.AttendanceRecordScalarFieldEnum = {
   sessionId: 'sessionId',
   studentId: 'studentId',
   status: 'status',
-  note: 'note'
+  note: 'note',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.SubjectScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  name: 'name'
+  name: 'name',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.EnrollmentScalarFieldEnum = {
@@ -232,7 +241,8 @@ exports.Prisma.EnrollmentScalarFieldEnum = {
   classId: 'classId',
   section: 'section',
   status: 'status',
-  classRoll: 'classRoll'
+  classRoll: 'classRoll',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.ResultScalarFieldEnum = {
@@ -248,7 +258,8 @@ exports.Prisma.ResultScalarFieldEnum = {
   classId: 'classId',
   section: 'section',
   studentId: 'studentId',
-  subjects: 'subjects'
+  subjects: 'subjects',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.EventScalarFieldEnum = {
@@ -260,7 +271,8 @@ exports.Prisma.EventScalarFieldEnum = {
   date: 'date',
   startTime: 'startTime',
   endTime: 'endTime',
-  classId: 'classId'
+  classId: 'classId',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.AnnouncementScalarFieldEnum = {
@@ -269,7 +281,8 @@ exports.Prisma.AnnouncementScalarFieldEnum = {
   updatedAt: 'updatedAt',
   title: 'title',
   desc: 'desc',
-  classId: 'classId'
+  classId: 'classId',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.WeeklyScheduleScalarFieldEnum = {
@@ -280,7 +293,8 @@ exports.Prisma.WeeklyScheduleScalarFieldEnum = {
   subjectId: 'subjectId',
   dayOfWeek: 'dayOfWeek',
   startTime: 'startTime',
-  endTime: 'endTime'
+  endTime: 'endTime',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.NoticeScalarFieldEnum = {
@@ -288,7 +302,85 @@ exports.Prisma.NoticeScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   title: 'title',
-  file: 'file'
+  file: 'file',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.SchoolInfoScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  name: 'name',
+  domainPrefix: 'domainPrefix',
+  principalName: 'principalName',
+  address: 'address',
+  phone: 'phone',
+  email: 'email',
+  website: 'website',
+  logoUrl: 'logoUrl',
+  description: 'description',
+  establishedYear: 'establishedYear',
+  motto: 'motto',
+  mission: 'mission',
+  vision: 'vision',
+  superAdminId: 'superAdminId'
+};
+
+exports.Prisma.SliderImageScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  title: 'title',
+  imageUrl: 'imageUrl',
+  description: 'description',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.GalleryImageScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  title: 'title',
+  imageUrl: 'imageUrl',
+  description: 'description',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.HighlightScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  title: 'title',
+  description: 'description',
+  iconUrl: 'iconUrl',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.FacilityScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  title: 'title',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.TestimonialScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  author: 'author',
+  role: 'role',
+  message: 'message',
+  imageUrl: 'imageUrl',
+  schoolId: 'schoolId'
+};
+
+exports.Prisma.PageScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  content: 'content',
+  parentId: 'parentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  schoolId: 'schoolId'
 };
 
 exports.Prisma.SortOrder = {
@@ -306,9 +398,10 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 exports.Role = exports.$Enums.Role = {
-  STUDENT: 'STUDENT',
+  SUPERADMIN: 'SUPERADMIN',
   ADMIN: 'ADMIN',
-  TEACHER: 'TEACHER'
+  TEACHER: 'TEACHER',
+  STUDENT: 'STUDENT'
 };
 
 exports.AttendanceStatus = exports.$Enums.AttendanceStatus = {
@@ -351,7 +444,14 @@ exports.Prisma.ModelName = {
   Event: 'Event',
   Announcement: 'Announcement',
   WeeklySchedule: 'WeeklySchedule',
-  Notice: 'Notice'
+  Notice: 'Notice',
+  SchoolInfo: 'SchoolInfo',
+  SliderImage: 'SliderImage',
+  GalleryImage: 'GalleryImage',
+  Highlight: 'Highlight',
+  Facility: 'Facility',
+  Testimonial: 'Testimonial',
+  Page: 'Page'
 };
 
 /**

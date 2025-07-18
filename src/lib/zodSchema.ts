@@ -386,3 +386,33 @@ export const attendanceSchema = z.object({
     })
   ),
 });
+
+export const pageSchema = z
+  .object({
+    title: z.string().min(1, "Title is required"),
+    isGroupOnly: z.boolean().optional(),
+    slug: z
+      .string()
+      .optional()
+      .refine((val) => !val || /^\/[a-z0-9-/]+$/.test(val), {
+        message:
+          "Slug must start with '/' and use lowercase letters, numbers, dashes, or slashes",
+      }),
+    content: z.string().optional(),
+    parentId: z.string().optional(),
+  })
+  .refine((data) => data.isGroupOnly || data.slug, {
+    path: ["slug"],
+    message: "Slug is required if not a menu group",
+  })
+  .refine((data) => data.isGroupOnly || data.content, {
+    path: ["content"],
+    message: "Content is required if not a menu group",
+  });
+
+export const resultSchema = z.object({
+  className: z.string().min(1, "Select Class"),
+  year: z.coerce.number().int().min(1, "Academic Year is required"),
+  studentId: z.coerce.number().int().min(1, "Student ID is required"),
+  examType: z.nativeEnum(ExamType),
+});

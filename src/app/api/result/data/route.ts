@@ -9,14 +9,11 @@ export const POST = async (req: NextRequest) => {
   try {
     const session = await auth();
     if (!session) {
-      return NextResponse.json(
-        { message: "Not authenticated" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    if (session.user.role !== "ADMIN") {
-      return NextResponse.json({ message: "Not authorized" }, { status: 403 });
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Not authorized" }, { status: 403 });
     }
 
     const body = await req.json();
@@ -31,7 +28,7 @@ export const POST = async (req: NextRequest) => {
     const { className, section } = parsed.data;
 
     const currentYear = await prisma.academicYear.findFirst({
-      where: { current: true },
+      where: { current: true, schoolId: session.user.schoolId },
     });
 
     if (!currentYear) {
@@ -42,6 +39,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const filters: Prisma.StudentWhereInput = {
+      schoolId: session.user.schoolId,
       enrollments: {
         some: {
           academicYearId: currentYear.id,
@@ -84,7 +82,7 @@ export const POST = async (req: NextRequest) => {
   } catch (error) {
     console.error("Export failed:", error);
     return NextResponse.json(
-      { message: "Internal server error" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

@@ -3,7 +3,6 @@
 import { AttendanceStatus } from "@/app/generated/prisma";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/connect";
-import { Role } from "@prisma/client";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -41,14 +40,15 @@ export async function GET(req: NextRequest) {
     const toDate = endOfMonth(fromDate);
 
     const classObj = await prisma.class.findFirst({
-      where: { className },
+      where: { className, schoolId: session.user.schoolId },
     });
 
     if (!classObj) {
       return NextResponse.json({ error: "Class not found!" }, { status: 404 });
     }
 
-    const isAdmin = session.user.role === Role.ADMIN;
+    const isAdmin = session.user.role === "ADMIN";
+    const isSuperAdmin = session.user.role === "SUPERADMIN";
     let isAssigned = null;
 
     if (session.user.teacherId) {
@@ -57,16 +57,18 @@ export async function GET(req: NextRequest) {
           teacherId: Number(session.user.teacherId),
           classId: classObj.id,
           section,
+          schoolId: session.user.schoolId,
         },
       });
     }
 
-    if (!isAdmin && !isAssigned) {
+    if (!isAdmin && !isSuperAdmin && !isAssigned) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     const students = await prisma.student.findMany({
       where: {
+        schoolId: session.user.schoolId,
         enrollments: {
           some: {
             classId: classObj.id,
@@ -79,7 +81,7 @@ export async function GET(req: NextRequest) {
         studentId: true,
         fullName: true,
         enrollments: {
-          where: { academicYearId },
+          where: { academicYearId, schoolId: session.user.schoolId },
           select: { classRoll: true },
         },
       },
@@ -88,6 +90,7 @@ export async function GET(req: NextRequest) {
     const sessions = await prisma.attendanceSession.findMany({
       where: {
         classId: classObj.id,
+        schoolId: session.user.schoolId,
         section,
         date: {
           gte: fromDate,

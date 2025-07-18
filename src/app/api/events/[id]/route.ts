@@ -18,7 +18,7 @@ export const PUT = async (
       );
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "You are not authorized" },
         { status: 403 }
@@ -49,7 +49,7 @@ export const PUT = async (
     const { desc, title, classId, date, startTime, endTime } = parsed.data;
 
     const event = await prisma.event.findFirst({
-      where: { id },
+      where: { id, schoolId: session.user.schoolId },
     });
 
     if (!event) {
@@ -67,6 +67,7 @@ export const PUT = async (
     await prisma.event.update({
       where: {
         id,
+        schoolId: session.user.schoolId,
       },
       data: {
         classId,

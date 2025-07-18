@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import TooltipComp from "@/components/ui/TooltipComp";
+import { Card } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -23,7 +24,7 @@ const DataTable = async ({ data, searchParams }: props) => {
   const { selectedYearId, isCurrent } = searchParams;
   const currentYear = isCurrent === "true";
   return (
-    <div>
+    <Card>
       <Table>
         <TableCaption>
           {data.length > 0 ? " List of Students" : "Nothing Found!"}
@@ -77,24 +78,26 @@ const DataTable = async ({ data, searchParams }: props) => {
                     <Eye size={18} className="cursor-pointer" />
                   </Link>
                 </TooltipComp>
-                {currentYear && session?.user.role === "ADMIN" && (
-                  <TooltipComp text="Update">
-                    <Link
-                      href={{
-                        pathname: `/dashboard/students/edit/${item.studentId}`,
-                        query: {
-                          selectedYearId,
-                          isCurrent,
-                        },
-                      }}
-                    >
-                      <SquarePen
-                        size={16}
-                        className="cursor-pointer text-green-500"
-                      />
-                    </Link>
-                  </TooltipComp>
-                )}
+                {currentYear &&
+                  (session?.user.role === "SUPERADMIN" ||
+                    session?.user.role === "ADMIN") && (
+                    <TooltipComp text="Update">
+                      <Link
+                        href={{
+                          pathname: `/dashboard/students/edit/${item.studentId}`,
+                          query: {
+                            selectedYearId,
+                            isCurrent,
+                          },
+                        }}
+                      >
+                        <SquarePen
+                          size={16}
+                          className="cursor-pointer text-green-500"
+                        />
+                      </Link>
+                    </TooltipComp>
+                  )}
                 <TooltipComp text="Disable">
                   <Trash size={16} className="cursor-pointer text-red-500" />
                 </TooltipComp>
@@ -103,7 +106,7 @@ const DataTable = async ({ data, searchParams }: props) => {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </Card>
   );
 };
 

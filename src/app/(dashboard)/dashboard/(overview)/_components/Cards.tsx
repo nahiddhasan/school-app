@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { Card } from "@/components/ui/card";
 import { prisma } from "@/lib/connect";
 import Image from "next/image";
@@ -6,12 +7,15 @@ import stafs from "/public/img/stafs.png";
 import student from "/public/img/student.png";
 import teacher from "/public/img/teacher.png";
 const Cards = async () => {
+  const session = await auth();
+
   const currentYear = await prisma.academicYear.findFirst({
-    where: { current: true },
+    where: { current: true, schoolId: session?.user.schoolId },
   });
 
   const students = await prisma.student.count({
     where: {
+      schoolId: session?.user.schoolId,
       enrollments: {
         some: {
           academicYearId: currentYear?.id,

@@ -14,8 +14,11 @@ export const GET = async (req: NextRequest) => {
   const { role, teacherId, studentId } = session.user;
 
   try {
-    if (role === "ADMIN") {
+    if (role === "SUPERADMIN" || role === "ADMIN") {
       const schedules = await prisma.weeklySchedule.findMany({
+        where: {
+          schoolId: session.user.schoolId,
+        },
         include: {
           class: {
             select: {
@@ -39,7 +42,7 @@ export const GET = async (req: NextRequest) => {
 
     if (role === "TEACHER") {
       const schedules = await prisma.weeklySchedule.findMany({
-        where: { teacherId },
+        where: { teacherId, schoolId: session.user.schoolId },
         include: {
           class: {
             select: {
@@ -65,15 +68,17 @@ export const GET = async (req: NextRequest) => {
       const currentYear = await prisma.academicYear.findFirst({
         where: {
           current: true,
+          schoolId: session.user.schoolId,
         },
       });
 
       const student = await prisma.student.findUnique({
-        where: { studentId },
+        where: { studentId, schoolId: session.user.schoolId },
         include: {
           enrollments: {
             where: {
               academicYearId: currentYear?.id,
+              schoolId: session.user.schoolId,
             },
 
             include: {
@@ -94,6 +99,7 @@ export const GET = async (req: NextRequest) => {
 
       const schedules = await prisma.weeklySchedule.findMany({
         where: {
+          schoolId: session.user.schoolId,
           classId: enrollment.class.id,
           section: enrollment.section,
         },

@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { Card } from "@/components/ui/card";
 import DeleteEventModal from "./DeleteEventModal";
 import UpdateEventModal from "./UpdateEventModal";
 type props = {
@@ -21,7 +22,7 @@ const EventsDataTable = async ({ data }: props) => {
   const session = await auth();
 
   return (
-    <div>
+    <Card>
       <Table>
         <TableCaption>
           {data.length > 0 ? " List of Events" : "Nothing Found!"}
@@ -63,7 +64,8 @@ const EventsDataTable = async ({ data }: props) => {
 
               <TableCell>
                 <div className="flex justify-center items-center gap-2">
-                  {session?.user.role === "ADMIN" && (
+                  {(session?.user.role === "SUPERADMIN" ||
+                    session?.user.role === "ADMIN") && (
                     <>
                       <TooltipComp text="Update">
                         <UpdateEventModal event={item} />
@@ -79,7 +81,7 @@ const EventsDataTable = async ({ data }: props) => {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </Card>
   );
 };
 

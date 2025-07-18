@@ -112,6 +112,7 @@ export type NoticesType = {
     title: string;
     file: string;
   }[];
+  slug: string;
 };
 
 export type UserWithoutPass = Omit<User, "password">;

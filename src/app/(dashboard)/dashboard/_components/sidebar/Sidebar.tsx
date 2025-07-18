@@ -87,7 +87,8 @@ const Sidebar = () => {
       </div>
 
       <div className="w-[90%] mb-4 mx-auto">
-        {session?.user.role === "ADMIN" && (
+        {(session?.user.role === "SUPERADMIN" ||
+          session?.user.role === "ADMIN") && (
           <Select value={selectedYearId ?? ""} onValueChange={setSelectedYear}>
             <SelectTrigger className="w-full h-10 rounded-md">
               <SelectValue placeholder="Select Academic Year" />

@@ -76,7 +76,8 @@ const TeachersDataTable = async ({ data }: props) => {
               <TableCell>{item.bloodGroup}</TableCell>
               <TableCell className="">
                 <div className="flex justify-center items-center gap-2">
-                  {session?.user.role === "ADMIN" && (
+                  {(session?.user.role === "SUPERADMIN" ||
+                    session?.user.role === "ADMIN") && (
                     <>
                       <TooltipComp text="View">
                         <Link href={`/dashboard/teachers/${item.teacherId}`}>

@@ -4,12 +4,14 @@ import {
   BookOpenCheck,
   BookOpenText,
   Calendar,
+  CalendarCheck,
   CalendarClock,
   CalendarDays,
   List,
   PanelsTopLeft,
   Plus,
   SatelliteDish,
+  School,
   Settings,
   Speech,
   SquareDot,
@@ -532,7 +534,7 @@ export const sidebarItems = [
   },
   {
     title: "Attendence",
-    icon: BarChartHorizontalBig,
+    icon: CalendarCheck,
     submenu: [
       {
         title: "Take Attendance",
@@ -563,6 +565,25 @@ export const sidebarItems = [
     ],
   },
   {
+    title: "Manage School",
+    icon: School,
+    submenu: [
+      ,
+      {
+        title: "Sections",
+        path: "/dashboard/sections",
+      },
+      {
+        title: "Pages",
+        path: "/dashboard/pages",
+      },
+      {
+        title: "Gallary",
+        path: "/dashboard/gallary",
+      },
+    ],
+  },
+  {
     title: "Settings",
     path: "/dashboard/settings",
     icon: Settings,
@@ -587,117 +608,6 @@ export const settingsSidebarItems = [
     ],
   },
 ];
-
-// export const calendarEvents = [
-//   {
-//     title: "Math",
-//     allDay: false,
-//     start: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       8,
-//       0
-//     ),
-//     end: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       8,
-//       45
-//     ),
-//   },
-//   {
-//     title: "English",
-//     allDay: false,
-//     start: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       9,
-//       0
-//     ),
-//     end: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       9,
-//       45
-//     ),
-//   },
-//   {
-//     title: "Biology",
-//     allDay: false,
-//     start: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       10,
-//       0
-//     ),
-//     end: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       10,
-//       45
-//     ),
-//   },
-//   {
-//     title: "Physics",
-//     allDay: false,
-//     start: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       11,
-//       0
-//     ),
-//     end: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       11,
-//       45
-//     ),
-//   },
-//   {
-//     title: "Chemistry",
-//     allDay: false,
-//     start: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       13,
-//       0
-//     ),
-//     end: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       13,
-//       45
-//     ),
-//   },
-//   {
-//     title: "History",
-//     allDay: false,
-//     start: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       14,
-//       0
-//     ),
-//     end: new Date(
-//       new Date().getFullYear(),
-//       new Date().getMonth(),
-//       new Date().getDate(),
-//       14,
-//       45
-//     ),
-//   },
-// ];
 
 export const calendarEvents = [
   // Monday

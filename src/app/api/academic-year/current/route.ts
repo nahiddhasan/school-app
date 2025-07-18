@@ -8,18 +8,18 @@ export const GET = async () => {
 
     if (!session) {
       return NextResponse.json(
-        { message: "You are not authenticated" },
+        { error: "You are not authenticated" },
         { status: 401 }
       );
     }
 
     const currentYear = await prisma.academicYear.findFirst({
-      where: { current: true },
+      where: { current: true, schoolId: session.user.schoolId },
     });
 
     if (!currentYear) {
       return NextResponse.json(
-        { message: "No active academic year found" },
+        { error: "No active academic year found" },
         { status: 404 }
       );
     }
@@ -28,7 +28,7 @@ export const GET = async () => {
   } catch (error) {
     console.error("Failed to fetch academic years:", error);
     return NextResponse.json(
-      { message: "Failed to fetch academic years" },
+      { error: "Failed to fetch academic years" },
       { status: 500 }
     );
   }

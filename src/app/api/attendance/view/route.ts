@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
     const toDate = endOfMonth(fromDate);
 
     const classObj = await prisma.class.findFirst({
-      where: { className },
+      where: { className, schoolId: session.user.schoolId },
     });
 
     if (!classObj) {
@@ -52,6 +52,7 @@ export async function GET(req: NextRequest) {
     }
 
     const isAdmin = session.user.role === Role.ADMIN;
+    const isSuperAdmin = session.user.role === Role.SUPERADMIN;
     let isAssigned = null;
 
     if (session.user.teacherId) {
@@ -60,11 +61,12 @@ export async function GET(req: NextRequest) {
           teacherId: Number(session.user.teacherId),
           classId: classObj.id,
           section,
+          schoolId: session.user.schoolId,
         },
       });
     }
 
-    if (!isAdmin && !isAssigned) {
+    if (!isAdmin && isSuperAdmin && !isAssigned) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
@@ -74,6 +76,7 @@ export async function GET(req: NextRequest) {
         classId: classObj.id,
         section,
         academicYearId,
+        schoolId: session.user.schoolId,
       },
       select: {
         studentId: true,
@@ -92,6 +95,7 @@ export async function GET(req: NextRequest) {
     const sessions = await prisma.attendanceSession.findMany({
       where: {
         classId: classObj.id,
+        schoolId: session.user.schoolId,
         section,
         date: {
           gte: fromDate,
@@ -103,6 +107,7 @@ export async function GET(req: NextRequest) {
         records: {
           where: {
             studentId: { in: paginatedStudentIds },
+            schoolId: session.user.schoolId,
           },
           include: {
             student: {
@@ -110,7 +115,7 @@ export async function GET(req: NextRequest) {
                 studentId: true,
                 fullName: true,
                 enrollments: {
-                  where: { academicYearId },
+                  where: { academicYearId, schoolId: session.user.schoolId },
                   select: { classRoll: true },
                 },
               },

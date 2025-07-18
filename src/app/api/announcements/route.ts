@@ -5,10 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async (req: NextRequest) => {
   try {
     const session = await auth();
-
     if (!session) {
       return NextResponse.json(
-        { message: "You are not authenticated" },
+        { error: "You are not authenticated" },
         { status: 401 }
       );
     }
@@ -19,14 +18,19 @@ export const GET = async (req: NextRequest) => {
       const currentYear = await prisma.academicYear.findFirst({
         where: {
           current: true,
+          schoolId: session.user.schoolId,
         },
       });
 
       const student = await prisma.student.findUnique({
-        where: { studentId: session.user.studentId },
+        where: {
+          studentId: session.user.studentId,
+          schoolId: session.user.schoolId,
+        },
         include: {
           enrollments: {
             where: {
+              schoolId: session.user.schoolId,
               academicYearId: currentYear?.id,
             },
             include: {
@@ -47,6 +51,7 @@ export const GET = async (req: NextRequest) => {
 
       const announcements = await prisma.announcement.findMany({
         where: {
+          schoolId: session.user.schoolId,
           OR: [{ classId: enrollment.classId }, { classId: null }],
         },
         take: 7,
@@ -54,8 +59,15 @@ export const GET = async (req: NextRequest) => {
       });
 
       return NextResponse.json(announcements);
-    } else if (role === "TEACHER" || role === "ADMIN") {
+    } else if (
+      role === "TEACHER" ||
+      role === "ADMIN" ||
+      role === "SUPERADMIN"
+    ) {
       const announcements = await prisma.announcement.findMany({
+        where: {
+          schoolId: session.user.schoolId,
+        },
         take: 7,
         orderBy: { createdAt: "desc" },
       });
@@ -70,7 +82,7 @@ export const GET = async (req: NextRequest) => {
   } catch (error) {
     console.error("Failed to fetch events:", error);
     return NextResponse.json(
-      { message: "Failed to fetch events" },
+      { error: "Failed to fetch events" },
       { status: 500 }
     );
   }

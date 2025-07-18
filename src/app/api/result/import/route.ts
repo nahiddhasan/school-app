@@ -28,7 +28,7 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Not authorized" }, { status: 403 });
     }
 
@@ -49,7 +49,7 @@ export const POST = async (req: NextRequest) => {
     const rows = await parseCSV(csvText);
 
     const currentYear = await prisma.academicYear.findFirst({
-      where: { current: true },
+      where: { current: true, schoolId: session.user.schoolId },
     });
 
     if (!currentYear) {
@@ -64,6 +64,7 @@ export const POST = async (req: NextRequest) => {
     const errorList: { student: string; error: string }[] = [];
 
     const resultData: {
+      schoolId: string;
       studentId: number;
       classId: string;
       section: string;
@@ -79,19 +80,23 @@ export const POST = async (req: NextRequest) => {
     for (const row of rows) {
       try {
         const student = await prisma.student.findUnique({
-          where: { studentId: parseInt(row.studentId) },
+          where: {
+            studentId: parseInt(row.studentId),
+            schoolId: session.user.schoolId,
+          },
         });
 
         if (!student) throw new Error(`Student not found: ${row.studentId}`);
 
         const classObj = await prisma.class.findFirst({
-          where: { className },
+          where: { className, schoolId: session.user.schoolId },
         });
 
         if (!classObj) throw new Error(`Class not found: ${className}`);
 
         const existingResult = await prisma.result.findFirst({
           where: {
+            schoolId: session.user.schoolId,
             studentId: student.studentId,
             academicYearId: currentYear.id,
             type: examType,
@@ -124,6 +129,7 @@ export const POST = async (req: NextRequest) => {
           : ReusltStatus.PASSED;
 
         resultData.push({
+          schoolId: session.user.schoolId,
           studentId: student.studentId,
           classId: classObj.id,
           section,

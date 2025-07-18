@@ -18,7 +18,7 @@ export const PATCH = async (
       );
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "You are not authorized" },
         { status: 403 }
@@ -65,6 +65,7 @@ export const PATCH = async (
     const teacher = await prisma.teacher.findUnique({
       where: {
         teacherId: Number(id),
+        schoolId: session.user.schoolId,
       },
     });
     if (!teacher) {
@@ -84,6 +85,7 @@ export const PATCH = async (
       const updatedTeacher = await prisma.teacher.update({
         where: {
           teacherId: teacher.teacherId,
+          schoolId: session.user.schoolId,
         },
         data: {
           designation,
@@ -103,6 +105,7 @@ export const PATCH = async (
       await prisma.user.update({
         where: {
           teacherId: teacher.teacherId,
+          schoolId: session.user.schoolId,
         },
         data: {
           email: updatedTeacher.email,

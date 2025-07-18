@@ -417,3 +417,11 @@ body,
 .rbc-toolbar button:focus {
   @apply !bg-[hsl(var(--chart-1))] hover:!bg-[hsl(var(--chart-1))]/90 !text-white;
 }
+
+/* quill override  */
+.ql-toolbar.ql-snow {
+  @apply !border-border rounded-t-lg bg-input;
+}
+.ql-container.ql-snow {
+  @apply !border-border rounded-b-lg;
+}

@@ -3,13 +3,9 @@ import { getCurrentUsers } from "@/lib/protectedDataFetch/currentUsers.data";
 import PaginationCom from "../../_components/pagination/Pagination";
 import SearchFilter from "../../_components/SearchFilter";
 import UserDataTable from "../../_components/UserDataTable";
-type props = {
-  searchParams: {
-    pageSize?: string;
-    search?: string;
-  };
-};
-const Admins = async ({ searchParams }: props) => {
+type SearchParams = Record<string, string | undefined>;
+
+const Admins = async ({ searchParams }: { searchParams: SearchParams }) => {
   const { users, usersCount } = await getCurrentUsers({
     ...searchParams,
     type: Role.ADMIN,
@@ -19,7 +15,6 @@ const Admins = async ({ searchParams }: props) => {
       <h1 className="text-2xl py-2">List of all admin users</h1>
       <div className="flex flex-col pb-10">
         <SearchFilter inputLabel="Search By Name or Email..." />
-        <hr />
         <UserDataTable users={users} />
         <hr className="my-2" />
         {usersCount > Number(searchParams.pageSize || "10") && (

@@ -13,8 +13,12 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "School name",
-  description: "School Front Webpage",
+  title: "Edusphere",
+  description:
+    "Edusphere: Empowering schools with seamless management, smart communication, and a modern learning experience.",
+  icons: {
+    icon: "/img/logo1.png",
+  },
 };
 
 export default async function RootLayout({

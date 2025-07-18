@@ -14,13 +14,13 @@ export const GET = async (req: NextRequest) => {
     if (!session) {
       return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
     }
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     if (!selectedYearId) {
       return NextResponse.json(
-        { message: "Academic Year ID is required" },
+        { error: "Academic Year ID is required" },
         { status: 400 }
       );
     }
@@ -35,6 +35,7 @@ export const GET = async (req: NextRequest) => {
     const academicYear = await prisma.academicYear.findFirst({
       where: {
         id: selectedYearId,
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -46,6 +47,7 @@ export const GET = async (req: NextRequest) => {
     }
 
     const filters: Prisma.StudentWhereInput = {
+      schoolId: session.user.schoolId,
       enrollments: {
         some: {
           academicYearId: selectedYearId,
@@ -61,6 +63,7 @@ export const GET = async (req: NextRequest) => {
         enrollments: {
           where: {
             academicYearId: selectedYearId,
+            schoolId: session.user.schoolId,
           },
           include: {
             class: {

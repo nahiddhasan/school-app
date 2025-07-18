@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { Card } from "@/components/ui/card";
 import DeleteAnnouncementModal from "./DeleteAnnonucementModal";
 import UpdateAnnounceModal from "./UpdateAnnouncementModal";
 type props = {
@@ -21,7 +22,7 @@ const AnnouncementDataTable = async ({ data }: props) => {
   const session = await auth();
 
   return (
-    <div>
+    <Card>
       <Table>
         <TableCaption>
           {data.length > 0 ? " List of Announcements" : "Nothing Found!"}
@@ -47,7 +48,8 @@ const AnnouncementDataTable = async ({ data }: props) => {
 
               <TableCell>
                 <div className="flex items-center  gap-2">
-                  {session?.user.role === "ADMIN" && (
+                  {(session?.user.role === "SUPERADMIN" ||
+                    session?.user.role === "ADMIN") && (
                     <>
                       <TooltipComp text="Update">
                         <UpdateAnnounceModal announcement={item} />
@@ -63,7 +65,7 @@ const AnnouncementDataTable = async ({ data }: props) => {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </Card>
   );
 };
 

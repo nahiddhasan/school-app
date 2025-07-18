@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "You are not authorized" },
         { status: 403 }
@@ -45,6 +45,7 @@ export const POST = async (req: NextRequest) => {
     // add schedule for teacher
     const newSchedule = await prisma.weeklySchedule.create({
       data: {
+        schoolId: session.user.schoolId,
         classId,
         section,
         subjectId,

@@ -12,7 +12,6 @@ import { AddClassTypes, UpdateClassType } from "./types";
 import {
   addAcademicYearSchema,
   addNoticeSchema,
-  newAdmissionSchema,
   updateAcademicYearSchema,
   updateProfileSchema,
   updateUserSchema,
@@ -24,6 +23,7 @@ export const logout = async () => {
   await signOut({ redirectTo: "/login" });
 };
 
+//upload image
 export const uploadImage = async (formData: any) => {
   const file = formData.get("file");
   if (!file) {
@@ -47,35 +47,6 @@ export const uploadImage = async (formData: any) => {
   }
 };
 
-// update student
-export const updateStudent = async (
-  studentId: number,
-  values: z.infer<typeof newAdmissionSchema>
-) => {
-  const session = await auth();
-  const validatedData = newAdmissionSchema.safeParse(values);
-  if (!validatedData.success) {
-    return { error: "Invalid fields!" };
-  }
-
-  try {
-    if (session?.user.role !== "ADMIN") {
-      return { error: "Only admin can update a sutdent!" };
-    }
-    await prisma.student.update({
-      where: {
-        studentId: studentId,
-      },
-      data: validatedData.data,
-    });
-    revalidatePath(`/dashboard/students/view/${studentId}`);
-    return { success: "Update Successfull" };
-  } catch (error) {
-    console.log(error);
-    return { error: "Student Update failed!" };
-  }
-};
-
 // add user
 export const addUser = async (values: z.infer<typeof userSchema>) => {
   const session = await auth();
@@ -83,7 +54,7 @@ export const addUser = async (values: z.infer<typeof userSchema>) => {
     throw new Error("You are not authenticated");
   }
 
-  if (session.user.role !== "ADMIN") {
+  if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
     throw new Error("You are not authorized");
   }
 
@@ -100,12 +71,13 @@ export const addUser = async (values: z.infer<typeof userSchema>) => {
     if (!session) {
       return { error: "You are not authenticated!" };
     }
-    if (session?.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return { error: "Only admin can add a user!" };
     }
-    const existingUser = await prisma?.user.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: {
         email,
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -113,8 +85,14 @@ export const addUser = async (values: z.infer<typeof userSchema>) => {
       return { error: "User already exist with this email!" };
     }
 
-    await prisma?.user.create({
-      data: { name, email, role, password: hashedPassword },
+    await prisma.user.create({
+      data: {
+        name,
+        email,
+        role,
+        password: hashedPassword,
+        schoolId: session.user.schoolId,
+      },
     });
     revalidatePath("/dashboard/settings/current-users");
     return { success: "Add User Successfull" };
@@ -148,7 +126,7 @@ export const updateProfile = async (
     }
     if (currentPassword && confirmPassword) {
       const user = await prisma.user.findUnique({
-        where: { id },
+        where: { id, schoolId: session.user.schoolId },
       });
       if (!user) {
         return { error: "User not found!" };
@@ -164,6 +142,7 @@ export const updateProfile = async (
       await prisma.user.update({
         where: {
           id: session.user.id,
+          schoolId: session.user.schoolId,
         },
         data: {
           name,
@@ -175,6 +154,7 @@ export const updateProfile = async (
       await prisma.user.update({
         where: {
           id: session.user.id,
+          schoolId: session.user.schoolId,
         },
         data: {
           name,
@@ -191,31 +171,6 @@ export const updateProfile = async (
   }
 };
 
-//bulkDelete
-export const bulkDelete = async (values: string[]) => {
-  const session = await auth();
-  try {
-    if (!session) {
-      return { error: "You are not authenticated" };
-    }
-    if (session?.user.role !== "ADMIN") {
-      return { error: "You are not allowed to bulk delete" };
-    }
-    await prisma.student.deleteMany({
-      where: {
-        id: {
-          in: values,
-        },
-      },
-    });
-    revalidatePath("dashboard/students/bulk-delete");
-    return { messege: "Delete Successfull" };
-  } catch (error) {
-    console.log(error);
-    return { error: "Delete Failed!" };
-  }
-};
-
 //delete user
 export const deleteUser = async (userId: string) => {
   const session = await auth();
@@ -224,14 +179,16 @@ export const deleteUser = async (userId: string) => {
     if (!session) {
       return { error: "You are not authenticated" };
     }
-    if (session?.user.role !== "ADMIN") {
+    if (session?.user.role !== "SUPERADMIN" && session?.user.role !== "ADMIN") {
       return { error: "You are not allowed to bulk delete" };
     }
     await prisma.user.delete({
       where: {
         id: userId,
+        schoolId: session.user.schoolId,
       },
     });
+
     revalidatePath("dashboard/settings/current-users");
     return { messege: "User has been deleted" };
   } catch (error) {
@@ -241,7 +198,6 @@ export const deleteUser = async (userId: string) => {
 };
 
 //update user
-
 export const updateUser = async (values: z.infer<typeof updateUserSchema>) => {
   const session = await auth();
 
@@ -249,7 +205,7 @@ export const updateUser = async (values: z.infer<typeof updateUserSchema>) => {
     if (!session) {
       return { error: "You are not authenticated" };
     }
-    if (session?.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return { error: "You are not allowed to update user!" };
     }
     if (values.password) {
@@ -260,6 +216,7 @@ export const updateUser = async (values: z.infer<typeof updateUserSchema>) => {
     await prisma.user.update({
       where: {
         id: values.id,
+        schoolId: session.user.schoolId,
       },
       data: {
         ...values,
@@ -280,13 +237,14 @@ export const addClass = async (values: AddClassTypes) => {
   if (!session) {
     throw new Error("You are not authenticated");
   }
-  if (session.user.role !== "ADMIN") {
+  if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
     throw new Error("You are not authorized");
   }
   try {
     const existingClass = await prisma.class.findFirst({
       where: {
         className: values.className,
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -295,7 +253,7 @@ export const addClass = async (values: AddClassTypes) => {
     }
 
     await prisma.class.create({
-      data: values,
+      data: { ...values, schoolId: session.user.schoolId },
     });
     return { messege: "Class Added..." };
   } catch (error) {
@@ -311,13 +269,14 @@ export const updateClass = async (values: UpdateClassType) => {
   if (!session) {
     throw new Error("You are not authenticated");
   }
-  if (session.user.role !== "ADMIN") {
+  if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
     throw new Error("You are not authorized");
   }
   try {
     await prisma.class.update({
       where: {
         id: values.id,
+        schoolId: session.user.schoolId,
       },
       data: values,
     });
@@ -331,16 +290,27 @@ export const updateClass = async (values: UpdateClassType) => {
 
 //add notice
 export const addNotice = async (values: z.infer<typeof addNoticeSchema>) => {
-  console.log(values);
+  const session = await auth();
+  if (!session) {
+    throw new Error("You are not authenticated");
+  }
+
+  if (
+    !session ||
+    (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN")
+  ) {
+    return { error: "Only superadmin can create academic years!" };
+  }
+
   const validatedValues = addNoticeSchema.safeParse(values);
-  console.log(validatedValues);
+
   if (!validatedValues.success) {
     return { error: "Invalid fields error!" };
   }
 
   try {
     const newNotice = await prisma.notice.create({
-      data: values,
+      data: { ...values, schoolId: session.user.schoolId },
     });
     return { messege: "Notice Added..." };
   } catch (error) {
@@ -358,8 +328,8 @@ export const addAcademicYear = async (
     throw new Error("You are not authenticated");
   }
 
-  if (!session || session.user.role !== "ADMIN") {
-    return { error: "Only admin can create academic years!" };
+  if (!session || session.user.role !== "SUPERADMIN") {
+    return { error: "Only superadmin can create academic years!" };
   }
 
   const validatedUserData = addAcademicYearSchema.safeParse(values);
@@ -378,13 +348,13 @@ export const addAcademicYear = async (
   try {
     if (current) {
       await prisma.academicYear.updateMany({
-        where: { current: true },
+        where: { current: true, schoolId: session.user.schoolId },
         data: { current: false },
       });
     }
 
     await prisma.academicYear.create({
-      data: { year, current },
+      data: { year, current, schoolId: session.user.schoolId },
     });
 
     revalidatePath("/dashboard/settings/academic-year");
@@ -401,8 +371,8 @@ export const updateAcademicYear = async (
 ) => {
   const session = await auth();
 
-  if (!session || session.user.role !== "ADMIN") {
-    return { error: "Only admin can update academic years!" };
+  if (!session || session.user.role !== "SUPERADMIN") {
+    return { error: "Only SuperAdmin can update academic years!" };
   }
 
   const validatedUserData = updateAcademicYearSchema.safeParse(values);
@@ -427,13 +397,13 @@ export const updateAcademicYear = async (
 
     if (current) {
       await prisma.academicYear.updateMany({
-        where: { current: true },
+        where: { current: true, schoolId: session.user.schoolId },
         data: { current: false },
       });
     }
 
     await prisma.academicYear.update({
-      where: { id },
+      where: { id, schoolId: session.user.schoolId },
       data: { year, current },
     });
 
@@ -445,22 +415,27 @@ export const updateAcademicYear = async (
   }
 };
 
+// bulk student account
 export const createUsersFromStudents = async () => {
   const session = await auth();
-  if (!session || session.user.role !== "ADMIN") {
+  if (
+    !session ||
+    (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN")
+  ) {
     return { error: "Only admin can update academic years!" };
   }
 
   try {
     const existingStudentIds = (
       await prisma.user.findMany({
-        where: { studentId: { not: null } },
+        where: { studentId: { not: null }, schoolId: session.user.schoolId },
         select: { studentId: true },
       })
     ).map((u) => u.studentId!);
 
     const students = await prisma.student.findMany({
       where: {
+        schoolId: session.user.schoolId,
         studentId: {
           notIn: existingStudentIds,
         },
@@ -473,12 +448,11 @@ export const createUsersFromStudents = async () => {
       try {
         await prisma.user.create({
           data: {
+            schoolId: session.user.schoolId,
             name: student.fullName,
             password: defaultPassword,
             role: Role.STUDENT,
-            student: {
-              connect: { studentId: student.studentId },
-            },
+            studentId: student.studentId,
           },
         });
       } catch (error) {
@@ -505,12 +479,13 @@ export const deleteAsignTeacher = async (id: string) => {
     if (!session) {
       return { error: "You are not authenticated" };
     }
-    if (session?.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return { error: "You are not allowed to remove asigned teacher" };
     }
     await prisma.assignedAttendanceTeacher.delete({
       where: {
         id: id,
+        schoolId: session.user.schoolId,
       },
     });
     revalidatePath("/dashboard/attendance/asign");

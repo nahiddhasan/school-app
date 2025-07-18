@@ -8,17 +8,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String?  @unique
-  password  String
-  name      String
-  image     String?
-  role      Role     @default(STUDENT)
+enum Role {
+  SUPERADMIN
+  ADMIN
+  TEACHER
+  STUDENT
+}
 
-  isDisabled Boolean @default(false)
+enum ReusltStatus {
+  PASSED
+  FAILED
+}
+
+enum ExamType {
+  MIDTERM
+  FINAL
+}
+
+enum EnrollmentStatus {
+  ADMITTED
+  PROMOTED
+  REPEATED
+  LEFT
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+  ONLEAVE
+}
+
+model User {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  email      String?  @unique
+  password   String
+  name       String
+  image      String?
+  role       Role     @default(STUDENT)
+  isDisabled Boolean  @default(false)
 
   teacherId Int?     @unique
   teacher   Teacher? @relation(fields: [teacherId], references: [teacherId])
@@ -26,6 +57,14 @@ model User {
   studentId Int?     @unique
   student   Student? @relation(fields: [studentId], references: [studentId])
 
+  // Link to the school they belong to
+  schoolId String?
+  school   SchoolInfo? @relation("UsersInSchool", fields: [schoolId], references: [id])
+
+  // If this user is a super admin managing schools
+  managedSchools SchoolInfo[] @relation("SuperAdminOfSchools")
+
+  @@index([schoolId])
   @@index([studentId])
 }
 
@@ -52,6 +91,11 @@ model Teacher {
   subjectId                 String?
   AssignedAttendanceTeacher AssignedAttendanceTeacher[]
   AttendanceSession         AttendanceSession[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
 }
 
 model Student {
@@ -74,29 +118,39 @@ model Student {
   relation     String
   gurdianPhone String
 
-  enrollments Enrollment[]
-  results     Result[]
-
+  enrollments      Enrollment[]
+  results          Result[]
   User             User?
   AttendanceRecord AttendanceRecord[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
 }
 
 model AcademicYear {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  year      Int      @unique
+  year      Int
   current   Boolean  @default(false)
 
   enrollments Enrollment[]
   results     Result[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@unique([year, schoolId])
+  @@index([schoolId])
 }
 
 model Class {
   id          String   @id @default(cuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  className   String   @unique
+  className   String
   sectionName String[]
 
   enrollments               Enrollment[]
@@ -107,6 +161,12 @@ model Class {
   subjects                  Subject[]
   AssignedAttendanceTeacher AssignedAttendanceTeacher[]
   AttendanceSession         AttendanceSession[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@unique([className, schoolId])
+  @@index([schoolId])
 }
 
 model AssignedAttendanceTeacher {
@@ -122,7 +182,11 @@ model AssignedAttendanceTeacher {
 
   section String
 
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
   @@unique([teacherId, classId, section])
+  @@index([schoolId])
 }
 
 model AttendanceSession {
@@ -142,7 +206,11 @@ model AttendanceSession {
 
   records AttendanceRecord[]
 
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
   @@index([classId, section, date])
+  @@index([schoolId])
 }
 
 model AttendanceRecord {
@@ -160,6 +228,9 @@ model AttendanceRecord {
 
   note String?
 
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
   @@unique([sessionId, studentId])
 }
 
@@ -172,6 +243,11 @@ model Subject {
   teachers  Teacher[]
   schedules WeeklySchedule[]
   Class     Class[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
 }
 
 model Enrollment {
@@ -191,7 +267,11 @@ model Enrollment {
   status    EnrollmentStatus
   classRoll Int
 
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
   @@index([studentId])
+  @@index([schoolId])
 }
 
 model Result {
@@ -217,7 +297,11 @@ model Result {
 
   subjects Json[]
 
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
   @@index([studentId])
+  @@index([schoolId])
 }
 
 model Event {
@@ -231,6 +315,11 @@ model Event {
   endTime   DateTime
   class     Class?   @relation(fields: [classId], references: [id])
   classId   String?
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
 }
 
 model Announcement {
@@ -241,6 +330,11 @@ model Announcement {
   desc      String
   class     Class?   @relation(fields: [classId], references: [id])
   classId   String?
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
 }
 
 model WeeklySchedule {
@@ -260,6 +354,11 @@ model WeeklySchedule {
   dayOfWeek Int
   startTime String
   endTime   String
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
 }
 
 model Notice {
@@ -268,35 +367,133 @@ model Notice {
   updatedAt DateTime @updatedAt
   title     String
   file      String
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
 }
 
-enum Role {
-  STUDENT
-  ADMIN
-  TEACHER
+model SchoolInfo {
+  id              String   @id @default(cuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  name            String
+  domainPrefix    String?  @unique
+  principalName   String
+  address         String?
+  phone           String?
+  email           String?
+  website         String?
+  logoUrl         String?
+  description     String?
+  establishedYear Int?
+  motto           String?
+  mission         String?
+  vision          String?
+  superAdminId    String
+  superAdmin      User     @relation("SuperAdminOfSchools", fields: [superAdminId], references: [id])
+
+  users                     User[]                      @relation("UsersInSchool")
+  GalleryImages             GalleryImage[]
+  Highlights                Highlight[]
+  Facilities                Facility[]
+  Testimonials              Testimonial[]
+  Teacher                   Teacher[]
+  Student                   Student[]
+  AcademicYear              AcademicYear[]
+  Class                     Class[]
+  AssignedAttendanceTeacher AssignedAttendanceTeacher[]
+  AttendanceSession         AttendanceSession[]
+  Subject                   Subject[]
+  Enrollment                Enrollment[]
+  Result                    Result[]
+  Event                     Event[]
+  Announcement              Announcement[]
+  WeeklySchedule            WeeklySchedule[]
+  Notice                    Notice[]
+  AttendanceRecord          AttendanceRecord[]
+  SliderImage               SliderImage[]
+  Page                      Page[]
 }
 
-enum ReusltStatus {
-  PASSED
-  FAILED
+model SliderImage {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  title       String?
+  imageUrl    String
+  description String?
+  school      SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId    String
+
+  @@index([schoolId])
 }
 
-enum ExamType {
-  MIDTERM
-  FINAL
+model GalleryImage {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  title       String
+  imageUrl    String
+  description String?
+  school      SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId    String
+
+  @@index([schoolId])
 }
 
-enum EnrollmentStatus {
-  ADMITTED
-  PROMOTED
-  REPEATED
-  LEFT
+model Highlight {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  title       String
+  description String
+  iconUrl     String?
+  school      SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId    String
+
+  @@index([schoolId])
 }
 
-enum AttendanceStatus {
-  PRESENT
-  ABSENT
-  LATE
-  EXCUSED
-  ONLEAVE
+model Facility {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  title       String
+  description String
+  imageUrl    String?
+  school      SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId    String
+
+  @@index([schoolId])
+}
+
+model Testimonial {
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  author    String
+  role      String
+  message   String
+  imageUrl  String?
+  school    SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId  String
+
+  @@index([schoolId])
+}
+
+model Page {
+  id      String  @id @default(cuid())
+  title   String
+  slug    String?
+  content String? // null if just a menu group
+
+  parentId String? // This links to another Page's ID
+  parent   Page?   @relation("PageToSubPages", fields: [parentId], references: [id])
+  children Page[]  @relation("PageToSubPages") // All pages where this page is the parent
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId String
+
+  @@unique([schoolId, slug])
+  @@index([schoolId])
 }

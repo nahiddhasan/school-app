@@ -64,6 +64,7 @@ export default {
         session.user.name = token.name;
         session.user.image = token.image as string;
         session.user.email = token.email!;
+        session.user.schoolId = token.schoolId as string;
       }
 
       return session;
@@ -81,6 +82,7 @@ export default {
       token.role = existingUser.role;
       token.studentId = existingUser.studentId;
       token.teacherId = existingUser.teacherId;
+      token.schoolId = existingUser.schoolId;
       return token;
     },
   },

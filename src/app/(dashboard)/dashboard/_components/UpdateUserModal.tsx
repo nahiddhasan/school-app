@@ -94,12 +94,11 @@ const UpdateUserModal = ({ user }: props) => {
               label="Role"
               placeholder="Select Role"
             >
-              <SelectItem value={Role.ADMIN}>{Role.ADMIN}</SelectItem>
-              {/* {Object.keys(Role).map((role) => (
+              {[Role.ADMIN, Role.TEACHER, Role.STUDENT].map((role) => (
                 <SelectItem key={role} value={role}>
                   {role}
                 </SelectItem>
-              ))} */}
+              ))}
             </CustomFormField>
 
             <CustomFormField

@@ -8,14 +8,18 @@ export const GET = async () => {
 
     if (!session) {
       return NextResponse.json(
-        { message: "You are not authenticated" },
+        { error: "You are not authenticated" },
         { status: 401 }
       );
     }
     const isAdmin = session.user.role === "ADMIN";
+    const isSuperAdmin = session.user.role === "SUPERADMIN";
 
-    if (isAdmin) {
+    if (isAdmin || isSuperAdmin) {
       const classes = await prisma.class.findMany({
+        where: {
+          schoolId: session.user.schoolId,
+        },
         orderBy: {
           createdAt: "asc",
         },
@@ -26,6 +30,7 @@ export const GET = async () => {
       const assignedClass = await prisma.assignedAttendanceTeacher.findMany({
         where: {
           teacherId: Number(session.user.teacherId),
+          schoolId: session.user.schoolId,
         },
         include: {
           class: true,
@@ -67,7 +72,7 @@ export const GET = async () => {
   } catch (error) {
     console.error("Failed to fetch Classes:", error);
     return NextResponse.json(
-      { message: "Failed to fetch classes" },
+      { error: "Failed to fetch classes" },
       { status: 500 }
     );
   }

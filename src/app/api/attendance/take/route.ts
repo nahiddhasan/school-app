@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       parsed.data;
 
     const classRecord = await prisma.class.findFirst({
-      where: { className: className },
+      where: { className: className, schoolId: session.user.schoolId },
     });
 
     if (!classRecord) {
@@ -41,6 +41,7 @@ export async function POST(req: Request) {
         classId: classRecord.id,
         section,
         teacherId: Number(teacherId),
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -77,6 +78,7 @@ export async function POST(req: Request) {
         classId: classRecord.id,
         section,
         date: date,
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -96,6 +98,7 @@ export async function POST(req: Request) {
         classId: classRecord.id,
         section,
         teacherId: parseInt(teacherId),
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -106,6 +109,7 @@ export async function POST(req: Request) {
         studentId: parseInt(studentId),
         status: entry.status,
         note: entry.note || null,
+        schoolId: session.user.schoolId,
       })
     );
 

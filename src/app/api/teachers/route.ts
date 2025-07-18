@@ -8,13 +8,14 @@ export const GET = async () => {
 
     if (!session) {
       return NextResponse.json(
-        { message: "You are not authenticated" },
+        { error: "You are not authenticated" },
         { status: 401 }
       );
     }
 
     const teachers = await prisma.teacher.findMany({
       where: {
+        schoolId: session.user.schoolId,
         user: {
           isDisabled: false,
         },
@@ -25,7 +26,7 @@ export const GET = async () => {
   } catch (error) {
     console.error("Failed to fetch teachers:", error);
     return NextResponse.json(
-      { message: "Failed to fetch teachers" },
+      { error: "Failed to fetch teachers" },
       { status: 500 }
     );
   }

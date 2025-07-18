@@ -16,12 +16,15 @@ export const GET = async (req: NextRequest) => {
   try {
     const session = await auth();
     if (!session) {
-      return NextResponse.json({ message: "Unauthenticated" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
     }
-
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Not authorized" }, { status: 403 });
+    }
     const currentYear = await prisma.academicYear.findFirst({
       where: {
         current: true,
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -30,6 +33,7 @@ export const GET = async (req: NextRequest) => {
     }
 
     const filters: Prisma.StudentWhereInput = {
+      schoolId: session.user.schoolId,
       enrollments: {
         some: {
           academicYearId: selectedYearId ?? currentYear?.id,
@@ -62,6 +66,7 @@ export const GET = async (req: NextRequest) => {
         enrollments: {
           where: {
             academicYearId: selectedYearId,
+            schoolId: session.user.schoolId,
           },
           include: {
             class: true,
@@ -81,7 +86,7 @@ export const GET = async (req: NextRequest) => {
   } catch (error) {
     console.error("Failed to fetch students:", error);
     return NextResponse.json(
-      { message: "Internal server error" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

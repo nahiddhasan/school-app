@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
     const currentYear = await prisma.academicYear.findFirst({
       where: {
         current: true,
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -32,6 +33,7 @@ export async function GET(req: NextRequest) {
         class: { className },
         section,
         date: new Date(attendanceDate),
+        schoolId: session.user.schoolId,
       },
       include: {
         records: {
@@ -41,6 +43,7 @@ export async function GET(req: NextRequest) {
                 enrollments: {
                   where: {
                     academicYearId: currentYear?.id,
+                    schoolId: session.user.schoolId,
                   },
                   select: {
                     classRoll: true,
@@ -61,9 +64,10 @@ export async function GET(req: NextRequest) {
     }
 
     const isAdmin = session.user.role === "ADMIN";
+    const isSuperAdmin = session.user.role === "SUPERADMIN";
     const isCreator = attendance.teacherId === session.user.teacherId;
 
-    if (!isAdmin && !isCreator) {
+    if (!isAdmin && isSuperAdmin && !isCreator) {
       return new NextResponse("Forbidden", { status: 403 });
     }
 
@@ -135,7 +139,7 @@ export async function PUT(req: NextRequest) {
 
     // Find the class ID based on className
     const classObj = await prisma.class.findUnique({
-      where: { className: className },
+      where: { className: className, schoolId: session.user.schoolId },
     });
 
     if (!classObj) {
@@ -150,6 +154,7 @@ export async function PUT(req: NextRequest) {
         classId: classObj.id,
         section,
         teacherId: Number(teacherId),
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -166,6 +171,7 @@ export async function PUT(req: NextRequest) {
         date,
         section,
         classId: classObj.id,
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -177,6 +183,7 @@ export async function PUT(req: NextRequest) {
           section,
           classId: classObj.id,
           teacherId: Number(teacherId),
+          schoolId: session.user.schoolId,
         },
       });
     }
@@ -190,6 +197,7 @@ export async function PUT(req: NextRequest) {
               sessionId: sessionRecord.id,
               studentId: parseInt(studentId),
             },
+            schoolId: session.user.schoolId,
           },
           update: {
             status,
@@ -200,6 +208,7 @@ export async function PUT(req: NextRequest) {
             studentId: parseInt(studentId),
             status,
             note,
+            schoolId: session.user.schoolId,
           },
         })
       )

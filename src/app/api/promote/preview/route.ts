@@ -18,12 +18,12 @@ export const GET = async (req: NextRequest) => {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Not authorized" }, { status: 403 });
     }
 
     const currentYear = await prisma.academicYear.findFirst({
-      where: { current: true },
+      where: { current: true, schoolId: session.user.schoolId },
     });
 
     if (!currentYear) {
@@ -39,6 +39,7 @@ export const GET = async (req: NextRequest) => {
     // Get enrollments matching class, section, and year
     const enrollments = await prisma.enrollment.findMany({
       where: {
+        schoolId: session.user.schoolId,
         academicYearId: currentYear.id,
         class: { className },
         section,
@@ -54,6 +55,7 @@ export const GET = async (req: NextRequest) => {
     // Get results for those students
     const results = await prisma.result.findMany({
       where: {
+        schoolId: session.user.schoolId,
         academicYearId: currentYear.id,
         studentId: { in: studentIds },
         type: "FINAL",

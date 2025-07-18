@@ -16,12 +16,13 @@ export const GET = async (req: NextRequest) => {
 
     if (!session) {
       return NextResponse.json(
-        { message: "You are not authenticated" },
+        { error: "You are not authenticated" },
         { status: 401 }
       );
     }
 
     const filters: Prisma.TeacherWhereInput = {
+      schoolId: session.user.schoolId,
       ...(search && {
         OR: [
           { name: { contains: search, mode: "insensitive" } },
@@ -55,7 +56,7 @@ export const GET = async (req: NextRequest) => {
   } catch (error) {
     console.error("Failed to fetch teachers:", error);
     return NextResponse.json(
-      { message: "Failed to fetch teachers" },
+      { error: "Failed to fetch teachers" },
       { status: 500 }
     );
   }

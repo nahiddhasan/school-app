@@ -23,12 +23,13 @@ export const getCurrentUsers = async (values: {
     throw new Error("You are not Logged In!!");
   }
 
-  if (session.user.role !== "ADMIN") {
+  if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
     throw new Error("You are not Authorized!!");
   }
 
   try {
     const filters: Prisma.UserWhereInput = {
+      schoolId: session.user.schoolId,
       ...(values.search && {
         OR: [
           { name: { contains: values.search, mode: "insensitive" } },

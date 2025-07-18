@@ -204,6 +204,7 @@ const AddTeacher = () => {
               name="address"
               label="Enter Address"
               placeholder="Enter Address"
+              required={false}
             />
             <div className="flex gap-2 items-center justify-center">
               <CustomFormField

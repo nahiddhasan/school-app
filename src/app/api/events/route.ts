@@ -10,7 +10,7 @@ export const GET = async (req: NextRequest) => {
 
     if (!session) {
       return NextResponse.json(
-        { message: "You are not authenticated" },
+        { error: "You are not authenticated" },
         { status: 401 }
       );
     }
@@ -24,7 +24,7 @@ export const GET = async (req: NextRequest) => {
 
     if (isNaN(selectedDate.getTime())) {
       return NextResponse.json(
-        { message: "Invalid selected date" },
+        { error: "Invalid selected date" },
         { status: 400 }
       );
     }
@@ -42,15 +42,20 @@ export const GET = async (req: NextRequest) => {
       const currentYear = await prisma.academicYear.findFirst({
         where: {
           current: true,
+          schoolId: session.user.schoolId,
         },
       });
 
       const student = await prisma.student.findUnique({
-        where: { studentId: session.user.studentId },
+        where: {
+          studentId: session.user.studentId,
+          schoolId: session.user.schoolId,
+        },
         include: {
           enrollments: {
             where: {
               academicYearId: currentYear?.id,
+              schoolId: session.user.schoolId,
             },
             include: {
               class: true,
@@ -70,6 +75,7 @@ export const GET = async (req: NextRequest) => {
 
       const events = await prisma.event.findMany({
         where: {
+          schoolId: session.user.schoolId,
           AND: [
             {
               OR: [{ classId: enrollment.classId }, { classId: null }],
@@ -90,9 +96,14 @@ export const GET = async (req: NextRequest) => {
       });
 
       return NextResponse.json(events);
-    } else if (role === "TEACHER" || role === "ADMIN") {
+    } else if (
+      role === "TEACHER" ||
+      role === "ADMIN" ||
+      role === "SUPERADMIN"
+    ) {
       const events = await prisma.event.findMany({
         where: {
+          schoolId: session.user.schoolId,
           AND: [
             {
               date: {
@@ -119,7 +130,7 @@ export const GET = async (req: NextRequest) => {
   } catch (error) {
     console.error("Failed to fetch events:", error);
     return NextResponse.json(
-      { message: "Failed to fetch events" },
+      { error: "Failed to fetch events" },
       { status: 500 }
     );
   }

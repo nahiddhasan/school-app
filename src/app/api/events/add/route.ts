@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "You are not authorized" },
         { status: 403 }
@@ -42,6 +42,7 @@ export const POST = async (req: NextRequest) => {
     // add event
     await prisma.event.create({
       data: {
+        schoolId: session.user.schoolId,
         classId,
         title,
         desc,

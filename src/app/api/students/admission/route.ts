@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "You are not authorized" },
         { status: 403 }
@@ -64,6 +64,7 @@ export const POST = async (req: NextRequest) => {
     const currentYear = await prisma.academicYear.findFirst({
       where: {
         current: true,
+        schoolId: session.user.schoolId,
       },
     });
     if (!currentYear) {
@@ -76,6 +77,7 @@ export const POST = async (req: NextRequest) => {
     // Create Enrollment
     const enrollmentClass = await prisma.class.findFirst({
       where: {
+        schoolId: session.user.schoolId,
         className,
         sectionName: {
           has: section,
@@ -94,6 +96,7 @@ export const POST = async (req: NextRequest) => {
     const result = await prisma.$transaction(async (tx) => {
       const student = await tx.student.create({
         data: {
+          schoolId: session.user.schoolId,
           fullName,
           gender,
           dob: new Date(dob),
@@ -114,6 +117,7 @@ export const POST = async (req: NextRequest) => {
 
       await tx.enrollment.create({
         data: {
+          schoolId: session.user.schoolId,
           studentId: student.studentId,
           section,
           classRoll,
@@ -125,6 +129,7 @@ export const POST = async (req: NextRequest) => {
 
       await tx.user.create({
         data: {
+          schoolId: session.user.schoolId,
           name: student.fullName,
           password: defaultPassword,
           image: student.studentImg,

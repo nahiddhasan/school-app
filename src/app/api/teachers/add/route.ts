@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "You are not authorized" },
         { status: 403 }
@@ -55,6 +55,7 @@ export const POST = async (req: NextRequest) => {
       where: {
         email,
         phone: phone.toString(),
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -71,6 +72,7 @@ export const POST = async (req: NextRequest) => {
       // create teacher
       const teacher = await prisma.teacher.create({
         data: {
+          schoolId: session.user.schoolId,
           designation,
           dob,
           email,
@@ -88,6 +90,7 @@ export const POST = async (req: NextRequest) => {
       // create user associated with the teacher
       await prisma.user.create({
         data: {
+          schoolId: session.user.schoolId,
           name: teacher.name,
           password: defaultPassword,
           image: teacher.profileImg,

@@ -29,12 +29,13 @@ const EventsPage = async ({ searchParams }: { searchParams: searchParams }) => {
     <div className="p-4 m-4 h-[calc(100vh-70px)] overflow-y-auto bg-card rounded-lg">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Events</h1>
-        {session?.user.role === "ADMIN" && (
+        {(session?.user.role === "ADMIN" ||
+          session?.user.role === "SUPERADMIN") && (
           <TooltipComp text="Add Event">
             <Link href={"/dashboard/events/add"}>
               <Plus
                 size={32}
-                className="bg-zinc-700 p-1 rounded-full cursor-pointer hover:bg-zinc-600 transition-all duration-200"
+                className="bg-zinc-300 dark:bg-zinc-700 p-1 rounded-full cursor-pointer hover:bg-zinc-400 dark:hover:bg-zinc-600 transition-all duration-200"
               />
             </Link>
           </TooltipComp>

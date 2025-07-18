@@ -97,3 +97,12 @@ export const getSingleNotice = async (id: string) => {
     throw new Error("Fetching notice failed!");
   }
 };
+
+export async function getSchoolBySubdomain(subdomain: string) {
+  if (!subdomain) return null;
+
+  return await prisma.schoolInfo.findUnique({
+    where: { domainPrefix: subdomain },
+    select: { id: true, name: true, domainPrefix: true }, // limit fields
+  });
+}

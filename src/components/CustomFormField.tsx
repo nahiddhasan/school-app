@@ -167,10 +167,12 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <div className="flex items-center gap-4 size-5">
             <Checkbox
               id={props.name}
+              disabled={props.disabled}
               checked={field.value}
               onCheckedChange={field.onChange}
+              className="size-5"
             />
-            <label htmlFor={props.name} className="">
+            <label htmlFor={props.name} className="whitespace-nowrap">
               {props.label}
             </label>
           </div>
@@ -219,7 +221,7 @@ const CustomFormField = (props: CustomProps) => {
       render={({ field }) => (
         <FormItem className="flex-1">
           {props.fieldType !== FormFieldType.CHECKBOX && label && (
-            <FormLabel className="shad-input-label ">
+            <FormLabel className="w-full">
               {required ? (
                 <span>
                   {label} <span className="text-red-500">*</span>

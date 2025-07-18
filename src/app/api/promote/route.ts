@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "You are not authorized" },
         { status: 403 }
@@ -40,7 +40,7 @@ export const POST = async (req: NextRequest) => {
 
     // Current and Next Academic Year
     const currentYear = await prisma.academicYear.findFirst({
-      where: { current: true },
+      where: { current: true, schoolId: session.user.schoolId },
     });
     if (!currentYear) {
       return NextResponse.json(
@@ -51,7 +51,7 @@ export const POST = async (req: NextRequest) => {
 
     const nextYearValue = new Date().getFullYear() + 1;
     const nextYear = await prisma.academicYear.findFirst({
-      where: { year: nextYearValue },
+      where: { year: nextYearValue, schoolId: session.user.schoolId },
     });
     if (!nextYear) {
       return NextResponse.json(
@@ -63,6 +63,7 @@ export const POST = async (req: NextRequest) => {
     // Get current class ID for selected students
     const enrollmentSample = await prisma.enrollment.findFirst({
       where: {
+        schoolId: session.user.schoolId,
         academicYearId: currentYear.id,
         studentId: { in: studentIds },
       },
@@ -80,6 +81,7 @@ export const POST = async (req: NextRequest) => {
     // Get next class info
     const nextClass = await prisma.class.findFirst({
       where: {
+        schoolId: session.user.schoolId,
         className,
         sectionName: { has: section },
       },
@@ -95,6 +97,7 @@ export const POST = async (req: NextRequest) => {
     // All students in the selected current class & section
     const allClassStudents = await prisma.student.findMany({
       where: {
+        schoolId: session.user.schoolId,
         enrollments: {
           some: {
             academicYearId: currentYear.id,
@@ -111,6 +114,7 @@ export const POST = async (req: NextRequest) => {
     // Skip already promoted/repeated students (already enrolled in next year)
     const alreadyEnrolled = await prisma.enrollment.findMany({
       where: {
+        schoolId: session.user.schoolId,
         academicYearId: nextYear.id,
         studentId: { in: allClassStudentIds },
       },
@@ -140,6 +144,7 @@ export const POST = async (req: NextRequest) => {
     // Fetch positions
     const results = await prisma.result.findMany({
       where: {
+        schoolId: session.user.schoolId,
         studentId: { in: studentIdsToProcess },
         academicYearId: currentYear.id,
       },

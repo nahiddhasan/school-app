@@ -31,22 +31,26 @@ export const GET = async (
     const currentYear = await prisma.academicYear.findFirst({
       where: {
         current: true,
+        schoolId: session.user.schoolId,
       },
     });
     const academicYear = await prisma.academicYear.findFirst({
       where: {
         id: selectedYearId ? selectedYearId : currentYear?.id,
+        schoolId: session.user.schoolId,
       },
     });
 
     const student = await prisma.student.findUnique({
       where: {
         studentId: Number(studentId),
+        schoolId: session.user.schoolId,
       },
       include: {
         enrollments: {
           where: {
             academicYearId: academicYear?.id,
+            schoolId: session.user.schoolId,
           },
           include: {
             class: true,
@@ -55,6 +59,7 @@ export const GET = async (
         results: {
           where: {
             academicYearId: selectedYearId,
+            schoolId: session.user.schoolId,
           },
           include: {
             academicYear: {
@@ -105,8 +110,15 @@ export const PATCH = async (
       );
     }
 
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
+      return NextResponse.json(
+        { error: "You are not authorized" },
+        { status: 403 }
+      );
+    }
+
     const currentYear = await prisma.academicYear.findFirst({
-      where: { current: true },
+      where: { current: true, schoolId: session.user.schoolId },
     });
 
     if (!currentYear) {
@@ -160,7 +172,7 @@ export const PATCH = async (
     } = parsed.data;
 
     const enrollmentClass = await prisma.class.findUnique({
-      where: { className },
+      where: { className, schoolId: session.user.schoolId },
     });
 
     if (!enrollmentClass) {
@@ -173,6 +185,7 @@ export const PATCH = async (
     const student = await prisma.student.findUnique({
       where: {
         studentId: Number(studentId),
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -188,7 +201,10 @@ export const PATCH = async (
 
     await prisma.$transaction(async (tx) => {
       const updatedStudent = await tx.student.update({
-        where: { studentId: student.studentId },
+        where: {
+          studentId: student.studentId,
+          schoolId: session.user.schoolId,
+        },
         data: {
           fullName,
           gender,
@@ -212,6 +228,7 @@ export const PATCH = async (
         where: {
           studentId: student.studentId,
           academicYearId: currentYear.id,
+          schoolId: session.user.schoolId,
         },
         data: {
           section,
@@ -223,6 +240,7 @@ export const PATCH = async (
       await tx.user.update({
         where: {
           studentId: student.studentId,
+          schoolId: session.user.schoolId,
         },
         data: {
           name: updatedStudent.fullName,

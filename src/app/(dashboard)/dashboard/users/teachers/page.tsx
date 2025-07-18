@@ -3,13 +3,9 @@ import { getCurrentUsers } from "@/lib/protectedDataFetch/currentUsers.data";
 import PaginationCom from "../../_components/pagination/Pagination";
 import SearchFilter from "../../_components/SearchFilter";
 import UserDataTable from "../../_components/UserDataTable";
-type props = {
-  searchParams: {
-    pageSize?: string;
-    search?: string;
-  };
-};
-const Teachers = async ({ searchParams }: props) => {
+type SearchParams = Record<string, string | undefined>;
+
+const Teachers = async ({ searchParams }: { searchParams: SearchParams }) => {
   const { users, usersCount } = await getCurrentUsers({
     ...searchParams,
     type: Role.TEACHER,

@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    if (session.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "Not authorized" }, { status: 403 });
     }
 
@@ -44,7 +44,7 @@ export const POST = async (req: NextRequest) => {
 
     // Find current academic year
     const currentYear = await prisma.academicYear.findFirst({
-      where: { current: true },
+      where: { current: true, schoolId: session.user.schoolId },
     });
 
     if (!currentYear) {
@@ -63,7 +63,7 @@ export const POST = async (req: NextRequest) => {
         const { classRoll, dob, doa, ...studentData } = row;
 
         const enrollmentClass = await prisma.class.findUnique({
-          where: { className },
+          where: { className, schoolId: session.user.schoolId },
         });
 
         if (!enrollmentClass)
@@ -71,6 +71,7 @@ export const POST = async (req: NextRequest) => {
 
         const existingStudent = await prisma.student.findFirst({
           where: {
+            schoolId: session.user.schoolId,
             fullName: studentData.fullName,
             dob: new Date(dob),
             fatherName: studentData.fatherName,
@@ -80,6 +81,7 @@ export const POST = async (req: NextRequest) => {
         if (existingStudent) {
           const alreadyEnrolled = await prisma.enrollment.findFirst({
             where: {
+              schoolId: session.user.schoolId,
               studentId: existingStudent.studentId,
               academicYearId: currentYear.id,
               classId: enrollmentClass.id,
@@ -101,11 +103,13 @@ export const POST = async (req: NextRequest) => {
                   ...studentData,
                   dob: new Date(dob),
                   doa: new Date(doa),
+                  schoolId: session.user.schoolId,
                 },
               });
 
           await tx.enrollment.create({
             data: {
+              schoolId: session.user.schoolId,
               classId: enrollmentClass.id,
               section,
               classRoll: parseInt(classRoll, 10),
@@ -135,7 +139,7 @@ export const POST = async (req: NextRequest) => {
   } catch (error: any) {
     console.error("Student import error:", error);
     return NextResponse.json(
-      { message: "Internal server error" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
