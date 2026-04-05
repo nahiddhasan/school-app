@@ -1,4 +1,4 @@
-const DashBoardCard = ({ student }) => {
+const DashBoardCard = ({ student }: { student: any }) => {
   return (
     <div className="w-full h-[120px] flex flex-col items-center justify-center bg-rose-600">
       <h1 className="text-2xl font-semibold">Class Six</h1>

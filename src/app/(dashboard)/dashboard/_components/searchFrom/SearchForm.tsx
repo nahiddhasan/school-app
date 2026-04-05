@@ -1,66 +1,61 @@
 "use client";
+import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Form } from "@/components/ui/form";
+import { SelectItem } from "@/components/ui/select";
 
 import { Class } from "@/lib/types";
 import { searchStudent } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-type props = {
-  classes: Class[];
-  type?: string;
+
+const fetchClasses = async (): Promise<Class[]> => {
+  const response = await fetch("/api/classes");
+  if (!response.ok) {
+    throw new Error("Failed to fetch classes");
+  }
+  return response.json();
 };
-const SearchForm = ({ classes, type = "select" }: props) => {
+
+const SearchForm = ({
+  requireSection = false,
+}: {
+  requireSection?: boolean;
+}) => {
+  const {
+    data: classesData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["classes"],
+    queryFn: fetchClasses,
+  });
+
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
 
-  const params = new URLSearchParams(searchParams);
-  const [searchData, setSearchData] = useState<string | number>();
+  const params = new URLSearchParams(searchParams.toString());
 
-  // handle Search Query
-  const handleSearch = (e: any) => {
-    e.preventDefault();
-    params.set("page", "1");
-    if (searchData) {
-      params.set("search", String(searchData));
-    } else {
-      params.delete("search");
-    }
-    replace(`${pathname}?${params}`);
-  };
+  const selectedClassParam = params.get("className");
+  const selectedSectionParam = params.get("section");
 
-  const form = useForm<z.infer<typeof searchStudent>>({
-    resolver: zodResolver(searchStudent),
+  const searchSchema = searchStudent(requireSection);
+
+  const form = useForm<z.infer<typeof searchSchema>>({
+    resolver: zodResolver(searchSchema),
     defaultValues: {
-      className: params.get("className") || "",
-      section: params.get("section") || "",
+      className: selectedClassParam || "",
+      section: selectedSectionParam || "",
     },
   });
 
   // onsubmit function
-  const onSubmit = async (values: z.infer<typeof searchStudent>) => {
-    if (type === "search") {
-      params.set("page", "1");
-    }
+  const onSubmit = async (values: z.infer<typeof searchSchema>) => {
     params.set("className", values.className);
 
     if (values.section) {
@@ -72,114 +67,63 @@ const SearchForm = ({ classes, type = "select" }: props) => {
     replace(`${pathname}?${params}`);
   };
   const selectedClass = form.watch("className");
+
   return (
     <div className="mb-4">
-      <h1 className="text-3xl mb-2">Select Criteria</h1>
+      <h1 className="text-3xl font-semibold mb-2">Select Criteria</h1>
       <div className="flex items-center gap-4">
-        {/* select search  */}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-2 w-1/2 "
+            className="space-y-0 w-1/2 "
           >
             <div className="flex gap-4 items-end w-full">
-              <div className="flex flex-col gap-2 w-full h-16">
-                <FormField
+              <div className="flex flex-col gap-2 w-full">
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
                   control={form.control}
                   name="className"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Class <span className="text-red-600">*</span>
-                      </FormLabel>
-                      <Select onValueChange={field.onChange}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select Class" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {classes.map((cls) => (
-                            <SelectItem key={cls.id} value={cls.className}>
-                              {cls.className}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  label="Select Class"
+                  placeholder="Select Class"
+                  disabled={isLoading}
+                >
+                  {classesData?.map((cls) => (
+                    <SelectItem key={cls.id} value={cls.className}>
+                      {cls.className}
+                    </SelectItem>
+                  ))}
+                </CustomFormField>
               </div>
-              <div className="flex flex-col gap-2 w-full h-16">
-                <FormField
+              <div className="flex flex-col gap-2 w-full">
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
                   control={form.control}
                   name="section"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Section</FormLabel>
-                      <Select onValueChange={field.onChange}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select Section" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {classes
-                            .find((item) => item.className === selectedClass)
-                            ?.sectionName.map((section) => (
-                              <SelectItem key={section} value={section}>
-                                {section}
-                              </SelectItem>
-                            ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  label="Select Section"
+                  placeholder="Select Section"
+                  required={requireSection}
+                  disabled={isLoading}
+                >
+                  {classesData
+                    ?.find((item) => item.className === selectedClass)
+                    ?.sectionName.map((section) => (
+                      <SelectItem key={section} value={section}>
+                        {section}
+                      </SelectItem>
+                    ))}
+                </CustomFormField>
               </div>
 
               <Button
                 type="submit"
-                variant={"outline"}
-                size={"sm"}
-                className="rounded-sm"
+                variant={"secondary"}
+                className="rounded-md"
               >
                 Submit
               </Button>
             </div>
           </form>
         </Form>
-
-        {/* search by name or roll  */}
-        {type === "search" && (
-          <form onSubmit={handleSearch} className="w-1/2 flex gap-4">
-            {/* search   */}
-            <div className="flex flex-col gap-1 w-full h-16">
-              <label htmlFor="">Search By</label>
-              <input
-                autoComplete="off"
-                className="w-full outline-none border-none ring-1 ring-zinc-400 dark:ring-zinc-800 p-1 px-2 bg-transparent"
-                type="search"
-                placeholder="Search by Name or StudentId"
-                name="search"
-                defaultValue={params.get("search") || ""}
-                onChange={(e) => setSearchData(e.target.value)}
-                value={searchData}
-              />
-            </div>
-
-            <Button
-              type="submit"
-              variant={"outline"}
-              size={"sm"}
-              className="self-end"
-            >
-              Search
-            </Button>
-          </form>
-        )}
       </div>
     </div>
   );

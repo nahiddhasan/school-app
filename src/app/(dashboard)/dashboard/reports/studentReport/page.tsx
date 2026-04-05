@@ -1,14 +1,9 @@
-import { getClasses } from "@/lib/data";
+import { fetchClasses } from "@/lib/actions/classes.action";
 import "jspdf-autotable";
 import SearchStudentReport from "./SearchStudentReport";
-type props = {
-  searchParams: {
-    className?: string;
-    section?: string;
-  };
-};
-const StudentReport = async ({ searchParams }: props) => {
-  const classes = await getClasses();
+
+const StudentReport = async () => {
+  const classes = await fetchClasses();
 
   return (
     <div className="p-4 space-y-6">

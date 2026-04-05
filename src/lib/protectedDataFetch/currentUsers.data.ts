@@ -1,3 +1,4 @@
+import { Prisma, Role } from "@/app/generated/prisma";
 import { auth } from "@/auth";
 import { prisma } from "../connect";
 
@@ -6,6 +7,7 @@ export const getCurrentUsers = async (values: {
   pageSize?: string;
   search?: string;
   page?: string;
+  type: Role;
 }) => {
   const session = await auth();
 
@@ -21,18 +23,20 @@ export const getCurrentUsers = async (values: {
     throw new Error("You are not Logged In!!");
   }
 
-  if (session.user.role !== "ADMIN") {
+  if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
     throw new Error("You are not Authorized!!");
   }
 
   try {
-    const filters: any = {
+    const filters: Prisma.UserWhereInput = {
+      schoolId: session.user.schoolId,
       ...(values.search && {
         OR: [
           { name: { contains: values.search, mode: "insensitive" } },
           { email: { contains: values.search, mode: "insensitive" } },
         ],
       }),
+      role: values.type,
     };
 
     const users = await prisma.user.findMany({
@@ -47,7 +51,11 @@ export const getCurrentUsers = async (values: {
         name: true,
         email: true,
         image: true,
+        studentId: true,
         role: true,
+        isDisabled: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
 

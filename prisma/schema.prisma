@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/app/generated/prisma"
+  provider      = "prisma-client-js"
+  // output        = "../src/app/generated/prisma"
+  binaryTargets = ["native", "windows", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -8,30 +9,100 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String
-  name      String
-  image     String?
-  role      Role     @default(USER)
-}
-
 enum Role {
-  USER
+  SUPERADMIN
   ADMIN
   TEACHER
+  STUDENT
+}
+
+enum ReusltStatus {
+  PASSED
+  FAILED
+}
+
+enum ExamType {
+  MIDTERM
+  FINAL
+}
+
+enum EnrollmentStatus {
+  ADMITTED
+  PROMOTED
+  REPEATED
+  LEFT
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+  ONLEAVE
+}
+
+model User {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  email      String?  @unique
+  password   String
+  name       String
+  image      String?
+  role       Role     @default(STUDENT)
+  isDisabled Boolean  @default(false)
+
+  teacherId Int?     @unique
+  teacher   Teacher? @relation(fields: [teacherId], references: [teacherId])
+
+  studentId Int?     @unique
+  student   Student? @relation(fields: [studentId], references: [studentId])
+
+  // Link to the school they belong to
+  schoolId String?
+  school   SchoolInfo? @relation("UsersInSchool", fields: [schoolId], references: [id])
+
+  // If this user is a super admin managing schools
+  managedSchools SchoolInfo[] @relation("SuperAdminOfSchools")
+
+  @@index([schoolId])
+  @@index([studentId])
+}
+
+model Teacher {
+  teacherId   Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  phone       String   @unique
+  email       String   @unique
+  subject     String?
+  designation String?
+  department  String?
+  joinedAt    DateTime @default(now())
+  dob         DateTime
+  gender      String
+  address     String?
+  bloodGroup  String?
+  profileImg  String?
+
+  user                      User?
+  schedules                 WeeklySchedule[]
+  Subject                   Subject?                    @relation(fields: [subjectId], references: [id])
+  subjectId                 String?
+  AssignedAttendanceTeacher AssignedAttendanceTeacher[]
+  AttendanceSession         AttendanceSession[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
 }
 
 model Student {
-  id           String   @id @default(cuid())
+  studentId    Int      @id @unique @default(autoincrement())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  studentId    Int      @unique @default(autoincrement())
-  classRoll    Int
-  section      String
   fullName     String
   gender       String
   dob          DateTime
@@ -47,54 +118,248 @@ model Student {
   gurdianName  String
   relation     String
   gurdianPhone String
-  class        Class    @relation(fields: [className], references: [className])
-  className    String
-  session      Session  @relation(fields: [sessionName], references: [year])
-  sessionName  Int
 
-  result Result[]
+  enrollments      Enrollment[]
+  results          Result[]
+  User             User?
+  AttendanceRecord AttendanceRecord[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
+}
+
+model AcademicYear {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  year      Int
+  current   Boolean  @default(false)
+
+  enrollments Enrollment[]
+  results     Result[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@unique([year, schoolId])
+  @@index([schoolId])
 }
 
 model Class {
-  id          String    @id @default(cuid())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  className   String    @unique
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  className   String
   sectionName String[]
-  student     Student[]
-  result      Result[]
+
+  enrollments               Enrollment[]
+  results                   Result[]
+  Event                     Event[]
+  Announcement              Announcement[]
+  schedules                 WeeklySchedule[]
+  subjects                  Subject[]
+  AssignedAttendanceTeacher AssignedAttendanceTeacher[]
+  AttendanceSession         AttendanceSession[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@unique([className, schoolId])
+  @@index([schoolId])
 }
 
-model Session {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  year      Int       @unique @default(0)
-  current   Boolean   @default(true)
-  student   Student[]
-  result    Result[]
+model AssignedAttendanceTeacher {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  teacher   Teacher @relation(fields: [teacherId], references: [teacherId])
+  teacherId Int
+
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+
+  section String
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@unique([teacherId, classId, section])
+  @@index([schoolId])
+}
+
+model AttendanceSession {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  date DateTime
+
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+
+  section String
+
+  teacher   Teacher @relation(fields: [teacherId], references: [teacherId])
+  teacherId Int
+
+  records AttendanceRecord[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([classId, section, date])
+  @@index([schoolId])
+}
+
+model AttendanceRecord {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  session   AttendanceSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionId String
+
+  student   Student @relation(fields: [studentId], references: [studentId])
+  studentId Int
+
+  status AttendanceStatus
+
+  note String?
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@unique([sessionId, studentId])
+}
+
+model Subject {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+
+  teachers  Teacher[]
+  schedules WeeklySchedule[]
+  Class     Class[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  student   Student  @relation(fields: [studentId], references: [studentId])
+  studentId Int
+
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+  academicYearId String
+
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+
+  section   String
+  status    EnrollmentStatus
+  classRoll Int
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([studentId])
+  @@index([schoolId])
 }
 
 model Result {
-  id         String   @id @default(cuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id         String       @id @default(cuid())
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
   gpa        Float?
-  status     String
-  type       String
+  status     ReusltStatus
+  type       ExamType
   totalMarks Int
   position   Int?
 
-  session Session @relation(fields: [year], references: [year])
-  year    Int
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+  academicYearId String
 
-  class     Class   @relation(fields: [className], references: [className], onDelete: Cascade)
-  className String
-  section   String
+  class   Class  @relation(fields: [classId], references: [id], onDelete: Cascade)
+  classId String
+
+  section String
+
   student   Student @relation(fields: [studentId], references: [studentId], onDelete: Cascade)
-  studentId Int     @unique
+  studentId Int
 
   subjects Json[]
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([studentId])
+  @@index([schoolId])
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  desc      String
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
+  class     Class?   @relation(fields: [classId], references: [id])
+  classId   String?
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  desc      String
+  class     Class?   @relation(fields: [classId], references: [id])
+  classId   String?
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
+}
+
+model WeeklySchedule {
+  id String @id @default(cuid())
+
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String
+
+  section String
+
+  teacher   Teacher @relation(fields: [teacherId], references: [teacherId])
+  teacherId Int
+
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId String
+
+  dayOfWeek Int
+  startTime String
+  endTime   String
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
 }
 
 model Notice {
@@ -103,4 +368,133 @@ model Notice {
   updatedAt DateTime @updatedAt
   title     String
   file      String
+
+  schoolId String
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
+}
+
+model SchoolInfo {
+  id              String   @id @default(cuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  name            String
+  domainPrefix    String?  @unique
+  principalName   String
+  address         String?
+  phone           String?
+  email           String?
+  website         String?
+  logoUrl         String?
+  description     String?
+  establishedYear Int?
+  motto           String?
+  mission         String?
+  vision          String?
+  superAdminId    String
+  superAdmin      User     @relation("SuperAdminOfSchools", fields: [superAdminId], references: [id])
+
+  users                     User[]                      @relation("UsersInSchool")
+  GalleryImages             GalleryImage[]
+  Highlights                Highlight[]
+  Facilities                Facility[]
+  Testimonials              Testimonial[]
+  Teacher                   Teacher[]
+  Student                   Student[]
+  AcademicYear              AcademicYear[]
+  Class                     Class[]
+  AssignedAttendanceTeacher AssignedAttendanceTeacher[]
+  AttendanceSession         AttendanceSession[]
+  Subject                   Subject[]
+  Enrollment                Enrollment[]
+  Result                    Result[]
+  Event                     Event[]
+  Announcement              Announcement[]
+  WeeklySchedule            WeeklySchedule[]
+  Notice                    Notice[]
+  AttendanceRecord          AttendanceRecord[]
+  SliderImage               SliderImage[]
+  Page                      Page[]
+}
+
+model SliderImage {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  title       String?
+  imageUrl    String
+  description String?
+  school      SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId    String
+
+  @@index([schoolId])
+}
+
+model GalleryImage {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  title       String
+  imageUrl    String
+  description String?
+  school      SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId    String
+
+  @@index([schoolId])
+}
+
+model Highlight {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  title       String
+  description String
+  iconUrl     String?
+  school      SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId    String
+
+  @@index([schoolId])
+}
+
+model Facility {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  title       String
+  description String
+  imageUrl    String?
+  school      SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId    String
+
+  @@index([schoolId])
+}
+
+model Testimonial {
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  author    String
+  role      String
+  message   String
+  imageUrl  String?
+  school    SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId  String
+
+  @@index([schoolId])
+}
+
+model Page {
+  id      String  @id @default(cuid())
+  title   String
+  slug    String?
+  content String? // null if just a menu group
+
+  parentId String? // This links to another Page's ID
+  parent   Page?   @relation("PageToSubPages", fields: [parentId], references: [id])
+  children Page[]  @relation("PageToSubPages") // All pages where this page is the parent
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  school   SchoolInfo @relation(fields: [schoolId], references: [id])
+  schoolId String
+
+  @@unique([schoolId, slug])
+  @@index([schoolId])
 }

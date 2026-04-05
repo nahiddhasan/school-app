@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Result" ALTER COLUMN "gpa" DROP NOT NULL;

@@ -3,11 +3,12 @@ import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { SelectItem } from "@/components/ui/select";
-import { importStudent } from "@/lib/actions";
-import { parseCSV } from "@/lib/handlerFn";
+import { importStudent } from "@/lib/actions/importStudent.action";
 import { Class } from "@/lib/types";
 import { importStudentSchema } from "@/lib/zodSchema";
+import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -16,27 +17,46 @@ type props = {
   classes: Class[];
 };
 const StudentImportForm = ({ classes }: props) => {
+  const { isCurrent } = useAcademicYearStore();
   const form = useForm<z.infer<typeof importStudentSchema>>({
     resolver: zodResolver(importStudentSchema),
   });
 
+  const mutation = useMutation({
+    mutationFn: ({
+      file,
+      className,
+      section,
+    }: {
+      file: File;
+      className: string;
+      section: string;
+    }) => importStudent(file, className, section),
+  });
+
   // onsubmit function
   const onSubmit = async (values: z.infer<typeof importStudentSchema>) => {
-    const { file, ...others } = values;
-    parseCSV(file[0])
-      .then((data) => {
-        importStudent(data, others).then((res) => {
+    const { file, className, section } = values;
+    if (!file?.length) return toast.error("Please select a CSV file");
+
+    mutation.mutate(
+      { file: file[0], className, section },
+      {
+        onSuccess: (res) => {
           if (res.success) {
+            res.details.errors.map((err: { student: string; error: string }) =>
+              toast.error(`student name: ${err.student}, error: ${err.error}`)
+            );
             toast.success(res.success);
           } else {
-            toast.error(res.error);
+            toast.error(res.message || "Import failed");
           }
-        });
-      })
-      .catch((errors) => {
-        console.log(errors);
-        toast.error("Invalid CSV data");
-      });
+        },
+        onError: () => {
+          toast.error("Failed to upload file");
+        },
+      }
+    );
   };
   const selectedClass = form.watch("className");
   const fileRef = form.register("file");
@@ -45,7 +65,7 @@ const StudentImportForm = ({ classes }: props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-2 grid grid-cols-4 gap-4 items-center my-4"
+        className="grid grid-cols-4 gap-4 items-center my-4"
       >
         <CustomFormField
           fieldType={FormFieldType.SELECT}
@@ -90,8 +110,8 @@ const StudentImportForm = ({ classes }: props) => {
           <Button
             type="submit"
             variant={"outline"}
-            size={"sm"}
-            className="rounded-sm"
+            className="rounded-md"
+            disabled={mutation.isPending || !isCurrent}
           >
             Submit
           </Button>

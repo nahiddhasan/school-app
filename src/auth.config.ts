@@ -1,7 +1,10 @@
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import credentials from "next-auth/providers/credentials";
-import { getUserByEmail } from "./lib/data";
+import { Role } from "./app/generated/prisma";
+import { prisma } from "./lib/connect";
+import { getUserById } from "./lib/data";
 import { LoginSchema } from "./lib/zodSchema";
 
 export default {
@@ -12,7 +15,20 @@ export default {
 
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
-          const user = await getUserByEmail(email);
+
+          const isNumericId = /^\d+$/.test(email);
+
+          const user = await prisma.user.findFirst({
+            where: {
+              OR: [
+                { email: isNumericId ? undefined : email },
+                { studentId: isNumericId ? Number(email) : undefined },
+                { teacherId: isNumericId ? Number(email) : undefined },
+              ],
+            },
+          });
+
+          // const user = await getUserByEmail(email);
 
           if (!user || !user.password) return null;
 
@@ -26,4 +42,54 @@ export default {
       },
     }),
   ],
+  callbacks: {
+    async session({ token, session }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
+
+      if (token.role && session.user) {
+        session.user.role = token.role as Role;
+      }
+
+      if (session.user) {
+        if (token.teacherId) {
+          session.user.teacherId = token.teacherId as number;
+        } else if (token.studentId) {
+          session.user.studentId = token.studentId as number;
+        }
+      }
+
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.image = token.image as string;
+        session.user.email = token.email!;
+        session.user.schoolId = token.schoolId as string;
+      }
+
+      return session;
+    },
+    async jwt({ token }) {
+      if (!token.sub) return token;
+
+      const existingUser = await getUserById(token.sub);
+
+      if (!existingUser) return token;
+
+      token.name = existingUser.name;
+      token.image = existingUser.image;
+      token.email = existingUser.email;
+      token.role = existingUser.role;
+      token.studentId = existingUser.studentId;
+      token.teacherId = existingUser.teacherId;
+      token.schoolId = existingUser.schoolId;
+      return token;
+    },
+  },
+  adapter: PrismaAdapter(prisma),
+  session: { strategy: "jwt" },
+  pages: {
+    signIn: "/login",
+    error: "/auth/error",
+  },
 } satisfies NextAuthConfig;

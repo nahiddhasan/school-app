@@ -1,137 +1,209 @@
 "use client";
-import { sidebarItems } from "@/const/data";
-import { SidebarItem as SidebarItemType } from "@/lib/types";
-import { cn } from "@/lib/utils";
+
+import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, CircleDashed } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { AcademicYear } from "@/app/generated/prisma";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { sidebarItems } from "@/const/data";
+import { hasAccess } from "@/lib/handlerFn";
+import { SidebarItem as SidebarItemType } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import { useAcademicYearStore } from "@/store/useAcademicYearStore";
 import { ModeToggle } from "../navbar/ModeToggle";
 
+// Fetchers
+const fetchAcademicYears = async () => {
+  const res = await fetch("/api/academic-years");
+  if (!res.ok) throw new Error("Failed to fetch academic years");
+  return res.json();
+};
+
+const fetchCurrentYear = async (): Promise<AcademicYear> => {
+  const res = await fetch("/api/academic-year/current");
+  if (!res.ok) throw new Error("Failed to fetch current year");
+  return res.json();
+};
+
 const Sidebar = () => {
-  const depthLevel = 0;
+  const { selectedYearId, setSelectedYear, setYears, setCurrentYear, years } =
+    useAcademicYearStore();
+
+  const { data: session } = useSession();
+
+  const { data: allYears } = useQuery({
+    queryKey: ["academicYears"],
+    queryFn: fetchAcademicYears,
+    staleTime: Infinity,
+  });
+
+  const { data: currentYear, isLoading: loadingCurrent } = useQuery({
+    queryKey: ["currentYear"],
+    queryFn: fetchCurrentYear,
+    staleTime: Infinity,
+  });
+
+  useEffect(() => {
+    if (allYears) {
+      setYears(allYears);
+    }
+  }, [allYears, setYears]);
+
+  useEffect(() => {
+    if (currentYear) {
+      setCurrentYear(currentYear);
+    }
+  }, [currentYear, setCurrentYear]);
+
+  useEffect(() => {
+    if (selectedYearId) {
+      setSelectedYear(selectedYearId);
+    } else if (!loadingCurrent && currentYear) {
+      setCurrentYear(currentYear);
+    }
+  }, [
+    loadingCurrent,
+    currentYear,
+    setSelectedYear,
+    setCurrentYear,
+    selectedYearId,
+  ]);
+
   return (
-    <div className="h-full overflow-y-auto">
+    <div className="h-full flex flex-col">
       <div className="flex items-center justify-between p-4 py-2">
-        <Link href={"/dashboard"} className="">
-          Dashboard
-        </Link>
+        <Link href="/dashboard">🧾 EduSphere</Link>
         <ModeToggle />
       </div>
-      <div>
+
+      <div className="w-[90%] mb-4 mx-auto">
+        {(session?.user.role === "SUPERADMIN" ||
+          session?.user.role === "ADMIN") && (
+          <Select value={selectedYearId ?? ""} onValueChange={setSelectedYear}>
+            <SelectTrigger className="w-full h-10 rounded-md">
+              <SelectValue placeholder="Select Academic Year" />
+            </SelectTrigger>
+            <SelectContent>
+              {years.map((year) => (
+                <SelectItem key={year.id} value={year.id}>
+                  Academic Year: {year.year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+      </div>
+
+      <div className="flex-1 overflow-y-auto">
         {sidebarItems.map((item) => (
-          <SidebarItems key={item.title} items={item} depthLevel={depthLevel} />
+          <SidebarLink key={item.title} item={item} />
         ))}
       </div>
     </div>
   );
 };
 
-const SidebarItems = ({
-  items,
-  depthLevel,
+const SidebarLink = ({
+  item,
+  level = 0,
 }: {
-  items: SidebarItemType;
-  depthLevel?: number;
+  item: SidebarItemType;
+  level?: number;
 }) => {
   const pathname = usePathname();
-  const [subItem, setSubitem] = useState(false);
-  const Icon = items.icon;
   const { data: session } = useSession();
+  const { selectedYearId, isCurrent } = useAcademicYearStore();
+  const storageKey = `sidebar_expanded_${item.title.replace(/\s+/g, "_")}`;
+  const [expanded, setExpanded] = useState(false);
+  useEffect(() => {
+    const stored = localStorage.getItem(storageKey);
+    if (stored === "true") {
+      setExpanded(true);
+    }
+  }, [storageKey]);
+  const Icon = item.icon || CircleDashed;
 
-  const checkRole = (itemRole: string | undefined) => {
-    if (!itemRole) return true;
-    return session?.user.role === itemRole;
+  const checkRole = (path?: string) => {
+    if (!path || !session?.user?.role) return true;
+    return hasAccess(path, session.user.role);
   };
 
-  if (items.submenu) {
-    if (!checkRole(items.role)) {
-      return null;
-    }
-    return (
-      <div>
-        <div
-          onClick={() => setSubitem(!subItem)}
-          className={cn(
-            "flex items-center justify-between px-4 py-2 border-l-2 border-transparent hover:bg-zinc-300 dark:hover:bg-zinc-950 transition-all duration-300 cursor-pointer",
-            {
-              "navgradient dark:bg-zinc-950 bg-zinc-300  ": subItem,
-            }
-          )}
-        >
-          <div className={cn("flex gap-2")}>
-            <span>
-              {items.icon ? <Icon size={18} /> : <CircleDashed size={18} />}
-            </span>
-            <span className="truncate">{items.title}</span>
-          </div>
-          <span
-            className={cn("", {
-              "-rotate-90 transition-all duration-300 ": subItem,
-            })}
-          >
-            <ChevronLeft size={14} />
-          </span>
-        </div>
-        <SidebarItem
-          subItems={items.submenu}
-          subItem={subItem}
-          depthLevel={depthLevel}
-        />
-      </div>
-    );
-  } else {
-    if (!checkRole(items.role)) {
-      return null;
-    }
-    return (
-      <Link
-        href={items.path!}
+  const isActive = pathname === item.path;
+
+  const filteredSubmenu = item.submenu?.filter((sub) => checkRole(sub.path));
+  if (item.submenu && filteredSubmenu?.length === 0) return null;
+  if (!item.submenu && !checkRole(item.path)) return null;
+
+  const toggleExpanded = () => {
+    const newState = !expanded;
+    setExpanded(newState);
+    localStorage.setItem(storageKey, String(newState));
+  };
+  return (
+    <div>
+      <div
+        onClick={() => {
+          if (filteredSubmenu && filteredSubmenu.length > 0) toggleExpanded();
+        }}
         className={cn(
-          "flex items-center gap-2 px-4 py-2 border-l-2 border-transparent hover:bg-zinc-300 dark:hover:bg-zinc-950 transition-all duration-300",
+          "flex items-center justify-between px-4 py-2 mx-2 rounded-md transition-all duration-300 hover:bg-secondary border-l-2 border-transparent cursor-pointer",
           {
-            "bg-zinc-300 dark:bg-zinc-950  navgradient":
-              pathname === items.path,
+            "bg-secondary navgradient transition-all": isActive,
           }
         )}
       >
-        <span>
-          {items.icon ? (
-            <Icon size={depthLevel && depthLevel > 0 ? 14 : 18} />
-          ) : (
-            <CircleDashed size={depthLevel && depthLevel > 0 ? 12 : 18} />
-          )}
-        </span>
-        <span className="truncate">{items.title}</span>
-      </Link>
-    );
-  }
-};
+        {filteredSubmenu && filteredSubmenu.length > 0 ? (
+          <div className="flex items-center gap-2 truncate">
+            <Icon size={level > 0 ? 14 : 18} />
+            <span>{item.title}</span>
+          </div>
+        ) : (
+          <Link
+            href={{
+              pathname: item.path,
+              query: {
+                selectedYearId,
+                isCurrent,
+              },
+            }}
+            className="flex items-center gap-2 truncate w-full"
+          >
+            <Icon size={level > 0 ? 14 : 18} />
+            <span>{item.title}</span>
+          </Link>
+        )}
 
-const SidebarItem = ({
-  subItems,
-  subItem,
-  depthLevel,
-}: {
-  subItems: SidebarItemType[];
-  subItem: boolean;
-  depthLevel?: number;
-}) => {
-  depthLevel = depthLevel && depthLevel + 1;
+        {filteredSubmenu && filteredSubmenu.length > 0 && (
+          <ChevronLeft
+            size={14}
+            className={cn("transition-transform", {
+              "-rotate-90": expanded,
+            })}
+          />
+        )}
+      </div>
 
-  return (
-    <div
-      className={cn(
-        "bg-zinc-200 dark:bg-zinc-800 ml-4 text-sm my-1 hidden invisible transition-all duration-300 ease-out",
-        {
-          "block visible transition-all duration-300 ease-out": subItem,
-        }
+      {filteredSubmenu && filteredSubmenu.length > 0 && (
+        <div
+          className={cn("ml-6 transition-all border-l-2 border-border", {
+            hidden: !expanded,
+          })}
+        >
+          {filteredSubmenu.map((subItem) => (
+            <SidebarLink key={subItem.title} item={subItem} level={level + 1} />
+          ))}
+        </div>
       )}
-    >
-      {subItems.map((item) => (
-        <SidebarItems key={item.title} items={item} />
-      ))}
     </div>
   );
 };

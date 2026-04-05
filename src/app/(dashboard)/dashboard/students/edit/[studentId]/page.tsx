@@ -1,17 +1,29 @@
-import { getClasses, getStudent } from "@/lib/data";
-import UpdateForm from "../../../_components/UpdateForm";
+import { fetcher } from "@/lib/fetcher";
+import { StudentType } from "@/lib/types";
+import UpdateStudentFrom from "../../../_components/UpdateStudentFrom";
 
 type props = {
   params: {
     studentId: string;
   };
+  searchParams: {
+    selectedYearId: string | string[] | undefined;
+  };
 };
-const StudentEditPage = async ({ params }: props) => {
-  const studentId = params.studentId;
-  const student = await getStudent(parseInt(studentId));
-  const classes = await getClasses();
+const fetchStudent = async (
+  studentId: string | string[] | undefined,
+  selectedYearId: string | string[] | undefined
+) => {
+  return fetcher(`/api/students/${studentId}?selectedYearId=${selectedYearId}`);
+};
 
-  return <UpdateForm classes={classes} student={student} />;
+const StudentEditPage = async ({ params, searchParams }: props) => {
+  const { studentId } = params;
+  const { selectedYearId } = searchParams;
+
+  const student: StudentType = await fetchStudent(studentId, selectedYearId);
+
+  return <UpdateStudentFrom student={student} />;
 };
 
 export default StudentEditPage;

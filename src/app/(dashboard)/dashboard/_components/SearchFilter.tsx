@@ -1,5 +1,12 @@
 "use client";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent } from "react";
@@ -13,19 +20,19 @@ const SearchFilter = ({
   const { replace } = useRouter();
   const pathname = usePathname();
 
-  const params = new URLSearchParams(searchParams);
+  const params = new URLSearchParams(searchParams.toString());
 
-  const handlePageSize = (e: ChangeEvent<HTMLSelectElement>) => {
-    const pageSize = e.target.value;
+  const handlePageSize = (value: number) => {
+    const pageSize = value.toString();
 
     if (pageSize) {
       params.set("pageSize", pageSize);
+      params.set("page", "1");
     } else {
       params.delete("pageSize");
     }
     replace(`${pathname}?${params}`);
   };
-
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const search = e.target.value;
 
@@ -38,29 +45,37 @@ const SearchFilter = ({
     replace(`${pathname}?${params}`);
   };
 
+  const selectedPageSize = params.get("pageSize") || "10";
+
   return (
     <div>
       <div className="flex items-center py-4">
         <div className="mr-4 flex items-center gap-2">
           <span>Shows</span>
-          <select
-            onChange={handlePageSize}
-            className="p-1 dark:bg-zinc-950 ring-1 dark:ring-zinc-800 outline-none border-none focus:outline-none"
+
+          <Select
+            defaultValue={selectedPageSize}
+            onValueChange={(val) => handlePageSize(Number(val))}
           >
-            {[10, 20, 30, 40, 50].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                {pageSize}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="h-10 w-[70px] rounded-md bg-input">
+              <SelectValue placeholder="Select Page Size" />
+            </SelectTrigger>
+            <SelectContent>
+              {[10, 20, 30, 40, 50].map((size) => (
+                <SelectItem key={size} value={size.toString()}>
+                  {size}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <span>Items</span>
         </div>
-        <div className="flex items-center border border-input w-1/3">
+        <div className="flex items-center border border-input w-1/3 rounded-md h-10 focus-within:ring-1 ring-primary-base-600/70 bg-input">
           <Search className="mx-2" size={18} />
           <Input
             onChange={handleSearch}
             placeholder={inputLabel}
-            className="max-w-sm border-none outline-none px-1"
+            className="max-w-sm border-none outline-none px-1 bg-transparent"
           />
         </div>
       </div>

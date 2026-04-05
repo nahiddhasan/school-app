@@ -1,3 +1,5 @@
+import { Toaster } from "@/components/ui/sonner";
+import { QueryProvider } from "@/providers/QureyProvider";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Poppins } from "next/font/google";
@@ -11,8 +13,12 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "School name",
-  description: "School Front Webpage",
+  title: "Edusphere",
+  description:
+    "Edusphere: Empowering schools with seamless management, smart communication, and a modern learning experience.",
+  icons: {
+    icon: "/img/logo1.png",
+  },
 };
 
 export default async function RootLayout({
@@ -22,10 +28,15 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <SessionProvider session={session}>
-      <html lang="en" suppressHydrationWarning>
-        <body className={poppins.className}>{children}</body>
-      </html>
-    </SessionProvider>
+    <QueryProvider>
+      <SessionProvider session={session}>
+        <html lang="en" suppressHydrationWarning>
+          <body className={poppins.className}>
+            <Toaster />
+            {children}
+          </body>
+        </html>
+      </SessionProvider>
+    </QueryProvider>
   );
 }

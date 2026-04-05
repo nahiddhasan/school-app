@@ -3,17 +3,16 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import Navbar from "./_components/navbar/Navbar";
 import Sidebar from "./_components/sidebar/Sidebar";
 
-const monts = Montserrat({
+const sans = Open_Sans({
   subsets: ["latin"],
-  variable: "--font-monts",
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -21,7 +20,7 @@ export const metadata: Metadata = {
   description: "School dashboard for manage school",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -33,15 +32,13 @@ export default function RootLayout({
       enableSystem
       disableTransitionOnChange
     >
-      <div className={`${monts.className} h-full overflow-y-hidden`}>
-        <Toaster />
-
+      <div className={`${sans.className} h-full overflow-y-hidden`}>
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel
             defaultSize={20}
             maxSize={30}
             order={1}
-            className=" dark:bg-zinc-900"
+            className="bg-primary"
           >
             <Sidebar />
           </ResizablePanel>

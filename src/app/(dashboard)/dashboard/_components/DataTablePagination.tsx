@@ -21,26 +21,12 @@ const DataTablePagination = ({
         <Button
           variant={"ghost"}
           size="sm"
-          onClick={() => previousPage}
+          onClick={() => previousPage()}
           disabled={!canPreviousPage()}
           className="flex items-center gap-1"
         >
           <ChevronLeft size={17} /> <span>Previous</span>
         </Button>
-        {/* {Array.from({ length: noOfPages() }, (_, i) => i + 1).map((item, i) => (
-          <Button
-            key={i}
-            variant={
-              getState().pagination.pageIndex + 1 === i + 1
-                ? "secondary"
-                : "ghost"
-            }
-            size={"sm"}
-            onClick={() => setPageIndex(i)}
-          >
-            {item}
-          </Button>
-        ))} */}
 
         <span className="flex items-center gap-1">
           | Go to page:

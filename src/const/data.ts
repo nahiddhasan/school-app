@@ -1,15 +1,24 @@
 import {
   BarChartHorizontalBig,
+  BookA,
+  BookOpenCheck,
   BookOpenText,
-  BookX,
+  Calendar,
+  CalendarCheck,
+  CalendarClock,
+  CalendarDays,
+  List,
   PanelsTopLeft,
+  Plus,
   SatelliteDish,
+  School,
   Settings,
+  Speech,
   SquareDot,
   SquareEqual,
+  StepForward,
   UserPlus,
   UserRound,
-  UserRoundCog,
   UserRoundPlus,
   UsersRound,
 } from "lucide-react";
@@ -342,13 +351,24 @@ export const sidebarItems = [
         title: "Student Admission",
         path: "/dashboard/students/admission",
         icon: UserPlus,
-        role: "ADMIN",
       },
+      // {
+      //   title: "Bulk Delete",
+      //   path: "/dashboard/students/bulk-delete",
+      //   icon: BookX,
+      // },
+    ],
+  },
+
+  {
+    title: "Enrollment",
+    icon: StepForward,
+
+    submenu: [
       {
-        title: "Bulk Delete",
-        path: "/dashboard/students/bulk-delete",
-        icon: BookX,
-        role: "ADMIN",
+        title: "Promote Students",
+        path: "/dashboard/enrollment/promote",
+        icon: BookOpenCheck,
       },
     ],
   },
@@ -357,20 +377,150 @@ export const sidebarItems = [
     icon: BookOpenText,
     submenu: [
       {
-        title: "Exam Schedule",
-        path: "/dashboard/schedule",
+        title: "Create Quiz",
+        path: "/dashboard/exams/quiz/add",
+      },
+      {
+        title: "Quizzes",
+        path: "/dashboard/exams/quiz",
       },
       {
         title: "Publish Result",
-        path: "/dashboard/result",
-        role: "ADMIN",
+        path: "/dashboard/exams/result",
+      },
+    ],
+  },
+  {
+    title: "Schedule",
+    icon: CalendarClock,
+    submenu: [
+      {
+        title: "Create Schedule",
+        path: "/dashboard/schedule/add",
+        icon: List,
+      },
+      {
+        title: "Class Schedules",
+        path: "/dashboard/schedule/class-schedules",
+        icon: List,
+      },
+      // {
+      //   title: "Exam Schedules",
+      //   path: "/dashboard/schedule/exam",
+      //   icon: List,
+      // },
+    ],
+  },
+  {
+    title: "Teachers",
+    icon: UsersRound,
+    submenu: [
+      {
+        title: "Add Teacher",
+        path: "/dashboard/teachers/add",
+        icon: UserPlus,
+      },
+      {
+        title: "Teachers",
+        path: "/dashboard/teachers",
+        icon: UsersRound,
+      },
+    ],
+  },
+  {
+    title: "Assignments",
+    icon: BookA,
+    submenu: [
+      {
+        title: "Add New Assignment",
+        path: "/dashboard/assignments/add",
+        icon: Plus,
+      },
+      {
+        title: "Assignments",
+        path: "/dashboard/assignments",
+        icon: List,
+      },
+    ],
+  },
+  {
+    title: "Announcments",
+    icon: Speech,
+    submenu: [
+      {
+        title: "Add Announcment",
+        path: "/dashboard/announcements/add",
+        icon: Plus,
+      },
+      {
+        title: "Announcements",
+        path: "/dashboard/announcements",
+        icon: List,
+      },
+    ],
+  },
+  {
+    title: "Events",
+    icon: CalendarDays,
+    submenu: [
+      {
+        title: "Add New Event",
+        path: "/dashboard/events/add",
+        icon: Plus,
+      },
+      {
+        title: "Events",
+        path: "/dashboard/events",
+        icon: List,
+      },
+    ],
+  },
+
+  {
+    title: "Classes",
+    icon: SquareEqual,
+    submenu: [
+      {
+        title: "Add Class",
+        path: "/dashboard/classes/add-class",
+        icon: SquareDot,
+      },
+      {
+        title: "View Classes",
+        path: "/dashboard/classes/all-classes",
+        icon: SquareEqual,
+      },
+    ],
+  },
+  {
+    title: "Users",
+    icon: UsersRound,
+    submenu: [
+      {
+        title: "Add User",
+        path: "/dashboard/users/add-user",
+        icon: UserRoundPlus,
+      },
+      {
+        title: "Admin's",
+        path: "/dashboard/users/admins",
+        icon: UsersRound,
+      },
+      {
+        title: "Teacher's",
+        path: "/dashboard/users/teachers",
+        icon: UsersRound,
+      },
+      {
+        title: "Student's",
+        path: "/dashboard/users/students",
+        icon: UsersRound,
       },
     ],
   },
   {
     title: "Reports",
     icon: BarChartHorizontalBig,
-    role: "ADMIN",
     submenu: [
       {
         title: "Students",
@@ -383,9 +533,26 @@ export const sidebarItems = [
     ],
   },
   {
+    title: "Attendence",
+    icon: CalendarCheck,
+    submenu: [
+      {
+        title: "Take Attendance",
+        path: "/dashboard/attendance",
+      },
+      {
+        title: "Asign Teacher",
+        path: "/dashboard/attendance/asign",
+      },
+      {
+        title: "View Attendance",
+        path: "/dashboard/attendance/view",
+      },
+    ],
+  },
+  {
     title: "Notices",
     icon: SatelliteDish,
-    role: "ADMIN",
     submenu: [
       {
         title: "Add New Notice",
@@ -398,38 +565,21 @@ export const sidebarItems = [
     ],
   },
   {
-    title: "Services",
-    path: "/dashboard/services",
+    title: "Manage School",
+    icon: School,
     submenu: [
+      ,
       {
-        title: "web design",
-        path: "/web",
+        title: "Sections",
+        path: "/dashboard/sections",
       },
       {
-        title: "web development",
-        submenu: [
-          {
-            title: "Frontend",
-            path: "/front-end",
-          },
-          {
-            title: "Backend",
-            submenu: [
-              {
-                title: "NodeJS",
-                path: "/node",
-              },
-              {
-                title: "PHP",
-                path: "/php",
-              },
-            ],
-          },
-        ],
+        title: "Pages",
+        path: "/dashboard/pages",
       },
       {
-        title: "SEO",
-        path: "/seo",
+        title: "Gallary",
+        path: "/dashboard/gallary",
       },
     ],
   },
@@ -443,42 +593,183 @@ export const sidebarItems = [
 //settings sidebar items
 export const settingsSidebarItems = [
   {
-    title: "Users Section",
+    title: "Settings",
     content: [
       {
-        title: "Add User",
-        path: "/dashboard/settings/add-user",
-        icon: UserRoundPlus,
-        role: "ADMIN",
+        title: "Academic Years",
+        path: "/dashboard/settings/academic-year",
+        icon: Calendar,
       },
       {
-        title: "All Users",
-        path: "/dashboard/settings/current-users",
-        icon: UsersRound,
-        role: "ADMIN",
-      },
-      {
-        title: "Update Profile",
-        path: "/dashboard/settings/update-profile",
-        icon: UserRoundCog,
+        title: "Create Students Account",
+        path: "/dashboard/settings/student-account",
+        icon: UserPlus,
       },
     ],
+  },
+];
+
+export const calendarEvents = [
+  // Monday
+  {
+    title: "Math - Mr. Ali (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 8, 0),
+    end: new Date(2025, 4, 5 + 1, 8, 45),
   },
   {
-    title: "Add Class",
-    content: [
-      {
-        title: "Add Class",
-        path: "/dashboard/settings/add-class",
-        icon: SquareDot,
-        role: "ADMIN",
-      },
-      {
-        title: "View Classes",
-        path: "/dashboard/settings/all-classes",
-        icon: SquareEqual,
-        role: "ADMIN",
-      },
-    ],
+    title: "English - Ms. Sara (Class 9-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 9, 0),
+    end: new Date(2025, 4, 5 + 1, 9, 45),
   },
+  {
+    title: "Science - Dr. Khan (Class 10-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 10, 0),
+    end: new Date(2025, 4, 5 + 1, 10, 45),
+  },
+  {
+    title: "History - Mr. Ahmed (Class 8-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 11, 0),
+    end: new Date(2025, 4, 5 + 1, 11, 45),
+  },
+  {
+    title: "Biology - Ms. Hina (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 12, 0),
+    end: new Date(2025, 4, 5 + 1, 12, 45),
+  },
+  {
+    title: "Physics - Mr. Imran (Class 10-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 14, 0),
+    end: new Date(2025, 4, 5 + 1, 14, 45),
+  },
+  {
+    title: "Chemistry - Ms. Nida (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 15, 0),
+    end: new Date(2025, 4, 5 + 1, 15, 45),
+  },
+  {
+    title: "Computer - Mr. Zain (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 1, 16, 0),
+    end: new Date(2025, 4, 5 + 1, 16, 45),
+  },
+
+  // Repeat for Tuesday (dayOfWeek = 2)
+  {
+    title: "Math - Mr. Ali (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 8, 0),
+    end: new Date(2025, 4, 5 + 2, 8, 45),
+  },
+  {
+    title: "English - Ms. Sara (Class 9-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 9, 0),
+    end: new Date(2025, 4, 5 + 2, 9, 45),
+  },
+  {
+    title: "Science - Dr. Khan (Class 10-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 10, 0),
+    end: new Date(2025, 4, 5 + 2, 10, 45),
+  },
+  {
+    title: "History - Mr. Ahmed (Class 8-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 11, 0),
+    end: new Date(2025, 4, 5 + 2, 11, 45),
+  },
+  {
+    title: "Biology - Ms. Hina (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 12, 0),
+    end: new Date(2025, 4, 5 + 2, 12, 45),
+  },
+  {
+    title: "Physics - Mr. Imran (Class 10-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 14, 0),
+    end: new Date(2025, 4, 5 + 2, 14, 45),
+  },
+  {
+    title: "Chemistry - Ms. Nida (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 15, 0),
+    end: new Date(2025, 4, 5 + 2, 15, 45),
+  },
+  {
+    title: "Computer - Mr. Zain (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 2, 16, 0),
+    end: new Date(2025, 4, 5 + 2, 16, 45),
+  },
+  // wk3
+  {
+    title: "Math - Mr. Ali (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 8, 0),
+    end: new Date(2025, 4, 5 + 3, 8, 45),
+  },
+  {
+    title: "Eng (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 8, 0),
+    end: new Date(2025, 4, 5 + 3, 8, 45),
+  },
+  {
+    title: "Eng (Class 7-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 8, 0),
+    end: new Date(2025, 4, 5 + 3, 8, 45),
+  },
+  {
+    title: "English - Ms. Sara (Class 9-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 9, 0),
+    end: new Date(2025, 4, 5 + 3, 9, 45),
+  },
+  {
+    title: "Science - Dr. Khan (Class 10-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 10, 0),
+    end: new Date(2025, 4, 5 + 3, 10, 45),
+  },
+  {
+    title: "History - Mr. Ahmed (Class 8-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 11, 0),
+    end: new Date(2025, 4, 5 + 3, 11, 45),
+  },
+  {
+    title: "Biology - Ms. Hina (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 12, 0),
+    end: new Date(2025, 4, 5 + 3, 12, 45),
+  },
+  {
+    title: "Physics - Mr. Imran (Class 10-B)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 14, 0),
+    end: new Date(2025, 4, 5 + 3, 14, 45),
+  },
+  {
+    title: "Chemistry - Ms. Nida (Class 9-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 15, 0),
+    end: new Date(2025, 4, 5 + 3, 15, 45),
+  },
+  {
+    title: "Computer - Mr. Zain (Class 8-A)",
+    allDay: false,
+    start: new Date(2025, 4, 5 + 3, 16, 0),
+    end: new Date(2025, 4, 5 + 3, 16, 45),
+  },
+
+  // Add Wed (dayOfWeek = 3), Thu (4), Fri (5) similarly...
 ];

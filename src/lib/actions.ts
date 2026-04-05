@@ -1,158 +1,29 @@
 "use server";
 
+import { Role } from "@/app/generated/prisma";
 import bcrypt from "bcryptjs";
 import { writeFile } from "fs/promises";
-import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
 import path from "path";
 import { z } from "zod";
-import { auth, signIn, signOut } from "../auth";
+import { auth, signOut } from "../auth";
 import { prisma } from "./connect";
-import { DEFAULT_LOGIN_REDIRECT } from "./routes";
-import { AddClassTypes, ImportStudent, UpdateClassType } from "./types";
+import { AddClassTypes, UpdateClassType } from "./types";
 import {
-  LoginSchema,
+  addAcademicYearSchema,
   addNoticeSchema,
-  newAdmissionSchema,
+  updateAcademicYearSchema,
   updateProfileSchema,
   updateUserSchema,
   userSchema,
 } from "./zodSchema";
-
-//login user
-export const login = async (
-  values: z.infer<typeof LoginSchema>,
-  callbackUrl?: string | null
-) => {
-  const validatedLoginValues = LoginSchema.safeParse(values);
-
-  if (!validatedLoginValues.success) {
-    return { error: "Invalid fields error!" };
-  }
-
-  const { email, password } = validatedLoginValues.data;
-
-  const existingUser = await prisma?.user.findUnique({
-    where: {
-      email,
-    },
-  });
-
-  if (!existingUser || !existingUser.email) {
-    return { error: "User does not Exist!" };
-  }
-
-  try {
-    await signIn("credentials", {
-      email,
-      password,
-      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
-    });
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return { error: "Invalid credentials!" };
-        default:
-          return { error: "Something went wrong!" };
-      }
-    }
-    throw error;
-  }
-};
 
 //logout
 export const logout = async () => {
   await signOut({ redirectTo: "/login" });
 };
 
-// Add Student
-export const studentAdmission = async (
-  values: z.infer<typeof newAdmissionSchema>
-) => {
-  console.log(values);
-  const session = await auth();
-  const validatedData = newAdmissionSchema.safeParse(values);
-  if (!validatedData.success) {
-    return { error: "Invalid fields!" };
-  }
-  //   TODO: need to check session
-  const validatedValues = validatedData.data;
-
-  try {
-    if (!session) {
-      return { error: "You are not authinticated!" };
-    }
-    if (session.user.role !== "ADMIN") {
-      return { error: "Only admin can admit a sutdent!" };
-    }
-
-    const currentSession = await prisma.session.findFirst({
-      where: {
-        current: true,
-      },
-    });
-
-    if (!currentSession) {
-      return { messege: "Please add current session first" };
-    }
-
-    await prisma.student.create({
-      data: { ...validatedValues, sessionName: currentSession.year },
-    });
-    return { success: "Addmission Successfull" };
-  } catch (error) {
-    console.log(error);
-    return { error: "Student Admission failed!" };
-  }
-};
-
-// Add multiple student
-export const importStudent = async (
-  data: ImportStudent[],
-  others: { className: string; section: string }
-) => {
-  const session = await auth();
-  try {
-    if (session?.user.role !== "ADMIN") {
-      return { error: "Only admin can admit insert student data!" };
-    }
-
-    const currentSession = await prisma.session.findFirst({
-      where: {
-        current: true,
-      },
-    });
-
-    if (!currentSession) {
-      return { messege: "Please Add Current Session" };
-    }
-
-    const newData = data.map((item) => ({
-      ...item,
-      mobile: String(item.mobile),
-      fatherPhone: String(item.fatherPhone),
-      gurdianPhone: String(item.gurdianPhone),
-      classRoll: item.classRoll,
-      sessionName: currentSession.year,
-      className: others.className,
-      section: others.section,
-      dob: new Date(item.dob),
-      doa: new Date(item.doa),
-    }));
-
-    await prisma.student.createMany({
-      data: newData,
-      skipDuplicates: true,
-    });
-
-    return { success: "Import successfull" };
-  } catch (error) {
-    console.log(error);
-    return { error: "import failed!" };
-  }
-};
-
+//upload image
 export const uploadImage = async (formData: any) => {
   const file = formData.get("file");
   if (!file) {
@@ -176,197 +47,6 @@ export const uploadImage = async (formData: any) => {
   }
 };
 
-// update student
-export const updateStudent = async (
-  studentId: number,
-  values: z.infer<typeof newAdmissionSchema>
-) => {
-  const session = await auth();
-  const validatedData = newAdmissionSchema.safeParse(values);
-  if (!validatedData.success) {
-    return { error: "Invalid fields!" };
-  }
-
-  try {
-    if (session?.user.role !== "ADMIN") {
-      return { error: "Only admin can update a sutdent!" };
-    }
-    await prisma.student.update({
-      where: {
-        studentId: studentId,
-      },
-      data: validatedData.data,
-    });
-    revalidatePath(`/dashboard/students/view/${studentId}`);
-    return { success: "Update Successfull" };
-  } catch (error) {
-    console.log(error);
-    return { error: "Student Update failed!" };
-  }
-};
-
-// update current session
-export const createNewSessionAndSetCurrent = async () => {
-  const session = await auth();
-  try {
-    if (session?.user.role !== "ADMIN") {
-      return { error: "Only admin can update current session!" };
-    }
-    const currentYear = new Date().getFullYear();
-    const currentSession = await prisma.session.findFirst({
-      where: {
-        year: currentYear,
-        current: true,
-      },
-    });
-
-    if (currentYear === currentSession?.year) {
-      return;
-    }
-    // Create a new session for the current year and mark it as current
-    const newSession = await prisma.session.create({
-      data: {
-        year: currentYear,
-        current: true,
-      },
-    });
-
-    // Set other sessions to not current
-    await prisma.session.updateMany({
-      where: {
-        NOT: {
-          year: currentYear,
-        },
-      },
-      data: {
-        current: false,
-      },
-    });
-
-    console.log("Session management complete");
-  } catch (error) {
-    console.log("Error during session management");
-  }
-};
-
-// get result
-export const getResult = async (
-  studentId: number,
-  session: number,
-  className: string,
-  exam: "Annual" | "Half-Yearly"
-) => {
-  try {
-    if (studentId && session && className && exam) {
-      const result = await prisma.result.findFirst({
-        where: {
-          studentId: studentId,
-          className,
-          year: session,
-          type: exam,
-        },
-        select: {
-          id: true,
-          gpa: true,
-          position: true,
-          status: true,
-          className: true,
-          subjects: true,
-          year: true,
-          type: true,
-          totalMarks: true,
-          studentId: true,
-          student: {
-            select: {
-              fullName: true,
-              fatherName: true,
-              classRoll: true,
-              section: true,
-              dob: true,
-              gender: true,
-            },
-          },
-        },
-      });
-
-      if (!result) {
-        return { messege: "Result Not Found!" };
-      }
-      return { messege: "success", result };
-    }
-  } catch (error) {
-    console.log(error);
-    return { error: "Result error!" };
-  }
-};
-
-//total student count
-export const totalStudentCount = async () => {
-  const session = await auth();
-  try {
-    if (session?.user.role !== "ADMIN" && session?.user.role !== "TEACHER") {
-      return { error: "Only admin and Teachers can see student info!" };
-    }
-    const totalStudent = await prisma.student.count();
-    const six = await prisma.student.count({ where: { className: "Six" } });
-    const sixBoy = await prisma.student.count({
-      where: { className: "Six", gender: "Male" },
-    });
-    const sixGirl = await prisma.student.count({
-      where: { className: "Six", gender: "Female" },
-    });
-    const seven = await prisma.student.count({ where: { className: "Seven" } });
-    const sevenBoy = await prisma.student.count({
-      where: { className: "Seven", gender: "Male" },
-    });
-    const sevenGirl = await prisma.student.count({
-      where: { className: "Seven", gender: "Female" },
-    });
-    const eight = await prisma.student.count({ where: { className: "Eight" } });
-    const eightBoy = await prisma.student.count({
-      where: { className: "Eight", gender: "Male" },
-    });
-    const eightGirl = await prisma.student.count({
-      where: { className: "Eight", gender: "Female" },
-    });
-    const nine = await prisma.student.count({ where: { className: "Nine" } });
-    const nineBoy = await prisma.student.count({
-      where: { className: "Nine", gender: "Male" },
-    });
-    const nineGirl = await prisma.student.count({
-      where: { className: "Nine", gender: "Female" },
-    });
-    const ten = await prisma.student.count({ where: { className: "Ten" } });
-    const tenBoy = await prisma.student.count({
-      where: { className: "Ten", gender: "Male" },
-    });
-    const tenGirl = await prisma.student.count({
-      where: { className: "Ten", gender: "Female" },
-    });
-    return {
-      totalStudent,
-      six,
-      sixBoy,
-      sixGirl,
-      seven,
-      sevenBoy,
-      sevenGirl,
-      eight,
-      eightBoy,
-      eightGirl,
-      nine,
-      nineBoy,
-      nineGirl,
-      ten,
-      tenBoy,
-      tenGirl,
-    };
-  } catch (error) {
-    console.log(error);
-    return;
-  }
-};
-
 // add user
 export const addUser = async (values: z.infer<typeof userSchema>) => {
   const session = await auth();
@@ -374,7 +54,7 @@ export const addUser = async (values: z.infer<typeof userSchema>) => {
     throw new Error("You are not authenticated");
   }
 
-  if (session.user.role !== "ADMIN") {
+  if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
     throw new Error("You are not authorized");
   }
 
@@ -391,12 +71,13 @@ export const addUser = async (values: z.infer<typeof userSchema>) => {
     if (!session) {
       return { error: "You are not authenticated!" };
     }
-    if (session?.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return { error: "Only admin can add a user!" };
     }
-    const existingUser = await prisma?.user.findUnique({
+    const existingUser = await prisma.user.findUnique({
       where: {
         email,
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -404,8 +85,14 @@ export const addUser = async (values: z.infer<typeof userSchema>) => {
       return { error: "User already exist with this email!" };
     }
 
-    await prisma?.user.create({
-      data: { name, email, role, password: hashedPassword },
+    await prisma.user.create({
+      data: {
+        name,
+        email,
+        role,
+        password: hashedPassword,
+        schoolId: session.user.schoolId,
+      },
     });
     revalidatePath("/dashboard/settings/current-users");
     return { success: "Add User Successfull" };
@@ -426,7 +113,8 @@ export const updateProfile = async (
     return { error: "Invalid fields error!" };
   }
 
-  const { name, file, id } = validatedUpdatedUserData.data;
+  const { name, currentPassword, confirmPassword, file, id } =
+    validatedUpdatedUserData.data;
 
   try {
     if (!session) {
@@ -436,47 +124,50 @@ export const updateProfile = async (
     if (session.user.id !== id) {
       return { error: "You are not Authorozied!" };
     }
-
-    await prisma.user.update({
-      where: {
-        id: session.user.id,
-      },
-      data: {
-        name,
-        image: file,
-      },
-    });
+    if (currentPassword && confirmPassword) {
+      const user = await prisma.user.findUnique({
+        where: { id, schoolId: session.user.schoolId },
+      });
+      if (!user) {
+        return { error: "User not found!" };
+      }
+      const passwordsMatch = await bcrypt.compare(
+        currentPassword,
+        user.password
+      );
+      if (!passwordsMatch) {
+        return { error: "Current password is incorrect!" };
+      }
+      const hashedPassword = await bcrypt.hash(confirmPassword, 10);
+      await prisma.user.update({
+        where: {
+          id: session.user.id,
+          schoolId: session.user.schoolId,
+        },
+        data: {
+          name,
+          image: file,
+          password: hashedPassword,
+        },
+      });
+    } else {
+      await prisma.user.update({
+        where: {
+          id: session.user.id,
+          schoolId: session.user.schoolId,
+        },
+        data: {
+          name,
+          image: file,
+        },
+      });
+    }
 
     revalidatePath("/dashboard");
     return { messege: "Update Successfull!" };
   } catch (error) {
     console.log(error);
     return { error: "Update Failed!" };
-  }
-};
-
-//bulkDelete
-export const bulkDelete = async (values: string[]) => {
-  const session = await auth();
-  try {
-    if (!session) {
-      return { error: "You are not authenticated" };
-    }
-    if (session?.user.role !== "ADMIN") {
-      return { error: "You are not allowed to bulk delete" };
-    }
-    await prisma.student.deleteMany({
-      where: {
-        id: {
-          in: values,
-        },
-      },
-    });
-    revalidatePath("dashboard/students/bulk-delete");
-    return { messege: "Delete Successfull" };
-  } catch (error) {
-    console.log(error);
-    return { error: "Delete Failed!" };
   }
 };
 
@@ -488,14 +179,16 @@ export const deleteUser = async (userId: string) => {
     if (!session) {
       return { error: "You are not authenticated" };
     }
-    if (session?.user.role !== "ADMIN") {
+    if (session?.user.role !== "SUPERADMIN" && session?.user.role !== "ADMIN") {
       return { error: "You are not allowed to bulk delete" };
     }
     await prisma.user.delete({
       where: {
         id: userId,
+        schoolId: session.user.schoolId,
       },
     });
+
     revalidatePath("dashboard/settings/current-users");
     return { messege: "User has been deleted" };
   } catch (error) {
@@ -512,7 +205,7 @@ export const updateUser = async (values: z.infer<typeof updateUserSchema>) => {
     if (!session) {
       return { error: "You are not authenticated" };
     }
-    if (session?.user.role !== "ADMIN") {
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
       return { error: "You are not allowed to update user!" };
     }
     if (values.password) {
@@ -523,6 +216,7 @@ export const updateUser = async (values: z.infer<typeof updateUserSchema>) => {
     await prisma.user.update({
       where: {
         id: values.id,
+        schoolId: session.user.schoolId,
       },
       data: {
         ...values,
@@ -543,13 +237,14 @@ export const addClass = async (values: AddClassTypes) => {
   if (!session) {
     throw new Error("You are not authenticated");
   }
-  if (session.user.role !== "ADMIN") {
+  if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
     throw new Error("You are not authorized");
   }
   try {
     const existingClass = await prisma.class.findFirst({
       where: {
         className: values.className,
+        schoolId: session.user.schoolId,
       },
     });
 
@@ -558,7 +253,7 @@ export const addClass = async (values: AddClassTypes) => {
     }
 
     await prisma.class.create({
-      data: values,
+      data: { ...values, schoolId: session.user.schoolId },
     });
     return { messege: "Class Added..." };
   } catch (error) {
@@ -567,20 +262,21 @@ export const addClass = async (values: AddClassTypes) => {
   }
 };
 
-//add classes
+//update classes
 export const updateClass = async (values: UpdateClassType) => {
   const session = await auth();
 
   if (!session) {
     throw new Error("You are not authenticated");
   }
-  if (session.user.role !== "ADMIN") {
+  if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
     throw new Error("You are not authorized");
   }
   try {
     await prisma.class.update({
       where: {
         id: values.id,
+        schoolId: session.user.schoolId,
       },
       data: values,
     });
@@ -594,20 +290,208 @@ export const updateClass = async (values: UpdateClassType) => {
 
 //add notice
 export const addNotice = async (values: z.infer<typeof addNoticeSchema>) => {
-  console.log(values);
+  const session = await auth();
+  if (!session) {
+    throw new Error("You are not authenticated");
+  }
+
+  if (
+    !session ||
+    (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN")
+  ) {
+    return { error: "Only superadmin can create academic years!" };
+  }
+
   const validatedValues = addNoticeSchema.safeParse(values);
-  console.log(validatedValues);
+
   if (!validatedValues.success) {
     return { error: "Invalid fields error!" };
   }
 
   try {
     const newNotice = await prisma.notice.create({
-      data: values,
+      data: { ...values, schoolId: session.user.schoolId },
     });
     return { messege: "Notice Added..." };
   } catch (error) {
     console.log(error);
     return { error: "Failed to add notice!" };
+  }
+};
+
+// add academicyear
+export const addAcademicYear = async (
+  values: z.infer<typeof addAcademicYearSchema>
+) => {
+  const session = await auth();
+  if (!session) {
+    throw new Error("You are not authenticated");
+  }
+
+  if (!session || session.user.role !== "SUPERADMIN") {
+    return { error: "Only superadmin can create academic years!" };
+  }
+
+  const validatedUserData = addAcademicYearSchema.safeParse(values);
+
+  if (!validatedUserData.success) {
+    return { error: "Invalid fields error!" };
+  }
+
+  const { year, isCurrent } = validatedUserData.data;
+
+  const current = isCurrent === "true";
+
+  if (year < new Date().getFullYear()) {
+    return { error: "Cannot create academic year for past years!" };
+  }
+  try {
+    if (current) {
+      await prisma.academicYear.updateMany({
+        where: { current: true, schoolId: session.user.schoolId },
+        data: { current: false },
+      });
+    }
+
+    await prisma.academicYear.create({
+      data: { year, current, schoolId: session.user.schoolId },
+    });
+
+    revalidatePath("/dashboard/settings/academic-year");
+    return { success: "Academic year created successfully!" };
+  } catch (error) {
+    console.log(error);
+    return { error: "Failed to create academic year!" };
+  }
+};
+
+// update academicyear
+export const updateAcademicYear = async (
+  values: z.infer<typeof updateAcademicYearSchema>
+) => {
+  const session = await auth();
+
+  if (!session || session.user.role !== "SUPERADMIN") {
+    return { error: "Only SuperAdmin can update academic years!" };
+  }
+
+  const validatedUserData = updateAcademicYearSchema.safeParse(values);
+
+  if (!validatedUserData.success) {
+    return { error: "Invalid fields error!" };
+  }
+
+  const { id, year, isCurrent } = validatedUserData.data;
+
+  const current = isCurrent === "true";
+
+  if (year < new Date().getFullYear()) {
+    return { error: "Cannot update to a past academic year!" };
+  }
+
+  try {
+    const existing = await prisma.academicYear.findUnique({ where: { id } });
+    if (!existing) {
+      return { error: "Academic year not found!" };
+    }
+
+    if (current) {
+      await prisma.academicYear.updateMany({
+        where: { current: true, schoolId: session.user.schoolId },
+        data: { current: false },
+      });
+    }
+
+    await prisma.academicYear.update({
+      where: { id, schoolId: session.user.schoolId },
+      data: { year, current },
+    });
+
+    revalidatePath("/dashboard/settings/academic-year");
+    return { success: "Academic year updated successfully!" };
+  } catch (error) {
+    console.log(error);
+    return { error: "Failed to update academic year!" };
+  }
+};
+
+// bulk student account
+export const createUsersFromStudents = async () => {
+  const session = await auth();
+  if (
+    !session ||
+    (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN")
+  ) {
+    return { error: "Only admin can update academic years!" };
+  }
+
+  try {
+    const existingStudentIds = (
+      await prisma.user.findMany({
+        where: { studentId: { not: null }, schoolId: session.user.schoolId },
+        select: { studentId: true },
+      })
+    ).map((u) => u.studentId!);
+
+    const students = await prisma.student.findMany({
+      where: {
+        schoolId: session.user.schoolId,
+        studentId: {
+          notIn: existingStudentIds,
+        },
+      },
+    });
+
+    const defaultPassword = await bcrypt.hash("student123", 10);
+
+    for (const student of students) {
+      try {
+        await prisma.user.create({
+          data: {
+            schoolId: session.user.schoolId,
+            name: student.fullName,
+            password: defaultPassword,
+            role: Role.STUDENT,
+            studentId: student.studentId,
+          },
+        });
+      } catch (error) {
+        console.error(
+          `❌ Failed to create user for student ${student.fullName}:`,
+          error
+        );
+      }
+    }
+
+    console.log(`✅ Created ${students.length} users from students.`);
+    return { success: `${students.length} users created.` };
+  } catch (error) {
+    console.error("❌ Create user from student failed failed:", error);
+    return { error: "An error occurred." };
+  }
+};
+
+//delete assign teacher
+export const deleteAsignTeacher = async (id: string) => {
+  const session = await auth();
+
+  try {
+    if (!session) {
+      return { error: "You are not authenticated" };
+    }
+    if (session.user.role !== "SUPERADMIN" && session.user.role !== "ADMIN") {
+      return { error: "You are not allowed to remove asigned teacher" };
+    }
+    await prisma.assignedAttendanceTeacher.delete({
+      where: {
+        id: id,
+        schoolId: session.user.schoolId,
+      },
+    });
+    revalidatePath("/dashboard/attendance/asign");
+    return { messege: "Assigned teacher has been deleted" };
+  } catch (error) {
+    console.log(error);
+    return { error: "Delete Failed!" };
   }
 };

@@ -14,7 +14,7 @@ const PaginationCom = ({ totalCount }: props) => {
 
   const page = Number(searchParams.get("page") || "1");
 
-  const params = new URLSearchParams(searchParams);
+  const params = new URLSearchParams(searchParams.toString());
   const pageSize = Number(searchParams.get("pageSize") || 10);
 
   const hasPrev = pageSize * (page - 1) > 0;
